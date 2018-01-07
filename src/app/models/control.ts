@@ -16,14 +16,14 @@ interface ControlParams {
 }
 
 export class Control implements ControlParams {
-  keys: ControlKeys = {};
-  speed = 1;
+  keys: ControlParams['keys'] = {};
+  speed: ControlParams['speed'] = 1;
 
   static toAvalibleKeyName(keyCode: number) {
     return KeyCodes[keyCode] as AvalibleKeyName | void;
   }
 
-  constructor(params: Params<ControlParams> = {}) {
+  constructor(params?: Params<ControlParams>) {
     Object.assign(this, params);
   }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Control } from '../models/control';
+import { Control } from '~/models/control';
 
 @Component({
   selector: 'app-canvas-control',

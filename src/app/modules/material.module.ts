@@ -1,9 +1,9 @@
+import { NgModule } from '@angular/core';
+
 import {
   MatInputModule,
   MatButtonModule,
 } from '@angular/material';
-
-import { NgModule } from '@angular/core';
 
 @NgModule({
   imports: [
