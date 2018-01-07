@@ -1,6 +1,7 @@
 const SQRT_2 = Math.sqrt(2);
 
 enum KeyCodes {
+  enter = 13,
   left = 37,
   up,
   right,
@@ -29,14 +30,23 @@ export class Control implements ControlParams {
 
   setKey(keyCode: AvalibleKeyName, value: any) {
     this.keys[keyCode] = toBinBool(value);
+
+    if (!value && !this.isKeyPressed) {
+      this.speed = 1;
+    }
+
+    return this;
   }
 
-  get dx(): number {
+  get dx() {
     return this._getAxisSum(this.keys.right, this.keys.left);
   }
-
-  get dy(): number {
+  get dy() {
     return this._getAxisSum(this.keys.down, this.keys.up);
+  }
+
+  get isKeyPressed() {
+    return Object.values(this.keys).some(Boolean);
   }
 
   private _getAxisSum(positive = 0, negative = 0) {

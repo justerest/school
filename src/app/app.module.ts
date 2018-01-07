@@ -8,14 +8,14 @@ import { MaterialModule } from '~/modules/material.module';
 import { AppRoutingModule } from '~/modules/app-routing.module';
 import { MainComponent } from '~/pages/main/main.component';
 import { Game1Component } from '~/pages/game1/game1.component';
-import { CanvasControlComponent } from '~/components/canvas-control/canvas-control.component';
+import { CanvasControlDirective } from './directives/canvas-control.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
     Game1Component,
-    CanvasControlComponent,
+    CanvasControlDirective,
   ],
   imports: [
     BrowserAnimationsModule,
