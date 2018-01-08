@@ -9,8 +9,8 @@ interface CicleImageParams extends DrawedImageParams {
 }
 
 export class CicleImage extends DrawedImage implements CicleImageParams {
-  level: Level;
-  speed: number = randomInt(3, 6);
+  level: CicleImageParams['level'];
+  speed: CicleImageParams['speed'] = randomInt(3, 6);
 
   constructor(params: Params<CicleImageParams, 'context' | 'image' | 'level'>) {
     super(params);

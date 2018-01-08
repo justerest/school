@@ -1,8 +1,6 @@
-<canvas #canvas
-        tabindex="0"
+<canvas tabindex="0"
         width="800"
         height="600"
         appCanvasControl
-        [control]="control"
-        (keypress)="onEnterPress($event.keyCode)">
+        (ccKeypress)="onEnterPress()">
 </canvas>

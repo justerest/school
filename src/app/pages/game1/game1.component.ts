@@ -1,8 +1,9 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import swal, { SweetAlertOptions } from 'sweetalert2';
 
+import { KeyboardControlService } from '~/services/keyboard-control.service';
+
 import { CicleImage } from '~/models/canvas-elements/cicle-image';
-import { Control } from '~/models/control';
 import { DrawedImage } from '~/models/canvas-elements/drawed-image';
 import { ImagesLoader } from '~/models/images-loader';
 import { Level } from '~/models/level';
@@ -26,7 +27,7 @@ const Images = new ImagesLoader({
   templateUrl: './game1.component.html',
   styleUrls: ['./game1.component.scss'],
 })
-export class Game1Component implements AfterViewInit {
+export class Game1Component implements OnInit {
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D;
 
@@ -35,16 +36,19 @@ export class Game1Component implements AfterViewInit {
   hero: DrawedImage;
   stars: CicleImage[];
 
-  control: Control = new Control;
   level: Level;
   score: number;
 
   bestScore = localStorage.getItem('school-game-1.best-score') || '';
   pause = true;
 
-  @ViewChild('canvas') canvasRef: ElementRef;
-  async ngAfterViewInit() {
-    this.canvas = this.canvasRef.nativeElement;
+  constructor(
+    private el: ElementRef,
+    private control: KeyboardControlService
+  ) { }
+
+  async ngOnInit() {
+    this.canvas = this.el.nativeElement.firstChild;
     this.context = this.canvas.getContext('2d');
 
     this.context.imageSmoothingEnabled = false;
@@ -54,7 +58,7 @@ export class Game1Component implements AfterViewInit {
   }
 
   init() {
-    this.control = new Control;
+    this.control.reset();
     this.level = new Level;
     this.score = 0;
 
@@ -187,8 +191,8 @@ export class Game1Component implements AfterViewInit {
     requestAnimationFrame(() => this.game());
   }
 
-  onEnterPress(keyCode: number) {
-    if (keyCode !== 13) return;
+  onEnterPress() {
+    if (!this.control.keys.enter) return;
 
     this.pause = !this.pause;
     if (!this.pause) {

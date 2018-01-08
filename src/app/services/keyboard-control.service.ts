@@ -1,4 +1,4 @@
-const SQRT_2 = Math.sqrt(2);
+import { Injectable } from '@angular/core';
 
 enum KeyCodes {
   enter = 13,
@@ -11,21 +11,13 @@ enum KeyCodes {
 declare type AvalibleKeyName = keyof typeof KeyCodes;
 type ControlKeys = {[P in AvalibleKeyName]?: BinBool};
 
-interface ControlParams {
-  keys: ControlKeys;
-  speed: number;
-}
-
-export class Control implements ControlParams {
-  keys: ControlParams['keys'] = {};
-  speed: ControlParams['speed'] = 1;
+@Injectable()
+export class KeyboardControlService {
+  keys: ControlKeys = {};
+  speed = 1;
 
   static toAvalibleKeyName(keyCode: number) {
     return KeyCodes[keyCode] as AvalibleKeyName | void;
-  }
-
-  constructor(params?: Params<ControlParams>) {
-    Object.assign(this, params);
   }
 
   setKey(keyCode: AvalibleKeyName, value: any) {
@@ -35,6 +27,11 @@ export class Control implements ControlParams {
       this.speed = 1;
     }
 
+    return this;
+  }
+
+  reset() {
+    Object.assign(this, new KeyboardControlService);
     return this;
   }
 
@@ -53,7 +50,7 @@ export class Control implements ControlParams {
     let movement = positive - negative;
     const sumOfKeyValues = Object.values(this.keys).filter(val => val).length;
     if (sumOfKeyValues !== positive + negative) {
-      movement /= SQRT_2;
+      movement /= Math.SQRT2;
     }
     return movement * this.speed;
   }

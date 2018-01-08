@@ -7,16 +7,16 @@ export interface FigureParams {
 }
 
 export class Figure implements FigureParams {
-  context: CanvasRenderingContext2D;
-  points: [[number, number]] = [
+  context: FigureParams['context'];
+  points: FigureParams['points'] = [
     [0, 0],
     [0, 1],
     [1, 1],
     [0, 1],
   ];
-  fillStyle = '#ccedff';
-  lineWidth = 3;
-  strokeStyle = '#123';
+  fillStyle: FigureParams['fillStyle'] = '#ccedff';
+  lineWidth: FigureParams['lineWidth'] = 3;
+  strokeStyle: FigureParams['strokeStyle'] = '#123';
 
   constructor(params: Params<FigureParams, 'context'>) {
     Object.assign(this, params);

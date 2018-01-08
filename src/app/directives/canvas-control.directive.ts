@@ -1,25 +1,16 @@
-import { Directive, Input, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Directive, HostListener, Output, EventEmitter } from '@angular/core';
 
-import { Control } from '~/models/control';
+import { KeyboardControlService } from '~/services/keyboard-control.service';
 
 @Directive({
   selector: '[appCanvasControl]',
 })
-export class CanvasControlDirective implements OnInit {
-  @Input() control: Control;
+export class CanvasControlDirective {
+  @Output() ccKeypress = new EventEmitter();
 
   constructor(
-    private el: ElementRef
+    private control: KeyboardControlService
   ) { }
-
-  ngOnInit() {
-    if (this.el.nativeElement.tagName !== 'CANVAS') {
-      throw new Error('CanvasControl only for canvas element.');
-    }
-    if (!this.control) {
-      throw new Error('Control attribute is required.');
-    }
-  }
 
   @HostListener('keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
@@ -31,11 +22,11 @@ export class CanvasControlDirective implements OnInit {
   }
 
   private _controlObserver(event: KeyboardEvent) {
-    const avalibleKey = Control.toAvalibleKeyName(event.keyCode);
+    const avalibleKey = KeyboardControlService.toAvalibleKeyName(event.keyCode);
     if (!avalibleKey) return;
     event.preventDefault();
 
-    const value = event.type === 'keydown';
-    this.control.setKey(avalibleKey, value);
+    this.control.setKey(avalibleKey, event.type === 'keydown');
+    this.ccKeypress.emit();
   }
 }

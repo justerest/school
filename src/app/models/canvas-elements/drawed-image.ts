@@ -14,11 +14,11 @@ export interface DrawedImageParams extends FigureParams {
 }
 
 export class DrawedImage extends Figure implements DrawedImageParams {
-  animationFrequency = 100;
-  destroyable = false;
-  image: HTMLImageElement;
-  intermediate = false;
-  spritesCount = 1;
+  animationFrequency: DrawedImageParams['animationFrequency'] = 100;
+  destroyable: DrawedImageParams['destroyable'] = false;
+  image: DrawedImageParams['image'];
+  intermediate: DrawedImageParams['intermediate'] = false;
+  spritesCount: DrawedImageParams['spritesCount'] = 1;
 
   private _colorPoints: number[][] = [];
   private _someColorPointsOffset: number;
