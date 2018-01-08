@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AppModule } from '~/app.module';
+import { AppModule } from 'app/app.module';
 import { Game1Component } from './game1.component';
 
 describe('Game1Component', () => {

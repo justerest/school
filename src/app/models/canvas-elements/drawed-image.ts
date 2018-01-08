@@ -1,24 +1,16 @@
-import { Figure, FigureParams } from './figure';
+import { Figure } from './figure';
 
-import { randomInt } from '~/utils/randomInt';
+import { randomInt } from 'app/utils/randomInt';
 
 const WHITE_RGB = [255, 255, 255]; // IDEA: also check pixels on an another color background
 const POINTS_FOR_CHECK = 4;
 
-export interface DrawedImageParams extends FigureParams {
-  animationFrequency: number;
-  destroyable: boolean;
+export class DrawedImage extends Figure {
   image: HTMLImageElement;
-  intermediate: boolean;
-  spritesCount: number;
-}
-
-export class DrawedImage extends Figure implements DrawedImageParams {
-  animationFrequency: DrawedImageParams['animationFrequency'] = 100;
-  destroyable: DrawedImageParams['destroyable'] = false;
-  image: DrawedImageParams['image'];
-  intermediate: DrawedImageParams['intermediate'] = false;
-  spritesCount: DrawedImageParams['spritesCount'] = 1;
+  animationFrequency = 100;
+  destroyable = false;
+  intermediate = false;
+  spritesCount = 1;
 
   private _colorPoints: number[][] = [];
   private _someColorPointsOffset: number;
@@ -26,7 +18,7 @@ export class DrawedImage extends Figure implements DrawedImageParams {
   private _spritePos: number;
   private _spritePosFromEnd: boolean;
 
-  constructor(params: Params<DrawedImageParams, 'context' | 'image'>) {
+  constructor(params: Params<DrawedImage, 'context' | 'image'>) {
     super(params);
     Object.assign(this, params);
 
@@ -135,7 +127,7 @@ export class DrawedImage extends Figure implements DrawedImageParams {
     );
   }
 
-  _checkColor(x: number, y: number, isNewCicle?: boolean) {
+  private _checkColor(x: number, y: number, isNewCicle?: true) {
     const pxColor = this.context.getImageData(x, y, 1, 1).data;
     if (WHITE_RGB.some((rgb, i) => rgb !== pxColor[i])) {
       if (isNewCicle || !this._colorPoints.find(point => point[0] === x && point[1] === y)) {

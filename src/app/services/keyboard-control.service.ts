@@ -8,25 +8,24 @@ enum KeyCodes {
   down,
 }
 
-declare type AvalibleKeyName = keyof typeof KeyCodes;
-type ControlKeys = {[P in AvalibleKeyName]?: BinBool};
+declare type ControlledKey = keyof typeof KeyCodes;
+
+type ControlledKeys = {[P in ControlledKey]?: 0 | 1};
+
+export function isControlledKey(keyCode: string | number) {
+  return Boolean(KeyCodes[keyCode]);
+}
 
 @Injectable()
 export class KeyboardControlService {
-  keys: ControlKeys = {};
+  keys: ControlledKeys = {};
   speed = 1;
 
-  static toAvalibleKeyName(keyCode: number) {
-    return KeyCodes[keyCode] as AvalibleKeyName | void;
-  }
-
-  setKey(keyCode: AvalibleKeyName, value: any) {
-    this.keys[keyCode] = toBinBool(value);
-
-    if (!value && !this.isKeyPressed) {
-      this.speed = 1;
+  setKey(keyCode: string | number, value: 0 | 1) {
+    if (isControlledKey(keyCode)) {
+      this.keys[KeyCodes[keyCode]] = value;
+      if (!this.isKeyPressed) this.speed = 1;
     }
-
     return this;
   }
 
@@ -38,6 +37,7 @@ export class KeyboardControlService {
   get dx() {
     return this._getAxisSum(this.keys.right, this.keys.left);
   }
+
   get dy() {
     return this._getAxisSum(this.keys.down, this.keys.up);
   }
@@ -46,16 +46,12 @@ export class KeyboardControlService {
     return Object.values(this.keys).some(Boolean);
   }
 
-  private _getAxisSum(positive = 0, negative = 0) {
-    let movement = positive - negative;
-    const sumOfKeyValues = Object.values(this.keys).filter(val => val).length;
-    if (sumOfKeyValues !== positive + negative) {
+  private _getAxisSum(dPlus = 0, dMinus = 0) {
+    let movement = dPlus - dMinus;
+    const sumOfKeyValues = Object.values(this.keys).filter(Boolean).length;
+    if (sumOfKeyValues !== dPlus + dMinus) {
       movement /= Math.SQRT2;
     }
     return movement * this.speed;
   }
-}
-
-function toBinBool(value: any): BinBool {
-  return value ? 1 : 0;
 }

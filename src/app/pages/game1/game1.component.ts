@@ -1,26 +1,21 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import swal, { SweetAlertOptions } from 'sweetalert2';
 
-import { KeyboardControlService } from '~/services/keyboard-control.service';
+import { ImagesLoaderService } from 'app/services/images-loader.service';
+import { KeyboardControlService } from 'app/services/keyboard-control.service';
 
-import { CicleImage } from '~/models/canvas-elements/cicle-image';
-import { DrawedImage } from '~/models/canvas-elements/drawed-image';
-import { ImagesLoader } from '~/models/images-loader';
-import { Level } from '~/models/level';
+import { CicleFigure } from 'app/models/canvas-elements/cicle-figure';
+import { CicleImage } from 'app/models/canvas-elements/cicle-image';
+import { DrawedImage } from 'app/models/canvas-elements/drawed-image';
+import { Level } from 'app/models/level';
 
-import { randomInt } from '~/utils/randomInt';
-import { toInt } from '~/utils/toInt';
+import { randomInt } from 'app/utils/randomInt';
+import { toInt } from 'app/utils/toInt';
 
 const ACCELERATION_MAX = 8;
 const ACCELERATION_VALUE = 0.7;
 const BARRIERS_LENGTH = 11;
 const STARS_LENGTH = 30;
-
-const Images = new ImagesLoader({
-  ironMan: 'iron-man.png',
-  ice: 'ice.png',
-  star: 'star.png',
-});
 
 @Component({
   selector: 'app-game1',
@@ -32,7 +27,7 @@ export class Game1Component implements OnInit {
   context: CanvasRenderingContext2D;
 
   // Canvas elements
-  barriers: CicleImage[];
+  barriers: CicleFigure[];
   hero: DrawedImage;
   stars: CicleImage[];
 
@@ -44,15 +39,21 @@ export class Game1Component implements OnInit {
 
   constructor(
     private el: ElementRef,
-    private control: KeyboardControlService
+    private control: KeyboardControlService,
+    private images: ImagesLoaderService
   ) { }
 
   async ngOnInit() {
     this.canvas = this.el.nativeElement.firstChild;
     this.context = this.canvas.getContext('2d');
 
-    this.context.imageSmoothingEnabled = false;
-    await Images.ready;
+    this.context.imageSmoothingEnabled = true;
+    this.images.add({
+      ironMan: '/assets/iron-man.png',
+      ice: '/assets/ice.png',
+      star: '/assets/star.png',
+    });
+    await this.images.ready;
 
     this.init();
   }
@@ -67,13 +68,12 @@ export class Game1Component implements OnInit {
     const barrierWidth = canvas.width / BARRIERS_LENGTH;
     this.barriers = new Array(BARRIERS_LENGTH)
       .fill(0)
-      .map(() => new CicleImage({
+      .map(() => new CicleFigure({
         context,
-        image: Images.get('ice'),
         level: this.level,
       }))
       .map((barrier, i) => {
-        const x0 = barrierWidth * i + (barrierWidth - Images.get('ice').width) / 2;
+        const x0 = barrierWidth * i + (barrierWidth - this.images.get('ice').width) / 2;
         return barrier.move(x0, -randomInt(120, canvas.height));
       });
 
@@ -81,7 +81,7 @@ export class Game1Component implements OnInit {
       .fill(0)
       .map(() => new CicleImage({
         context,
-        image: Images.get('star'),
+        image: this.images.get('star'),
         spritesCount: 3,
         intermediate: true,
         level: this.level,
@@ -92,11 +92,11 @@ export class Game1Component implements OnInit {
 
     const HERO_OPTIONS = {
       context,
-      image: Images.get('ironMan'),
+      image: this.images.get('ironMan'),
       destroyable: true,
     };
     this.hero = new DrawedImage(HERO_OPTIONS)
-      .move((canvas.width - Images.get('ironMan').width) / 2, canvas.height - 100)
+      .move((canvas.width - this.images.get('ironMan').width) / 2, canvas.height - 100)
       .draw();
 
     canvas.focus();

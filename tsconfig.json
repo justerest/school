@@ -16,9 +16,6 @@
       "dom"
     ],
     "noUnusedLocals": true,
-    "baseUrl": "./",
-    "paths": {
-      "~/*": ["src/app/*"]
-    }
+    "baseUrl": "./src"
   }
 }

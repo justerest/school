@@ -1,20 +1,23 @@
-export class ImagesLoader {
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class ImagesLoaderService {
   ready: Promise<any>;
   private _collection: { [imageName: string]: HTMLImageElement; } = {};
+
+  add(images: { [imageName: string]: string; }) {
+    Object.keys(images).forEach(key => {
+      this._collection[key] = new Image;
+      this._collection[key].src = images[key];
+    });
+    this.ready = this._load();
+  }
 
   get(imageName: string) {
     if (!this._collection[imageName]) {
       throw new Error('Image is not found in collection');
     }
     return this._collection[imageName];
-  }
-
-  constructor(images: { [imageName: string]: string; }) {
-    Object.keys(images).forEach(key => {
-      this._collection[key] = new Image;
-      this._collection[key].src = '/assets/' + images[key];
-    });
-    this.ready = this._load();
   }
 
   private _load() {

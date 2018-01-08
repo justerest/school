@@ -1,13 +1,13 @@
-import { DrawedImage } from './drawed-image';
+import { Figure } from './figure';
 
 import { Level } from 'app/models/level';
 import { randomInt } from 'app/utils/randomInt';
 
-export class CicleImage extends DrawedImage {
+export class CicleFigure extends Figure {
   level: Level;
   speed = randomInt(3, 6);
 
-  constructor(params: Params<CicleImage, 'context' | 'image' | 'level'>) {
+  constructor(params: Params<CicleFigure, 'context' | 'level'>) {
     super(params);
     Object.assign(this, params);
   }

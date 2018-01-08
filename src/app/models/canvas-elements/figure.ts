@@ -1,24 +1,16 @@
-export interface FigureParams {
+export class Figure {
   context: CanvasRenderingContext2D;
-  points: [[number, number]];
-  fillStyle: string;
-  lineWidth: number;
-  strokeStyle: string;
-}
-
-export class Figure implements FigureParams {
-  context: FigureParams['context'];
-  points: FigureParams['points'] = [
+  points: number[][] = [
     [0, 0],
-    [0, 1],
-    [1, 1],
-    [0, 1],
+    [0, 150],
+    [50, 150],
+    [50, 0],
   ];
-  fillStyle: FigureParams['fillStyle'] = '#ccedff';
-  lineWidth: FigureParams['lineWidth'] = 3;
-  strokeStyle: FigureParams['strokeStyle'] = '#123';
+  fillStyle = '#ccedff';
+  lineWidth = 3;
+  strokeStyle = '#123';
 
-  constructor(params: Params<FigureParams, 'context'>) {
+  constructor(params: Params<Figure, 'context'>) {
     Object.assign(this, params);
   }
 
@@ -43,7 +35,8 @@ export class Figure implements FigureParams {
     const overflow = this.isOverflow(dx, dy);
     if (overflow) {
       this.move(overflow[0], overflow[1]);
-    } else {
+    }
+    else {
       this.points.forEach(axis => {
         axis[0] += Math.floor(dx);
         axis[1] += Math.floor(dy);
@@ -52,7 +45,7 @@ export class Figure implements FigureParams {
     return this;
   }
 
-  isOverflow(dx: number, dy: number): number[] | undefined {
+  isOverflow(dx: number, dy: number): number[] | void {
     const { context: { canvas } } = this;
     for (let i = 0; i < this.points.length; i++) {
       const [x, y] = this.points[i];
