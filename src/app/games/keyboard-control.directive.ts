@@ -1,12 +1,12 @@
 import { Directive, HostListener, Output, EventEmitter } from '@angular/core';
 
-import { KeyboardControlService, isControlledKey } from 'app/services/keyboard-control.service';
+import { KeyboardControlService, isControlledKey } from './keyboard-control.service';
 
 @Directive({
-  selector: '[appCanvasControl]',
+  selector: '[appKeyboardControl]',
 })
-export class CanvasControlDirective {
-  @Output() ccKeypress = new EventEmitter();
+export class KeyboardControlDirective {
+  @Output() kcKeypress = new EventEmitter();
 
   constructor(
     private control: KeyboardControlService
@@ -24,7 +24,7 @@ export class CanvasControlDirective {
   private _controlObserver(event: KeyboardEvent) {
     if (isControlledKey(event.keyCode)) {
       event.preventDefault();
-      this.ccKeypress.emit();
+      this.kcKeypress.emit();
     }
     this.control.setKey(event.keyCode, event.type === 'keydown' ? 1 : 0);
   }

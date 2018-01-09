@@ -1,30 +1,25 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import { MaterialModule } from './modules/material.module';
-import { AppRoutingModule } from './modules/app-routing.module';
-import { MainComponent } from './pages/main/main.component';
-import { Game1Component } from './pages/game1/game1.component';
-import { CanvasControlDirective } from './directives/canvas-control.directive';
-import { KeyboardControlService } from './services/keyboard-control.service';
-import { ImagesLoaderService } from './services/images-loader.service';
+import { AppRoutingModule } from './app-routing.module';
+import { CoreModule } from './core/core.module';
+import { GamesModule } from './games/games.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent,
-    Game1Component,
-    CanvasControlDirective,
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
-    MaterialModule,
     AppRoutingModule,
+    CoreModule,
+    GamesModule,
+    SharedModule,
   ],
   bootstrap: [AppComponent],
-  providers: [KeyboardControlService, ImagesLoaderService],
 })
 export class AppModule { }

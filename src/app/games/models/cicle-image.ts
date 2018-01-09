@@ -1,7 +1,7 @@
 import { DrawedImage } from './drawed-image';
 
-import { Level } from 'app/models/level';
-import { randomInt } from 'app/utils/randomInt';
+import { Level } from './level';
+import { randomInt } from 'app/shared/utils/random-int';
 
 export class CicleImage extends DrawedImage {
   level: Level;

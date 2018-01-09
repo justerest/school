@@ -1,16 +1,16 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import swal, { SweetAlertOptions } from 'sweetalert2';
 
-import { ImagesLoaderService } from 'app/services/images-loader.service';
-import { KeyboardControlService } from 'app/services/keyboard-control.service';
+import { ImagesLoaderService } from 'app/shared/images-loader.service';
+import { KeyboardControlService } from '../keyboard-control.service';
 
-import { CicleFigure } from 'app/models/canvas-elements/cicle-figure';
-import { CicleImage } from 'app/models/canvas-elements/cicle-image';
-import { DrawedImage } from 'app/models/canvas-elements/drawed-image';
-import { Level } from 'app/models/level';
+import { CicleFigure } from '../models/cicle-figure';
+import { CicleImage } from '../models/cicle-image';
+import { DrawedImage } from '../models/drawed-image';
+import { Level } from '../models/level';
 
-import { randomInt } from 'app/utils/randomInt';
-import { toInt } from 'app/utils/toInt';
+import { randomInt } from 'app/shared/utils/random-int';
+import { toInt } from 'app/shared/utils/to-int';
 
 const ACCELERATION_MAX = 8;
 const ACCELERATION_VALUE = 0.7;

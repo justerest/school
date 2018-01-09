@@ -5,7 +5,7 @@ import { KeyboardControlService } from './keyboard-control.service';
 describe('KeyboardControlService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [KeyboardControlService],
+      providers: [KeyboardControlService]
     });
   });
 
