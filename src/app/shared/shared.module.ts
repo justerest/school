@@ -5,8 +5,6 @@ import {
   MatButtonModule,
 } from '@angular/material';
 
-import { ImagesLoaderService } from './images-loader.service';
-
 @NgModule({
   imports: [
     MatInputModule,
@@ -16,6 +14,5 @@ import { ImagesLoaderService } from './images-loader.service';
     MatInputModule,
     MatButtonModule,
   ],
-  providers: [ImagesLoaderService],
 })
 export class SharedModule { }
