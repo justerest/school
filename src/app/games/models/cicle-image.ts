@@ -4,6 +4,7 @@ import { Level } from './level';
 import { randomInt } from 'app/shared/utils/random-int';
 
 export class CicleImage extends DrawedImage {
+
   level: Level;
   speed = randomInt(3, 6);
 
@@ -24,4 +25,5 @@ export class CicleImage extends DrawedImage {
     });
     return this;
   }
+
 }

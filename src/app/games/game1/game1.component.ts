@@ -1,19 +1,18 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import swal, { SweetAlertOptions } from 'sweetalert2';
+import { Component, OnInit, ElementRef, ViewEncapsulation } from '@angular/core';
+import swal from 'sweetalert2';
 
-import { getImage } from 'app/shared/utils/get-image';
 import { KeyboardControlService } from '../keyboard-control.service';
 
-import { CicleFigure } from '../models/cicle-figure';
 import { CicleImage } from '../models/cicle-image';
 import { DrawedImage } from '../models/drawed-image';
 import { Level } from '../models/level';
 
+import { getImage } from 'app/shared/utils/get-image';
 import { randomInt } from 'app/shared/utils/random-int';
 import { toInt } from 'app/shared/utils/to-int';
 
 const ACCELERATION_MAX = 8;
-const ACCELERATION_VALUE = 0.7;
+const ACCELERATION_VALUE = 0.5;
 const BARRIERS_LENGTH = 11;
 const STARS_LENGTH = 30;
 
@@ -21,14 +20,16 @@ const STARS_LENGTH = 30;
   selector: 'app-game1',
   templateUrl: './game1.component.html',
   styleUrls: ['./game1.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class Game1Component implements OnInit {
+
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D;
 
   // Canvas elements
-  barriers: CicleFigure[];
   hero: DrawedImage;
+  barriers: CicleImage[];
   stars: CicleImage[];
 
   // Images
@@ -39,12 +40,12 @@ export class Game1Component implements OnInit {
   level: Level;
   score: number;
 
-  bestScore = localStorage.getItem('school-game-1.best-score') || '';
+  bestScore = localStorage.getItem('game-1.best-score') || '';
   pause = true;
 
   constructor(
     private el: ElementRef,
-    private control: KeyboardControlService
+    private control: KeyboardControlService,
   ) { }
 
   async ngOnInit() {
@@ -58,89 +59,75 @@ export class Game1Component implements OnInit {
       getImage('/assets/star.png'),
     ]);
 
-    this.init();
+    this.initGame();
   }
 
-  init() {
+  onPressEnter() {
+    if (this.control.keys.enter) {
+      this.pause = !this.pause;
+      if (!this.pause) this.startGame();
+    }
+  }
+
+  initGame() {
     this.control.reset();
     this.level = new Level;
     this.score = 0;
+    this.barriers = [];
+    this.stars = [];
 
     const { canvas, context } = this;
 
     const barrierWidth = canvas.width / BARRIERS_LENGTH;
-    this.barriers = new Array(BARRIERS_LENGTH)
-      .fill(0)
-      .map(() => new CicleImage({
+    for (let i = 0; i < BARRIERS_LENGTH; i++) {
+      const barrier = new CicleImage({
         context,
         image: this.barrierImage,
         level: this.level,
-      }))
-      .map((barrier, i) => {
-        const x0 = barrierWidth * i + (barrierWidth - this.barrierImage.width) / 2;
-        return barrier.move(x0, -randomInt(120, canvas.height));
       });
 
-    this.stars = new Array(STARS_LENGTH)
-      .fill(0)
-      .map(() => new CicleImage({
+      const x0 = barrierWidth * i + (barrierWidth - this.barrierImage.width) / 2;
+      barrier.move(x0, -randomInt(120, canvas.height));
+
+      this.barriers.push(barrier);
+    }
+
+    for (let i = 0; i < STARS_LENGTH; i++) {
+      const star = new CicleImage({
         context,
         image: this.starImage,
         spritesCount: 3,
         intermediate: true,
         level: this.level,
-      }))
-      .map((ice, i) => (
-        ice.move(canvas.width / STARS_LENGTH * i, -randomInt(120, canvas.height))
-      ));
+      });
 
-    const HERO_OPTIONS = {
+      const y0 = -randomInt(120, canvas.height);
+      star.move(canvas.width / STARS_LENGTH * i, y0);
+
+      this.stars.push(star);
+    }
+
+    this.hero = new DrawedImage({
       context,
       image: this.heroImage,
       destroyable: true,
-    };
-    this.hero = new DrawedImage(HERO_OPTIONS)
+    });
+    this.hero
       .move((canvas.width - this.heroImage.width) / 2, canvas.height - 100)
       .draw();
 
     canvas.focus();
-    this.game();
+    this.startGame();
   }
 
-  async game(): Promise<void | never> {
-    const {
-      canvas,
-      context,
-      hero,
-      stars,
-      barriers,
-      control,
-    } = this;
-
+  async startGame() {
     if (this.pause) {
-      const TITLE = 'PAUSE';
-      const TEXT = 'PRESS ENTER TO ' + (this.score ? 'CONTINUE' : 'START');
-
-      context.clearRect(canvas.width - 110, canvas.height - 30, 100, 30);
-      context.fillStyle = '#fff';
-      context.font = 'bold 70px sans-serif';
-      context.fillText(TITLE, canvas.width / 2 - 125, canvas.height / 2, 250);
-      context.fillStyle = '#ddd';
-      context.font = 'bold 32px sans-serif';
-      context.fillText(TEXT, canvas.width / 2 - 125, canvas.height / 2 + 70, 250);
-
+      this.drawPauseMessage();
       return;
     }
+    this.drawInterface();
 
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
-    context.fillStyle = '#a7ffff';
-    context.font = 'bold 20px sans-serif';
-    context.fillText('SCORE: ' + this.score, 20, 30);
-
-    context.fillStyle = '#ddd';
-    context.font = 'bold 16px sans-serif';
-    context.fillText('PRESS ENTER TO PAUSE', canvas.width - 110, canvas.height - 10, 100);
+    const { canvas, hero, stars, barriers, control } = this;
 
     this.score++;
 
@@ -151,35 +138,28 @@ export class Game1Component implements OnInit {
           .move(0, canvas.height - star.points[0][1])
           .move(0, - randomInt(120, canvas.height));
       }
-      else {
-        star.move().draw();
-      }
+      else star.move().draw();
     });
 
-    hero
-      .move(control.dx, control.dy)
-      .draw();
+    hero.move(control.dx, control.dy).draw();
 
     barriers.forEach(barrier => barrier.move().draw());
 
     if (hero.isDestroyed) {
-      const NOTIFICATION: SweetAlertOptions = {
+      const isOK: { value: boolean } = await swal({
         type: 'warning',
         title: 'GAME OVER!',
         text: 'Retry?',
         showCancelButton: true,
-      };
-      const isOK = await swal(NOTIFICATION) as { value: true | void };
-      if (!isOK.value) {
-        this.pause = true;
-      }
+      });
+      if (!isOK.value) this.pause = true;
 
       if (this.score > toInt(this.bestScore)) {
         localStorage.setItem('school-game-1.best-score', this.score.toString());
         this.bestScore = this.score.toString();
       }
 
-      this.init();
+      this.initGame();
       return;
     }
 
@@ -187,18 +167,39 @@ export class Game1Component implements OnInit {
       (control.dx || control.dy) &&
       control.speed - this.level.value < ACCELERATION_MAX
     );
-    if (isAcceleration) {
-      control.speed += ACCELERATION_VALUE;
-    }
+    if (isAcceleration) control.speed += ACCELERATION_VALUE;
 
     this.level.up();
-    requestAnimationFrame(() => this.game());
+    requestAnimationFrame(() => this.startGame());
   }
 
-  onEnterPress() {
-    if (this.control.keys.enter) {
-      this.pause = !this.pause;
-      if (!this.pause) this.game();
-    }
+  drawInterface() {
+    const { canvas, context } = this;
+
+    context.clearRect(0, 0, canvas.width, canvas.height);
+
+    context.fillStyle = '#a7ffff';
+    context.font = 'bold 20px sans-serif';
+    context.fillText('SCORE: ' + this.score, 20, 30);
+
+    context.fillStyle = '#ddd';
+    context.font = 'bold 16px sans-serif';
+    context.fillText('PRESS ENTER TO PAUSE', canvas.width - 110, canvas.height - 10, 100);
   }
+
+  drawPauseMessage() {
+    const TITLE = 'PAUSE';
+    const TEXT = 'PRESS ENTER TO ' + (this.score ? 'CONTINUE' : 'START');
+
+    const { canvas, context } = this;
+
+    context.clearRect(canvas.width - 110, canvas.height - 30, 100, 30);
+    context.fillStyle = '#fff';
+    context.font = 'bold 70px sans-serif';
+    context.fillText(TITLE, canvas.width / 2 - 125, canvas.height / 2, 250);
+    context.fillStyle = '#ddd';
+    context.font = 'bold 32px sans-serif';
+    context.fillText(TEXT, canvas.width / 2 - 125, canvas.height / 2 + 70, 250);
+  }
+
 }

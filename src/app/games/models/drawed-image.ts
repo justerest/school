@@ -6,6 +6,7 @@ const WHITE_RGB = [255, 255, 255]; // IDEA: also check pixels on an another colo
 const POINTS_FOR_CHECK = 4;
 
 export class DrawedImage extends Figure {
+
   image: HTMLImageElement;
   animationFrequency = 100;
   destroyable = false;
@@ -94,7 +95,7 @@ export class DrawedImage extends Figure {
       0, size[1] * this._spritePos,
       ...size,
       ...this.points[0],
-      ...size
+      ...size,
     );
     return this;
   }
@@ -123,7 +124,7 @@ export class DrawedImage extends Figure {
       figure.points[0][0] < axis[0] + this.points[0][0] &&
       figure.points[0][1] < axis[1] + this.points[0][1] &&
       figure.points[1][0] > axis[0] + this.points[0][0] &&
-      figure.points[1][1] > axis[1] + this.points[0][1]
+      figure.points[1][1] > axis[1] + this.points[0][1],
     );
   }
 
@@ -136,4 +137,5 @@ export class DrawedImage extends Figure {
       return true;
     }
   }
+
 }

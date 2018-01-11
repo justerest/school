@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { MainPageComponent } from './core/main-page/main-page.component';
+import { MainPageComponent } from './core/main-page.component';
 import { Game1Component } from './games/game1/game1.component';
 
 const routes: Routes = [

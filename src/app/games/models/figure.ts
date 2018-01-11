@@ -1,4 +1,5 @@
 export class Figure {
+
   context: CanvasRenderingContext2D;
   points: number[][] = [
     [0, 0],
@@ -61,4 +62,5 @@ export class Figure {
       }
     }
   }
+
 }

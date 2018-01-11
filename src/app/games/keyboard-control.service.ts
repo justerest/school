@@ -18,6 +18,7 @@ export function isControlledKey(keyCode: string | number) {
 
 @Injectable()
 export class KeyboardControlService {
+
   keys: ControlledKeys = {};
   speed = 1;
 
@@ -54,4 +55,5 @@ export class KeyboardControlService {
     }
     return movement * this.speed;
   }
+
 }

@@ -6,10 +6,11 @@ import { KeyboardControlService, isControlledKey } from './keyboard-control.serv
   selector: '[appKeyboardControl]',
 })
 export class KeyboardControlDirective {
+
   @Output() kcKeypress = new EventEmitter();
 
   constructor(
-    private control: KeyboardControlService
+    private control: KeyboardControlService,
   ) { }
 
   @HostListener('keydown', ['$event'])
@@ -28,4 +29,5 @@ export class KeyboardControlDirective {
     }
     this.control.setKey(event.keyCode, event.type === 'keydown' ? 1 : 0);
   }
+
 }
