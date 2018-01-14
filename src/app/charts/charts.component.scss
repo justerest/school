@@ -1,5 +1,7 @@
 @import "~_variables.scss";
 
-.charts-canvas {
+.charts__canvas {
+  width: 100%;
+  height: 100%;
   background-color: $app-color-grey;
 }

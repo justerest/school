@@ -1,1 +1,79 @@
-<canvas id="myChart" class="charts-canvas" width="800" height="600"></canvas>
+<div class="row">
+  <div>
+    <div class="col-12">
+      <mat-card>
+        <mat-card-subtitle>
+          Функция
+        </mat-card-subtitle>
+        <mat-card-title>
+          {{formula}}
+        </mat-card-title>
+      </mat-card>
+      <br>
+      <mat-card class="p0">
+        <canvas class="charts__canvas"
+                tabindex="0"
+                width="520"
+                height="520"></canvas>
+      </mat-card>
+    </div>
+    <br>
+  </div>
+  <div class="col">
+    <mat-card>
+      <mat-card-subtitle>
+        Уравнение в общем виде
+      </mat-card-subtitle>
+      <mat-card-title>
+        y = ax + b
+      </mat-card-title>
+    </mat-card>
+    <br>
+    <mat-card>
+      <mat-card-subtitle>
+        Коэффициент наклона
+      </mat-card-subtitle>
+      <mat-card-title>
+        a = {{paramA}}
+      </mat-card-title>
+      <mat-card-actions>
+        <button mat-raised-button
+                color="accent"
+                (click)="incrementParamA()">
+          <mat-icon svgIcon="rotate-left"></mat-icon>
+          + 0.5
+        </button>
+        <button mat-raised-button
+                color="accent"
+                (click)="decrementParamA()">
+          <mat-icon svgIcon="rotate-right"></mat-icon>
+          - 0.5
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    <br>
+    <mat-card>
+      <mat-card-subtitle>
+        Смещение
+      </mat-card-subtitle>
+      <mat-card-title>
+        b = {{paramB}}
+      </mat-card-title>
+      <mat-card-actions>
+        <button mat-raised-button
+                color="accent"
+                (click)="incrementParamB()">
+          <mat-icon svgIcon="up"></mat-icon>
+          + 1
+        </button>
+        <button mat-raised-button
+                color="accent"
+                (click)="decrementParamB()">
+          <mat-icon svgIcon="down"></mat-icon>
+          - 1
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+<br>
