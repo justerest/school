@@ -11,10 +11,13 @@
       </mat-card>
       <br>
       <mat-card class="p0">
+        <canvas appChartsBackground
+                class="charts__background-canvas"
+                [width]="canvasSize"
+                [height]="canvasSize"></canvas>
         <canvas class="charts__canvas"
-                tabindex="0"
-                width="520"
-                height="520"></canvas>
+                [width]="canvasSize"
+                [height]="canvasSize"></canvas>
       </mat-card>
     </div>
     <br>
@@ -34,7 +37,13 @@
         Коэффициент наклона
       </mat-card-subtitle>
       <mat-card-title>
-        a = {{paramA}}
+        <mat-form-field>
+          <span matPrefix>a = &nbsp;</span>
+          <input matInput
+                 type="number"
+                 [formControl]="paramA"
+                 (change)="drawFunction()">
+        </mat-form-field>
       </mat-card-title>
       <mat-card-actions>
         <button mat-raised-button
@@ -57,7 +66,13 @@
         Смещение
       </mat-card-subtitle>
       <mat-card-title>
-        b = {{paramB}}
+        <mat-form-field>
+          <span matPrefix>b = &nbsp;</span>
+          <input matInput
+                 type="number"
+                 [formControl]="paramB"
+                 (change)="drawFunction()">
+        </mat-form-field>
       </mat-card-title>
       <mat-card-actions>
         <button mat-raised-button

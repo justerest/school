@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import {
   MatButtonModule,
@@ -15,6 +16,7 @@ import {
     MatIconModule,
     MatInputModule,
     MatListModule,
+    ReactiveFormsModule,
   ],
   exports: [
     MatButtonModule,
@@ -22,6 +24,7 @@ import {
     MatIconModule,
     MatInputModule,
     MatListModule,
+    ReactiveFormsModule,
   ],
 })
 export class SharedModule { }

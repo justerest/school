@@ -1,12 +1,7 @@
-import { Component, HostListener, OnInit, ViewEncapsulation, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewEncapsulation, ElementRef } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
-const CELL_SIZE = 20;
-const COLORS = {
-  darkBlue: '#000aff',
-  blue: '#009bff',
-  boldPencil: '#505050',
-  pencil: '#737373',
-};
+import { CELL_SIZE, COLORS } from './constants';
 
 @Component({
   selector: 'app-charts.charts',
@@ -14,120 +9,59 @@ const COLORS = {
   styleUrls: ['./charts.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ChartsComponent implements OnInit {
+export class ChartsComponent implements AfterViewInit {
 
   context: CanvasRenderingContext2D;
+  canvasSize = 520;
 
-  paramA = 2;
-  paramB = 1;
+  paramA = new FormControl(2);
+  paramB = new FormControl(-1);
+
+  get formula() {
+    return `y = ${writeMember(this.paramA.value, true)}x ${writeMember(this.paramB.value)}`;
+  }
 
   constructor(
     private el: ElementRef,
   ) { }
 
-  get formula() {
-    return `y = ${writeMember(this.paramA, true)}x ${writeMember(this.paramB)}`;
-  }
-
-  ngOnInit() {
+  ngAfterViewInit() {
     this.context = this.el.nativeElement
-      .querySelector('canvas')
+      .querySelector('canvas.charts__canvas')
       .getContext('2d');
-    this.init();
-  }
 
-  @HostListener('click', ['$event'])
-  init() {
-    this.drawCells();
-    this.drawFunction(this.paramA, this.paramB);
+    this.drawFunction();
   }
 
   incrementParamA() {
-    this.paramA += 0.5;
+    this.paramA.setValue(this.paramA.value + 0.5);
+    this.drawFunction();
   }
   decrementParamA() {
-    this.paramA -= 0.5;
+    this.paramA.setValue(this.paramA.value - 0.5);
+    this.drawFunction();
   }
   incrementParamB() {
-    this.paramB++;
+    this.paramB.setValue(this.paramB.value + 1);
+    this.drawFunction();
   }
   decrementParamB() {
-    this.paramB--;
+    this.paramB.setValue(this.paramB.value - 1);
+    this.drawFunction();
   }
 
-  drawCells() {
+  drawFunction() {
     const { context } = this;
     const { canvas } = context;
 
     context.clearRect(0, 0, canvas.width, canvas.height);
-
-    context.lineWidth = 0.3;
-    context.strokeStyle = COLORS.blue;
-
-    context.beginPath();
-    for (let i = CELL_SIZE; i < canvas.width; i += CELL_SIZE) {
-      context.moveTo(i, 0);
-      context.lineTo(i, canvas.height);
-    }
-    for (let i = CELL_SIZE; i < canvas.height; i += CELL_SIZE) {
-      context.moveTo(0, i);
-      context.lineTo(canvas.width, i);
-    }
-    context.stroke();
-
-    context.lineWidth = 0.5;
-    context.strokeStyle = COLORS.boldPencil;
-
-    context.beginPath();
-
-    context.moveTo(canvas.width / 2, 0);
-    context.lineTo(canvas.width / 2, canvas.height);
-
-    context.moveTo(canvas.width / 2, 0);
-    context.lineTo(canvas.width / 2 - CELL_SIZE / 2, CELL_SIZE);
-    context.moveTo(canvas.width / 2, 0);
-    context.lineTo(canvas.width / 2 + CELL_SIZE / 2, CELL_SIZE);
-
-    context.moveTo(0, canvas.height / 2);
-    context.lineTo(canvas.width, canvas.height / 2);
-
-    context.moveTo(canvas.width, canvas.height / 2);
-    context.lineTo(canvas.width - CELL_SIZE, canvas.height / 2 - CELL_SIZE / 2);
-    context.moveTo(canvas.width, canvas.height / 2);
-    context.lineTo(canvas.width - CELL_SIZE, canvas.height / 2 + CELL_SIZE / 2);
-
-    context.moveTo(canvas.width / 2 + CELL_SIZE, canvas.height / 2 - CELL_SIZE / 4);
-    context.lineTo(canvas.width / 2 + CELL_SIZE, canvas.height / 2 + CELL_SIZE / 4);
-
-    context.moveTo(canvas.width / 2 - CELL_SIZE / 4, canvas.height / 2 - CELL_SIZE);
-    context.lineTo(canvas.width / 2 + CELL_SIZE / 4, canvas.height / 2 - CELL_SIZE);
-
-    context.stroke();
-
-    context.fillStyle = COLORS.darkBlue;
-    context.font = 'italic 20px sans-serif';
-
-    context.fillText('x', canvas.width - CELL_SIZE, canvas.height / 2 + CELL_SIZE, CELL_SIZE);
-    context.fillText('y', canvas.width / 2 - CELL_SIZE, CELL_SIZE, CELL_SIZE);
-
-    context.font = 'italic 14px sans-serif';
-
-    context.fillText('0', canvas.width / 2 - CELL_SIZE / 2, canvas.height / 2 + CELL_SIZE, CELL_SIZE);
-    context.fillText('1', canvas.width / 2 + CELL_SIZE, canvas.height / 2 + CELL_SIZE, CELL_SIZE);
-    context.fillText('1', canvas.width / 2 - CELL_SIZE / 2, canvas.height / 2 - CELL_SIZE / 2, CELL_SIZE);
-  }
-
-  drawFunction(a: number, b: number) {
-    const { context } = this;
-    const { canvas } = context;
-
     context.lineWidth = 1;
     context.strokeStyle = COLORS.pencil;
 
     context.translate(canvas.width / 2, -canvas.height / 2);
     context.beginPath();
-    context.moveTo(-canvas.width, canvas.height + canvas.width * a - b * CELL_SIZE);
-    context.lineTo(canvas.width, canvas.height - canvas.width * a - b * CELL_SIZE);
+    context.moveTo(-canvas.width, canvas.height + canvas.width * this.paramA.value - this.paramB.value * CELL_SIZE);
+    context.lineTo(canvas.width, canvas.height - canvas.width * this.paramA.value - this.paramB.value * CELL_SIZE);
     context.closePath();
     context.stroke();
     context.translate(-canvas.width / 2, canvas.height / 2);
