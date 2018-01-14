@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('graphics App', () => {
+describe('school App', () => {
   let page: AppPage;
 
   beforeEach(() => {
@@ -9,6 +9,6 @@ describe('graphics App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to Graphics!');
+    expect(page.getParagraphText()).toEqual('Welcome to school!');
   });
 });
