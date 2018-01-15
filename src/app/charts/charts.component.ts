@@ -1,7 +1,12 @@
-import { Component, AfterViewInit, ViewEncapsulation, ElementRef, ViewChild } from '@angular/core';
+import { ChartsService } from './charts.service';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
-
-import { CELL_SIZE, COLORS } from './constants';
 
 @Component({
   selector: 'app-charts.charts',
@@ -31,7 +36,9 @@ export class ChartsComponent implements AfterViewInit {
       .replace(/\s1x/g, ' x');
   }
 
-  constructor() { }
+  constructor(
+    private service: ChartsService,
+  ) { }
 
   ngAfterViewInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
@@ -48,11 +55,11 @@ export class ChartsComponent implements AfterViewInit {
     this.drawFunction();
   }
   incrementParamB() {
-    this.paramB.setValue(this.paramB.value + 1);
+    this.paramB.setValue(this.paramB.value + 0.5);
     this.drawFunction();
   }
   decrementParamB() {
-    this.paramB.setValue(this.paramB.value - 1);
+    this.paramB.setValue(this.paramB.value - 0.5);
     this.drawFunction();
   }
 
@@ -60,6 +67,7 @@ export class ChartsComponent implements AfterViewInit {
     const { ctx } = this;
     const { width, height } = ctx.canvas;
     const { paramA, paramB } = this;
+    const { cellSize, COLORS } = this.service;
 
     ctx.clearRect(0, 0, width, height);
     ctx.lineWidth = 1;
@@ -69,8 +77,8 @@ export class ChartsComponent implements AfterViewInit {
     ctx.translate(width / 2, -height / 2);
 
     ctx.beginPath();
-    ctx.moveTo(-width, height + width * paramA.value - paramB.value * CELL_SIZE);
-    ctx.lineTo(width, height - width * paramA.value - paramB.value * CELL_SIZE);
+    ctx.moveTo(-width, height + width * paramA.value - paramB.value * cellSize);
+    ctx.lineTo(width, height - width * paramA.value - paramB.value * cellSize);
     ctx.closePath();
     ctx.stroke();
 

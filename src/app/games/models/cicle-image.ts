@@ -1,5 +1,4 @@
 import { DrawedImage } from './drawed-image';
-
 import { Level } from './level';
 import { randomInt } from 'app/shared/utils/random-int';
 
