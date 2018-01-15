@@ -1,4 +1,4 @@
-export const CELL_SIZE = 20;
+export const CELL_SIZE = 50;
 
 export const COLORS = {
   darkBlue: '#000aff',

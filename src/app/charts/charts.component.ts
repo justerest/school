@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewEncapsulation, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewEncapsulation, ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { CELL_SIZE, COLORS } from './constants';
@@ -11,24 +11,30 @@ import { CELL_SIZE, COLORS } from './constants';
 })
 export class ChartsComponent implements AfterViewInit {
 
-  context: CanvasRenderingContext2D;
-  canvasSize = 520;
+  @ViewChild('canvas') canvas: ElementRef;
+  ctx: CanvasRenderingContext2D;
+
+  canvasSize = 600;
 
   paramA = new FormControl(2);
   paramB = new FormControl(-1);
 
   get formula() {
-    return `y = ${writeMember(this.paramA.value, true)}x ${writeMember(this.paramB.value)}`;
+    const a = parseFloat(this.paramA.value);
+    const b = parseFloat(this.paramB.value);
+
+    return 'y = ' + `${!isNaN(a) ? a : 0}x ${!isNaN(b) ? b : 0}`
+      .replace(/^0x\s/, '')
+      .replace(/[0-9|.]+/g, ' $&')
+      .replace(/x\s\s/g, 'x + ')
+      .replace(/\s\+\s0$/g, '')
+      .replace(/\s1x/g, ' x');
   }
 
-  constructor(
-    private el: ElementRef,
-  ) { }
+  constructor() { }
 
   ngAfterViewInit() {
-    this.context = this.el.nativeElement
-      .querySelector('canvas.charts__canvas')
-      .getContext('2d');
+    this.ctx = this.canvas.nativeElement.getContext('2d');
 
     this.drawFunction();
   }
@@ -51,33 +57,24 @@ export class ChartsComponent implements AfterViewInit {
   }
 
   drawFunction() {
-    const { context } = this;
-    const { canvas } = context;
+    const { ctx } = this;
+    const { width, height } = ctx.canvas;
+    const { paramA, paramB } = this;
 
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.lineWidth = 1;
-    context.strokeStyle = COLORS.pencil;
+    ctx.clearRect(0, 0, width, height);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = COLORS.pencil;
 
-    context.translate(canvas.width / 2, -canvas.height / 2);
-    context.beginPath();
-    context.moveTo(-canvas.width, canvas.height + canvas.width * this.paramA.value - this.paramB.value * CELL_SIZE);
-    context.lineTo(canvas.width, canvas.height - canvas.width * this.paramA.value - this.paramB.value * CELL_SIZE);
-    context.closePath();
-    context.stroke();
-    context.translate(-canvas.width / 2, canvas.height / 2);
+    ctx.save();
+    ctx.translate(width / 2, -height / 2);
+
+    ctx.beginPath();
+    ctx.moveTo(-width, height + width * paramA.value - paramB.value * CELL_SIZE);
+    ctx.lineTo(width, height - width * paramA.value - paramB.value * CELL_SIZE);
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.restore();
   }
 
-}
-
-function writeMember(number: number, isWithoutPlus = false) {
-  let res = '';
-
-  if (number >= 0 && !isWithoutPlus) {
-    res = '+ ';
-  }
-  if (number < 0) {
-    res = '- ';
-  }
-
-  return res + Math.abs(number);
 }
