@@ -54,9 +54,9 @@ export class Game1Component implements OnInit {
     this.context.imageSmoothingEnabled = true;
 
     [this.barrierImage, this.heroImage, this.starImage] = await Promise.all([
-      getImage('../assets/ice.png'),
-      getImage('../assets/iron-man.png'),
-      getImage('../assets/star.png'),
+      getImage('/school/assets/ice.png'),
+      getImage('/school/assets/iron-man.png'),
+      getImage('/school/assets/star.png'),
     ]);
 
     this.initGame();
