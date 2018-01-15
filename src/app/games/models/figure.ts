@@ -1,6 +1,6 @@
 export class Figure {
 
-  context: CanvasRenderingContext2D;
+  ctx: CanvasRenderingContext2D;
   points: number[][] = [
     [0, 0],
     [0, 150],
@@ -11,23 +11,23 @@ export class Figure {
   lineWidth = 3;
   strokeStyle = '#123';
 
-  constructor(params: Params<Figure, 'context'>) {
+  constructor(params: Params<Figure, 'ctx'>) {
     Object.assign(this, params);
   }
 
   draw() {
-    const { context } = this;
+    const { ctx } = this;
 
-    context.beginPath();
-    context.moveTo(this.points[0][0], this.points[0][1]);
+    ctx.beginPath();
+    ctx.moveTo(this.points[0][0], this.points[0][1]);
     for (let i = 1; i < this.points.length; i++) {
-      context.lineTo(this.points[i][0], this.points[i][1]);
+      ctx.lineTo(this.points[i][0], this.points[i][1]);
     }
-    context.closePath();
+    ctx.closePath();
 
-    Object.assign(context, this, { points: null });
-    context.fill();
-    context.stroke();
+    Object.assign(ctx, this, { points: null });
+    ctx.fill();
+    ctx.stroke();
 
     return this;
   }
@@ -47,7 +47,7 @@ export class Figure {
   }
 
   isOverflow(dx: number, dy: number): number[] | void {
-    const { context: { canvas } } = this;
+    const { ctx: { canvas } } = this;
     for (let i = 0; i < this.points.length; i++) {
       const [x, y] = this.points[i];
       const isOverflow = (

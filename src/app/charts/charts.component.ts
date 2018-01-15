@@ -4,7 +4,6 @@ import {
   Component,
   ElementRef,
   ViewChild,
-  ViewEncapsulation,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
@@ -12,7 +11,6 @@ import { FormControl } from '@angular/forms';
   selector: 'app-charts.charts',
   templateUrl: './charts.component.html',
   styleUrls: ['./charts.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class ChartsComponent implements AfterViewInit {
 
@@ -41,8 +39,7 @@ export class ChartsComponent implements AfterViewInit {
   ) { }
 
   ngAfterViewInit() {
-    this.ctx = this.canvas.nativeElement.getContext('2d');
-
+    this.ctx = (<HTMLCanvasElement>this.canvas.nativeElement).getContext('2d');
     this.drawFunction();
   }
 

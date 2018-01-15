@@ -3,3 +3,24 @@
 @import "~bootstrap/scss/bootstrap-grid";
 
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+* {
+  outline: none!important;
+}
+
+.p0 {
+  padding: 0 !important;
+}
+
+a {
+  text-decoration: none!important;
+  color: inherit!important;
+}
+
+.mat-list-icon {
+  font-size: 0!important;
+}
+
+.mat-list-info {
+  color: #ccc;
+}

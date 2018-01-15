@@ -1,59 +1,71 @@
-import { KeyboardControlService } from '../keyboard-control.service';
-import { CicleImage } from '../models/cicle-image';
-import { DrawedImage } from '../models/drawed-image';
-import { Level } from '../models/level';
+import { KeyboardControlService } from './keyboard-control.service';
+import { CicleImage } from './models/cicle-image';
+import { DrawedImage } from './models/drawed-image';
+import { GameSpeed } from './models/game-speed';
 import {
   Component,
   ElementRef,
   OnInit,
-  ViewEncapsulation,
 } from '@angular/core';
 import { getImage } from 'app/shared/utils/get-image';
 import { randomInt } from 'app/shared/utils/random-int';
 import { toInt } from 'app/shared/utils/to-int';
 import swal from 'sweetalert2';
 
+/** Максимальное ускорение героя. */
 const ACCELERATION_MAX = 8;
-const ACCELERATION_VALUE = 0.5;
+
+/** Ускорение героя за один шаг. */
+const ACCELERATION_STEP = 0.5;
+
+/** Количество препятствий */
 const BARRIERS_LENGTH = 11;
+
+/** Количество бонусов */
 const STARS_LENGTH = 30;
 
+/** Железный человек против мороженого */
 @Component({
   selector: 'app-game1',
   templateUrl: './game1.component.html',
   styleUrls: ['./game1.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class Game1Component implements OnInit {
 
+  /** @deprecated */
   canvas: HTMLCanvasElement;
-  context: CanvasRenderingContext2D;
 
-  // Canvas elements
+  ctx: CanvasRenderingContext2D;
+
+  /** Герой */
   hero: DrawedImage;
+
+  /** Массив с препятствиями */
   barriers: CicleImage[];
+
+  /** Массив с бонусами */
   stars: CicleImage[];
 
-  // Images
   barrierImage: HTMLImageElement;
   heroImage: HTMLImageElement;
   starImage: HTMLImageElement;
 
-  level: Level;
+  gameSpeed: GameSpeed;
   score: number;
 
   bestScore = localStorage.getItem('game-1.best-score') || '';
   pause = true;
 
   constructor(
+    /** @todo Переделать хук */
     private el: ElementRef,
     private control: KeyboardControlService,
   ) { }
 
   async ngOnInit() {
-    this.canvas = this.el.nativeElement.querySelector('canvas');
-    this.context = this.canvas.getContext('2d');
-    this.context.imageSmoothingEnabled = true;
+    this.ctx = this.el.nativeElement.querySelector('canvas').getContext('2d');
+
+    this.ctx.imageSmoothingEnabled = true;
 
     [this.barrierImage, this.heroImage, this.starImage] = await Promise.all([
       getImage('/school/assets/ice.png'),
@@ -73,19 +85,19 @@ export class Game1Component implements OnInit {
 
   initGame() {
     this.control.reset();
-    this.level = new Level;
+    this.gameSpeed = new GameSpeed;
     this.score = 0;
     this.barriers = [];
     this.stars = [];
 
-    const { canvas, context } = this;
+    const { canvas, ctx } = this;
 
     const barrierWidth = canvas.width / BARRIERS_LENGTH;
     for (let i = 0; i < BARRIERS_LENGTH; i++) {
       const barrier = new CicleImage({
-        context,
+        ctx,
         image: this.barrierImage,
-        level: this.level,
+        globalSpeed: this.gameSpeed,
       });
 
       const x0 = barrierWidth * i + (barrierWidth - this.barrierImage.width) / 2;
@@ -96,11 +108,11 @@ export class Game1Component implements OnInit {
 
     for (let i = 0; i < STARS_LENGTH; i++) {
       const star = new CicleImage({
-        context,
+        ctx,
         image: this.starImage,
         spritesCount: 3,
         intermediate: true,
-        level: this.level,
+        globalSpeed: this.gameSpeed,
       });
 
       const y0 = -randomInt(120, canvas.height);
@@ -110,7 +122,7 @@ export class Game1Component implements OnInit {
     }
 
     this.hero = new DrawedImage({
-      context,
+      ctx,
       image: this.heroImage,
       destroyable: true,
     });
@@ -129,7 +141,7 @@ export class Game1Component implements OnInit {
     }
     this.drawInterface();
 
-    const { canvas, hero, stars, barriers, control } = this;
+    const { ctx: { canvas }, hero, stars, barriers, control } = this;
 
     this.score++;
 
@@ -167,41 +179,41 @@ export class Game1Component implements OnInit {
 
     const isAcceleration = (
       (control.dx || control.dy) &&
-      control.speed - this.level.value < ACCELERATION_MAX
+      control.speed - this.gameSpeed.value < ACCELERATION_MAX
     );
-    if (isAcceleration) control.speed += ACCELERATION_VALUE;
+    if (isAcceleration) control.speed += ACCELERATION_STEP;
 
-    this.level.up();
+    this.gameSpeed.up();
     requestAnimationFrame(() => this.startGame());
   }
 
   drawInterface() {
-    const { canvas, context } = this;
+    const { canvas, ctx } = this;
 
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    context.fillStyle = '#a7ffff';
-    context.font = 'bold 20px sans-serif';
-    context.fillText('SCORE: ' + this.score, 20, 30);
+    ctx.fillStyle = '#a7ffff';
+    ctx.font = 'bold 20px sans-serif';
+    ctx.fillText('SCORE: ' + this.score, 20, 30);
 
-    context.fillStyle = '#ddd';
-    context.font = 'bold 16px sans-serif';
-    context.fillText('PRESS ENTER TO PAUSE', canvas.width - 110, canvas.height - 10, 100);
+    ctx.fillStyle = '#ddd';
+    ctx.font = 'bold 16px sans-serif';
+    ctx.fillText('PRESS ENTER TO PAUSE', canvas.width - 110, canvas.height - 10, 100);
   }
 
   drawPauseMessage() {
     const TITLE = 'PAUSE';
     const TEXT = 'PRESS ENTER TO ' + (this.score ? 'CONTINUE' : 'START');
 
-    const { canvas, context } = this;
+    const { canvas, ctx } = this;
 
-    context.clearRect(canvas.width - 110, canvas.height - 30, 100, 30);
-    context.fillStyle = '#fff';
-    context.font = 'bold 70px sans-serif';
-    context.fillText(TITLE, canvas.width / 2 - 125, canvas.height / 2, 250);
-    context.fillStyle = '#ddd';
-    context.font = 'bold 32px sans-serif';
-    context.fillText(TEXT, canvas.width / 2 - 125, canvas.height / 2 + 70, 250);
+    ctx.clearRect(canvas.width - 110, canvas.height - 30, 100, 30);
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 70px sans-serif';
+    ctx.fillText(TITLE, canvas.width / 2 - 125, canvas.height / 2, 250);
+    ctx.fillStyle = '#ddd';
+    ctx.font = 'bold 32px sans-serif';
+    ctx.fillText(TEXT, canvas.width / 2 - 125, canvas.height / 2 + 70, 250);
   }
 
 }

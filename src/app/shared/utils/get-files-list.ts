@@ -1,6 +1,5 @@
 /**
 * Returns all files from directory by extantion.
-*
 * @example
 * export default getFilesList(require.context('./', true, /\.svg$/), 'svg');
 */

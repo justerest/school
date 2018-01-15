@@ -18,7 +18,7 @@ export class DrawedImage extends Figure {
   private _spritePos: number;
   private _spritePosFromEnd: boolean;
 
-  constructor(params: Params<DrawedImage, 'context' | 'image'>) {
+  constructor(params: Params<DrawedImage, 'ctx' | 'image'>) {
     super(params);
     Object.assign(this, params);
 
@@ -36,10 +36,10 @@ export class DrawedImage extends Figure {
       // FIXME: don't work for pixels with an alpha channel
       // FIXME: don't work for sprites
 
-      const { context } = this;
+      const { ctx } = this;
 
-      context.fillStyle = '#fff';
-      context.fillRect(0, 0, imageWidth, imageHeight);
+      ctx.fillStyle = '#fff';
+      ctx.fillRect(0, 0, imageWidth, imageHeight);
       this.draw();
 
       for (let x = 0; x < imageWidth; x++) {
@@ -63,7 +63,7 @@ export class DrawedImage extends Figure {
         }
       }
 
-      context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
       this._someColorPointsStep = Math.floor(this._colorPoints.length / POINTS_FOR_CHECK);
       this._someColorPointsOffset = 0;
@@ -90,7 +90,7 @@ export class DrawedImage extends Figure {
 
   draw() {
     const size = [this.image.naturalWidth, this.image.naturalHeight / this.spritesCount];
-    this.context.drawImage(this.image,
+    this.ctx.drawImage(this.image,
       0, size[1] * this._spritePos,
       ...size,
       ...this.points[0],
@@ -102,7 +102,7 @@ export class DrawedImage extends Figure {
   get isDestroyed() {
     return this.someColorPoints.some(([x0, y0, ...color]) => {
       const [x, y] = this.points[0];
-      const pxColor = this.context.getImageData(x0 + x, y0 + y, 1, 1).data;
+      const pxColor = this.ctx.getImageData(x0 + x, y0 + y, 1, 1).data;
       return color.some((rgb, i) => pxColor[i] !== rgb);
     });
   }
@@ -128,7 +128,7 @@ export class DrawedImage extends Figure {
   }
 
   private _checkColor(x: number, y: number, isNewCicle?: true) {
-    const pxColor = this.context.getImageData(x, y, 1, 1).data;
+    const pxColor = this.ctx.getImageData(x, y, 1, 1).data;
     if (WHITE_RGB.some((rgb, i) => rgb !== pxColor[i])) {
       if (isNewCicle || !this._colorPoints.find(point => point[0] === x && point[1] === y)) {
         this._colorPoints.push([x, y, pxColor[0], pxColor[1]]);

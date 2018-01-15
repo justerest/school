@@ -1,4 +1,4 @@
-export class Level {
+export class GameSpeed {
 
   value = 1;
 

@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -6,7 +6,6 @@ import { DomSanitizer } from '@angular/platform-browser';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent {
 

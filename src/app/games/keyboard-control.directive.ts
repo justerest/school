@@ -17,6 +17,7 @@ export class KeyboardControlDirective {
   onKeyDown(event: KeyboardEvent) {
     this._controlObserver(event);
   }
+
   @HostListener('keyup', ['$event'])
   onKeyUp(event: KeyboardEvent) {
     this._controlObserver(event);
