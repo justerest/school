@@ -1,5 +1,4 @@
 import { Figure } from './figure';
-
 import { Level } from './level';
 import { randomInt } from 'app/shared/utils/random-int';
 

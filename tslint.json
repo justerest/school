@@ -10,7 +10,10 @@
       true,
       "check-space"
     ],
-    "curly": [true, "ignore-same-line"],
+    "curly": [
+      true,
+      "ignore-same-line"
+    ],
     "deprecation": {
       "severity": "warn"
     },
@@ -86,10 +89,13 @@
       true,
       "always"
     ],
-    "trailing-comma": [true, {
-      "multiline": "always",
-      "singleline": "never"
-    }],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "always",
+        "singleline": "never"
+      }
+    ],
     "triple-equals": [
       true,
       "allow-null-check"

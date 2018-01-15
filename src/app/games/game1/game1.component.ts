@@ -1,15 +1,17 @@
-import { Component, OnInit, ElementRef, ViewEncapsulation } from '@angular/core';
-import swal from 'sweetalert2';
-
 import { KeyboardControlService } from '../keyboard-control.service';
-
 import { CicleImage } from '../models/cicle-image';
 import { DrawedImage } from '../models/drawed-image';
 import { Level } from '../models/level';
-
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import { getImage } from 'app/shared/utils/get-image';
 import { randomInt } from 'app/shared/utils/random-int';
 import { toInt } from 'app/shared/utils/to-int';
+import swal from 'sweetalert2';
 
 const ACCELERATION_MAX = 8;
 const ACCELERATION_VALUE = 0.5;
