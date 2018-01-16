@@ -1,6 +1,6 @@
-import { Directive, HostListener, Output, EventEmitter } from '@angular/core';
+import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
 
-import { KeyboardControlService, isControlledKey } from './keyboard-control.service';
+import { KeyboardControlService, isInKeyCodes } from './keyboard-control.service';
 
 @Directive({
   selector: '[appKeyboardControl]',
@@ -14,17 +14,9 @@ export class KeyboardControlDirective {
   ) { }
 
   @HostListener('keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent) {
-    this._controlObserver(event);
-  }
-
   @HostListener('keyup', ['$event'])
-  onKeyUp(event: KeyboardEvent) {
-    this._controlObserver(event);
-  }
-
-  private _controlObserver(event: KeyboardEvent) {
-    if (isControlledKey(event.keyCode)) {
+  controlObserver(event: KeyboardEvent) {
+    if (isInKeyCodes(event.keyCode)) {
       event.preventDefault();
       this.kcKeypress.emit();
     }

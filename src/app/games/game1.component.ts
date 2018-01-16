@@ -1,16 +1,15 @@
+import { environment } from 'environments/environment';
+import swal from 'sweetalert2';
+import { randomInt } from 'utils/random-int';
+import { toInt } from 'utils/to-int';
+
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+
+import { getImage } from '../shared/get-image';
 import { KeyboardControlService } from './keyboard-control.service';
 import { CicleImage } from './models/cicle-image';
 import { DrawedImage } from './models/drawed-image';
 import { GameSpeed } from './models/game-speed';
-import {
-  Component,
-  ElementRef,
-  OnInit,
-} from '@angular/core';
-import { getImage } from 'app/shared/utils/get-image';
-import { randomInt } from 'app/shared/utils/random-int';
-import { toInt } from 'app/shared/utils/to-int';
-import swal from 'sweetalert2';
 
 /** Максимальное ускорение героя. */
 const ACCELERATION_MAX = 8;
@@ -30,11 +29,9 @@ const STARS_LENGTH = 30;
   templateUrl: './game1.component.html',
   styleUrls: ['./game1.component.scss'],
 })
-export class Game1Component implements OnInit {
+export class Game1Component implements AfterViewInit {
 
-  /** @deprecated */
-  canvas: HTMLCanvasElement;
-
+  @ViewChild('canvas') canvas: ElementRef;
   ctx: CanvasRenderingContext2D;
 
   /** Герой */
@@ -57,20 +54,19 @@ export class Game1Component implements OnInit {
   pause = true;
 
   constructor(
-    /** @todo Переделать хук */
-    private el: ElementRef,
     private control: KeyboardControlService,
   ) { }
 
-  async ngOnInit() {
-    this.ctx = this.el.nativeElement.querySelector('canvas').getContext('2d');
+  async ngAfterViewInit() {
+    this.ctx = this.canvas.nativeElement.getContext('2d');
 
     this.ctx.imageSmoothingEnabled = true;
 
+    const absolutePath = environment.production ? '/school/' : '/';
     [this.barrierImage, this.heroImage, this.starImage] = await Promise.all([
-      getImage('/school/assets/ice.png'),
-      getImage('/school/assets/iron-man.png'),
-      getImage('/school/assets/star.png'),
+      getImage(absolutePath + 'assets/ice.png'),
+      getImage(absolutePath + 'assets/iron-man.png'),
+      getImage(absolutePath + 'assets/star.png'),
     ]);
 
     this.initGame();
@@ -90,7 +86,8 @@ export class Game1Component implements OnInit {
     this.barriers = [];
     this.stars = [];
 
-    const { canvas, ctx } = this;
+    const { ctx } = this;
+    const { canvas } = ctx;
 
     const barrierWidth = canvas.width / BARRIERS_LENGTH;
     for (let i = 0; i < BARRIERS_LENGTH; i++) {
@@ -179,16 +176,17 @@ export class Game1Component implements OnInit {
 
     const isAcceleration = (
       (control.dx || control.dy) &&
-      control.speed - this.gameSpeed.value < ACCELERATION_MAX
+      control.touchAcceleration - this.gameSpeed.value < ACCELERATION_MAX
     );
-    if (isAcceleration) control.speed += ACCELERATION_STEP;
+    if (isAcceleration) control.touchAcceleration += ACCELERATION_STEP;
 
     this.gameSpeed.up();
     requestAnimationFrame(() => this.startGame());
   }
 
   drawInterface() {
-    const { canvas, ctx } = this;
+    const { ctx } = this;
+    const { canvas } = ctx;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -205,7 +203,8 @@ export class Game1Component implements OnInit {
     const TITLE = 'PAUSE';
     const TEXT = 'PRESS ENTER TO ' + (this.score ? 'CONTINUE' : 'START');
 
-    const { canvas, ctx } = this;
+    const { ctx } = this;
+    const { canvas } = ctx;
 
     ctx.clearRect(canvas.width - 110, canvas.height - 30, 100, 30);
     ctx.fillStyle = '#fff';

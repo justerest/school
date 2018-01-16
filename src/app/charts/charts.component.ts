@@ -1,11 +1,7 @@
-import { ChartsService } from './charts.service';
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+
+import { ChartsService } from './charts.service';
 
 @Component({
   selector: 'app-charts.charts',
@@ -23,10 +19,10 @@ export class ChartsComponent implements AfterViewInit {
   paramB = new FormControl(-1);
 
   get formula() {
-    const a = parseFloat(this.paramA.value);
-    const b = parseFloat(this.paramB.value);
+    const a = parseFloat(this.paramA.value) || 0;
+    const b = parseFloat(this.paramB.value) || 0;
 
-    return 'y = ' + `${!isNaN(a) ? a : 0}x ${!isNaN(b) ? b : 0}`
+    return 'y = ' + `${a}x ${b}`
       .replace(/^0x\s/, '')
       .replace(/[0-9|.]+/g, ' $&')
       .replace(/x\s\s/g, 'x + ')

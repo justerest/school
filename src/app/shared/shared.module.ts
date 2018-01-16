@@ -5,7 +5,7 @@ import {
   MatCardModule,
   MatIconModule,
   MatInputModule,
-  MatListModule,
+  MatListModule
 } from '@angular/material';
 
 @NgModule({
