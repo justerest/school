@@ -1,5 +1,6 @@
-import { Figure } from './figure';
 import { randomInt } from 'utils/random-int';
+
+import { Figure } from './figure.model';
 
 const WHITE_RGB = [255, 255, 255]; // IDEA: also check pixels on an another color background
 const POINTS_FOR_CHECK = 4;

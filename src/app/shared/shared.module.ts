@@ -8,6 +8,8 @@ import {
   MatListModule
 } from '@angular/material';
 
+import { ImagesLoaderService } from './images-loader.service';
+
 @NgModule({
   imports: [
     MatButtonModule,
@@ -25,5 +27,6 @@ import {
     MatListModule,
     ReactiveFormsModule,
   ],
+  providers: [ImagesLoaderService],
 })
 export class SharedModule { }

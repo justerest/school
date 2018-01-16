@@ -1,15 +1,14 @@
-import { environment } from 'environments/environment';
 import swal from 'sweetalert2';
 import { randomInt } from 'utils/random-int';
 import { toInt } from 'utils/to-int';
 
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 
-import { getImage } from '../shared/get-image';
+import { ImagesLoaderService } from '../shared/images-loader.service';
 import { KeyboardControlService } from './keyboard-control.service';
-import { CicleImage } from './models/cicle-image';
-import { DrawedImage } from './models/drawed-image';
-import { GameSpeed } from './models/game-speed';
+import { CicleImage } from './models/cicle-image.model';
+import { DrawedImage } from './models/drawed-image.model';
+import { GameSpeed } from './models/game-speed.model';
 
 /** Максимальное ускорение героя. */
 const ACCELERATION_MAX = 8;
@@ -43,31 +42,24 @@ export class Game1Component implements AfterViewInit {
   /** Массив с бонусами */
   stars: CicleImage[];
 
-  barrierImage: HTMLImageElement;
-  heroImage: HTMLImageElement;
-  starImage: HTMLImageElement;
-
   gameSpeed: GameSpeed;
+
   score: number;
 
   bestScore = localStorage.getItem('game-1.best-score') || '';
+
   pause = true;
 
   constructor(
     private control: KeyboardControlService,
+    private images: ImagesLoaderService,
   ) { }
 
   async ngAfterViewInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
-
     this.ctx.imageSmoothingEnabled = true;
 
-    const absolutePath = environment.production ? '/school/' : '/';
-    [this.barrierImage, this.heroImage, this.starImage] = await Promise.all([
-      getImage(absolutePath + 'assets/ice.png'),
-      getImage(absolutePath + 'assets/iron-man.png'),
-      getImage(absolutePath + 'assets/star.png'),
-    ]);
+    await this.images.ready();
 
     this.initGame();
   }
@@ -93,11 +85,11 @@ export class Game1Component implements AfterViewInit {
     for (let i = 0; i < BARRIERS_LENGTH; i++) {
       const barrier = new CicleImage({
         ctx,
-        image: this.barrierImage,
+        image: this.images.get('ice'),
         globalSpeed: this.gameSpeed,
       });
 
-      const x0 = barrierWidth * i + (barrierWidth - this.barrierImage.width) / 2;
+      const x0 = barrierWidth * i + (barrierWidth - this.images.get('ice').width) / 2;
       barrier.move(x0, -randomInt(120, canvas.height));
 
       this.barriers.push(barrier);
@@ -106,7 +98,7 @@ export class Game1Component implements AfterViewInit {
     for (let i = 0; i < STARS_LENGTH; i++) {
       const star = new CicleImage({
         ctx,
-        image: this.starImage,
+        image: this.images.get('star'),
         spritesCount: 3,
         intermediate: true,
         globalSpeed: this.gameSpeed,
@@ -120,11 +112,11 @@ export class Game1Component implements AfterViewInit {
 
     this.hero = new DrawedImage({
       ctx,
-      image: this.heroImage,
+      image: this.images.get('ironMan'),
       destroyable: true,
     });
     this.hero
-      .move((canvas.width - this.heroImage.width) / 2, canvas.height - 100)
+      .move((canvas.width - this.images.get('ironMan').width) / 2, canvas.height - 100)
       .draw();
 
     canvas.focus();

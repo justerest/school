@@ -7,8 +7,11 @@ export class Figure {
     [50, 150],
     [50, 0],
   ];
+
   fillStyle = '#ccedff';
+
   lineWidth = 3;
+
   strokeStyle = '#123';
 
   constructor(params: Params<Figure, 'ctx'>) {

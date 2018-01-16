@@ -1,6 +1,7 @@
-import { DrawedImage } from './drawed-image';
-import { GameSpeed } from './game-speed';
 import { randomInt } from 'utils/random-int';
+
+import { DrawedImage } from './drawed-image.model';
+import { GameSpeed } from './game-speed.model';
 
 export class CicleImage extends DrawedImage {
 
