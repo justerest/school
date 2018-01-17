@@ -14,7 +14,7 @@ export class ChartsService {
   /** Размер одной клетки */
   cellSize = 50;
 
-  /** Количество клеток для 1. */
+  /** Количество клеток для 1 */
   scale = 2;
 
   constructor() { }

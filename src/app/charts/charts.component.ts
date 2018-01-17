@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { ChartsService } from './charts.service';
+import { randomInt } from 'utils/random-int';
 
 @Component({
   selector: 'app-charts.charts',
@@ -15,8 +16,9 @@ export class ChartsComponent implements AfterViewInit {
 
   canvasSize = 600;
 
-  paramA = new FormControl(2);
-  paramB = new FormControl(-1);
+  paramA = new FormControl(randomInt(-3, 3) || 1);
+  paramB = new FormControl(randomInt(-3, 3));
+  paramC = new FormControl(randomInt(-3, 3));
 
   get formula() {
     const a = parseFloat(this.paramA.value) || 0;
@@ -59,8 +61,8 @@ export class ChartsComponent implements AfterViewInit {
   drawFunction() {
     const { ctx } = this;
     const { width, height } = ctx.canvas;
-    const { paramA, paramB } = this;
-    const { cellSize, COLORS } = this.service;
+    const { COLORS } = this.service;
+    const range = width / 2;
 
     ctx.clearRect(0, 0, width, height);
     ctx.lineWidth = 1;
@@ -70,12 +72,21 @@ export class ChartsComponent implements AfterViewInit {
     ctx.translate(width / 2, -height / 2);
 
     ctx.beginPath();
-    ctx.moveTo(-width, height + width * paramA.value - paramB.value * cellSize);
-    ctx.lineTo(width, height - width * paramA.value - paramB.value * cellSize);
-    ctx.closePath();
+    for (let x = -range; x < range; x++) {
+      ctx.lineTo(x, height - this._paraboleFunction(x));
+    }
     ctx.stroke();
 
     ctx.restore();
   }
 
+  private _linearFunction(x: number) {
+    return x * this.paramA.value + this.paramB.value * this.service.cellSize;
+  }
+
+  private _paraboleFunction(x: number) {
+    return Math.pow(x, 2) * this.paramA.value / this.service.cellSize + this.paramB.value * x;
+  }
+
 }
+

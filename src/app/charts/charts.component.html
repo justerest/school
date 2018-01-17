@@ -15,8 +15,14 @@
       <br>
 
       <mat-card class="p0">
-        <canvas appChartsBackground class="charts__background-canvas" [width]="canvasSize" [height]="canvasSize"></canvas>
-        <canvas #canvas class="charts__canvas" [width]="canvasSize" [height]="canvasSize"></canvas>
+        <canvas appChartsBackground
+                class="charts__background-canvas"
+                [width]="canvasSize"
+                [height]="canvasSize"></canvas>
+        <canvas #canvas
+                class="charts__canvas"
+                [width]="canvasSize"
+                [height]="canvasSize"></canvas>
       </mat-card>
 
     </div>
@@ -43,15 +49,23 @@
       <mat-card-title>
         <mat-form-field>
           <span matPrefix>a = &nbsp;</span>
-          <input matInput tabindex="1" type="number" [formControl]="paramA" (input)="drawFunction()">
+          <input matInput
+                 tabindex="1"
+                 type="number"
+                 [formControl]="paramA"
+                 (input)="drawFunction()">
         </mat-form-field>
       </mat-card-title>
       <mat-card-actions>
-        <button mat-raised-button color="accent" (click)="incrementParamA()">
+        <button mat-raised-button
+                color="accent"
+                (click)="incrementParamA()">
           <mat-icon svgIcon="rotate-left"></mat-icon>
           + 0.5
         </button>
-        <button mat-raised-button color="accent" (click)="decrementParamA()">
+        <button mat-raised-button
+                color="accent"
+                (click)="decrementParamA()">
           <mat-icon svgIcon="rotate-right"></mat-icon>
           - 0.5
         </button>
@@ -67,15 +81,23 @@
       <mat-card-title>
         <mat-form-field>
           <span matPrefix>b = &nbsp;</span>
-          <input matInput tabindex="2" type="number" [formControl]="paramB" (input)="drawFunction()">
+          <input matInput
+                 tabindex="2"
+                 type="number"
+                 [formControl]="paramB"
+                 (input)="drawFunction()">
         </mat-form-field>
       </mat-card-title>
       <mat-card-actions>
-        <button mat-raised-button color="accent" (click)="incrementParamB()">
+        <button mat-raised-button
+                color="accent"
+                (click)="incrementParamB()">
           <mat-icon svgIcon="up"></mat-icon>
           + 0.5
         </button>
-        <button mat-raised-button color="accent" (click)="decrementParamB()">
+        <button mat-raised-button
+                color="accent"
+                (click)="decrementParamB()">
           <mat-icon svgIcon="down"></mat-icon>
           - 0.5
         </button>
