@@ -130,12 +130,12 @@ export class Game1Component implements AfterViewInit {
     }
     this.drawInterface();
 
-    const { ctx: { canvas }, hero, stars, barriers, control } = this;
+    const { ctx: { canvas }, control } = this;
 
     this.score++;
 
-    stars.forEach(star => {
-      if (hero.isCrosses(star)) {
+    this.stars.forEach(star => {
+      if (this.hero.isCrosses(star)) {
         this.score += 200;
         star
           .move(0, canvas.height - star.points[0][1])
@@ -144,11 +144,11 @@ export class Game1Component implements AfterViewInit {
       else star.move().draw();
     });
 
-    hero.move(control.dx, control.dy).draw();
+    this.hero.move(control.dx, control.dy).draw();
 
-    barriers.forEach(barrier => barrier.move().draw());
+    this.barriers.forEach(barrier => barrier.move().draw());
 
-    if (hero.isDestroyed) {
+    if (this.hero.isDestroyed) {
       const isOK: { value: boolean } = await swal({
         type: 'warning',
         title: 'GAME OVER!',
