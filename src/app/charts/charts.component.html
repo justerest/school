@@ -1,8 +1,7 @@
 <div class="row">
 
-  <div>
+  <section>
     <div class="col-12">
-
       <mat-card>
         <mat-card-subtitle>
           Функция
@@ -12,7 +11,7 @@
         </mat-card-title>
       </mat-card>
 
-      <br>
+      <div class="space"></div>
 
       <mat-card class="p0">
         <canvas appChartsBackground
@@ -24,87 +23,75 @@
                 [width]="canvasSize"
                 [height]="canvasSize"></canvas>
       </mat-card>
-
     </div>
-    <br>
-  </div>
+    <div class="space"></div>
+  </section>
 
   <div class="col">
-
     <mat-card>
       <mat-card-subtitle>
         Уравнение в общем виде
       </mat-card-subtitle>
       <mat-card-title>
-        y = ax + b
-      </mat-card-title>
-    </mat-card>
-
-    <br>
-
-    <mat-card>
-      <mat-card-subtitle>
-        Коэффициент наклона
-      </mat-card-subtitle>
-      <mat-card-title>
-        <mat-form-field>
-          <span matPrefix>a = &nbsp;</span>
-          <input matInput
-                 tabindex="1"
-                 type="number"
-                 [formControl]="paramA"
-                 (input)="drawFunction()">
+        <mat-form-field class="charts__select">
+          <mat-select class="charts__select"
+                      [(value)]="functionType"
+                      (change)="drawFunction()">
+            <mat-option value="linear">y = ax + b</mat-option>
+            <mat-option value="parabole">y = ax&#178; + bx + c</mat-option>
+          </mat-select>
         </mat-form-field>
       </mat-card-title>
-      <mat-card-actions>
-        <button mat-raised-button
-                color="accent"
-                (click)="incrementParamA()">
-          <mat-icon svgIcon="rotate-left"></mat-icon>
-          + 0.5
-        </button>
-        <button mat-raised-button
-                color="accent"
-                (click)="decrementParamA()">
-          <mat-icon svgIcon="rotate-right"></mat-icon>
-          - 0.5
-        </button>
-      </mat-card-actions>
     </mat-card>
 
-    <br>
+    <div class="space"></div>
 
-    <mat-card>
-      <mat-card-subtitle>
-        Смещение
-      </mat-card-subtitle>
-      <mat-card-title>
-        <mat-form-field>
-          <span matPrefix>b = &nbsp;</span>
-          <input matInput
-                 tabindex="2"
-                 type="number"
-                 [formControl]="paramB"
-                 (input)="drawFunction()">
-        </mat-form-field>
-      </mat-card-title>
-      <mat-card-actions>
-        <button mat-raised-button
-                color="accent"
-                (click)="incrementParamB()">
-          <mat-icon svgIcon="up"></mat-icon>
-          + 0.5
-        </button>
-        <button mat-raised-button
-                color="accent"
-                (click)="decrementParamB()">
-          <mat-icon svgIcon="down"></mat-icon>
-          - 0.5
-        </button>
-      </mat-card-actions>
-    </mat-card>
+    <ng-container #linearTemplate
+                  *ngIf="functionType === 'linear'; else paraboleTemplate">
+      <app-param paramName="a"
+                 subtitle="Коэффициент наклона"
+                 [incrementValue]="incrementValue"
+                 iconLeft="rotate-left"
+                 iconRight="rotate-right"
+                 [(param)]="paramA"
+                 (paramChange)="drawFunction()"></app-param>
+      <div class="space"></div>
+      <app-param paramName="b"
+                 subtitle="Вертикальное cмещение"
+                 [incrementValue]="incrementValue"
+                 iconLeft="up"
+                 iconRight="down"
+                 [(param)]="paramB"
+                 (paramChange)="drawFunction()"></app-param>
+      <div class="space"></div>
+    </ng-container>
+
+    <ng-template #paraboleTemplate>
+      <app-param paramName="a"
+                 subtitle="Коэффициент вогнутости/выпуклости"
+                 [incrementValue]="incrementValue"
+                 iconLeft="rotate-left"
+                 iconRight="rotate-right"
+                 [(param)]="paramA"
+                 (paramChange)="drawFunction()"></app-param>
+      <div class="space"></div>
+      <app-param paramName="b"
+                 subtitle="Горизонтальное смещение (влияет и на вертикальное)"
+                 [incrementValue]="incrementValue"
+                 iconLeft="rotate-left"
+                 iconRight="rotate-right"
+                 [(param)]="paramB"
+                 (paramChange)="drawFunction()"></app-param>
+      <div class="space"></div>
+      <app-param paramName="c"
+                 subtitle="Вертикальное смещение"
+                 [incrementValue]="incrementValue"
+                 iconLeft="up"
+                 iconRight="down"
+                 [(param)]="paramC"
+                 (paramChange)="drawFunction()"></app-param>
+    </ng-template>
 
   </div>
-
 </div>
-<br>
+<div class="space"></div>

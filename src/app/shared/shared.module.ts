@@ -1,31 +1,37 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import {
   MatButtonModule,
   MatCardModule,
   MatIconModule,
   MatInputModule,
-  MatListModule
+  MatListModule,
+  MatSelectModule
 } from '@angular/material';
 
 import { ImagesLoaderService } from './images-loader.service';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [
+    CommonModule,
+    FormsModule,
     MatButtonModule,
     MatCardModule,
     MatIconModule,
     MatInputModule,
     MatListModule,
-    ReactiveFormsModule,
+    MatSelectModule,
   ],
   exports: [
+    CommonModule,
+    FormsModule,
     MatButtonModule,
     MatCardModule,
     MatIconModule,
     MatInputModule,
     MatListModule,
-    ReactiveFormsModule,
+    MatSelectModule,
   ],
   providers: [ImagesLoaderService],
 })

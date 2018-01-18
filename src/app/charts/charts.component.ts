@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
-
-import { ChartsService } from './charts.service';
 import { randomInt } from 'utils/random-int';
 
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+
+import { ChartsService } from './charts.service';
+
 @Component({
-  selector: 'app-charts.charts',
+  selector: 'app-charts',
   templateUrl: './charts.component.html',
   styleUrls: ['./charts.component.scss'],
 })
@@ -15,14 +15,21 @@ export class ChartsComponent implements AfterViewInit {
   ctx: CanvasRenderingContext2D;
 
   canvasSize = 600;
+  incrementValue = 0.5;
 
-  paramA = new FormControl(randomInt(-3, 3) || 1);
-  paramB = new FormControl(randomInt(-3, 3));
-  paramC = new FormControl(randomInt(-3, 3));
+  functionType: ('linear' | 'parabole') = 'linear';
+
+  paramA = randomInt(-3, 3) || 1;
+  paramB = randomInt(-3, 3);
+  paramC = randomInt(-3, 3);
 
   get formula() {
-    const a = parseFloat(this.paramA.value) || 0;
-    const b = parseFloat(this.paramB.value) || 0;
+    const a = this.functionType === 'linear'
+      ? this.paramA || 0
+      : this.paramB || 0;
+    const b = this.functionType === 'linear'
+      ? this.paramB || 0
+      : this.paramC || 0;
 
     return 'y = ' + `${a}x ${b}`
       .replace(/^0x\s/, '')
@@ -41,23 +48,6 @@ export class ChartsComponent implements AfterViewInit {
     this.drawFunction();
   }
 
-  incrementParamA() {
-    this.paramA.setValue(this.paramA.value + 0.5);
-    this.drawFunction();
-  }
-  decrementParamA() {
-    this.paramA.setValue(this.paramA.value - 0.5);
-    this.drawFunction();
-  }
-  incrementParamB() {
-    this.paramB.setValue(this.paramB.value + 0.5);
-    this.drawFunction();
-  }
-  decrementParamB() {
-    this.paramB.setValue(this.paramB.value - 0.5);
-    this.drawFunction();
-  }
-
   drawFunction() {
     const { ctx } = this;
     const { width, height } = ctx.canvas;
@@ -65,7 +55,7 @@ export class ChartsComponent implements AfterViewInit {
     const range = width / 2;
 
     ctx.clearRect(0, 0, width, height);
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 2;
     ctx.strokeStyle = COLORS.pencil;
 
     ctx.save();
@@ -73,19 +63,21 @@ export class ChartsComponent implements AfterViewInit {
 
     ctx.beginPath();
     for (let x = -range; x < range; x++) {
-      ctx.lineTo(x, height - this._paraboleFunction(x));
+      ctx.lineTo(x, height - this[this.functionType](x));
     }
     ctx.stroke();
 
     ctx.restore();
   }
 
-  private _linearFunction(x: number) {
-    return x * this.paramA.value + this.paramB.value * this.service.cellSize;
+  linear(x: number) {
+    return x * this.paramA + this.paramB * this.service.cellSize;
   }
 
-  private _paraboleFunction(x: number) {
-    return Math.pow(x, 2) * this.paramA.value / this.service.cellSize + this.paramB.value * x;
+  parabole(x: number) {
+    const { cellSize } = this.service;
+
+    return Math.pow(x, 2) * this.paramA / cellSize + this.paramB * x + this.paramC * cellSize;
   }
 
 }

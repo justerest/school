@@ -1,0 +1,29 @@
+<mat-card>
+  <mat-card-subtitle>
+    {{subtitle}}
+  </mat-card-subtitle>
+  <mat-card-title>
+    <mat-form-field>
+      <span matPrefix>{{paramName}} = &nbsp;</span>
+      <input matInput
+             tabindex="1"
+             type="number"
+             [(ngModel)]="param"
+             (input)="paramChange.emit(param)">
+    </mat-form-field>
+  </mat-card-title>
+  <mat-card-actions>
+    <button mat-raised-button
+            color="accent"
+            (click)="incrementParam()">
+      <mat-icon [svgIcon]="iconLeft"></mat-icon>
+      + {{incrementValue}}
+    </button>
+    <button mat-raised-button
+            color="accent"
+            (click)="decrementParam()">
+      <mat-icon [svgIcon]="iconRight"></mat-icon>
+      - {{incrementValue}}
+    </button>
+  </mat-card-actions>
+</mat-card>
