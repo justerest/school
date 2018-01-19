@@ -1,28 +1,27 @@
 <div class="row">
 
-  <section>
-    <div class="col-12">
-      <mat-card>
-        <mat-card-title [innerHTML]="formula"></mat-card-title>
-      </mat-card>
+  <section class="charts__canvas-container">
+    <mat-card>
+      <mat-card-title [innerHTML]="formula"></mat-card-title>
+    </mat-card>
 
-      <div class="space"></div>
+    <div class="space"></div>
 
-      <mat-card class="p0">
-        <canvas appChartsBackground
-                class="charts__background-canvas"
-                [width]="canvasSize"
-                [height]="canvasSize"></canvas>
-        <canvas #canvas
-                class="charts__canvas"
-                [width]="canvasSize"
-                [height]="canvasSize"></canvas>
-      </mat-card>
-    </div>
+    <mat-card class="p0">
+      <canvas appChartsBackground
+              class="charts__background-canvas"
+              [width]="canvasSize"
+              [height]="canvasSize"></canvas>
+      <canvas #canvas
+              class="charts__canvas"
+              [width]="canvasSize"
+              [height]="canvasSize"></canvas>
+    </mat-card>
     <div class="space"></div>
   </section>
 
-  <div class="col">
+  <div class="col p0">
+
     <mat-card>
       <mat-card-subtitle>
         Уравнение в общем виде

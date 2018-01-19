@@ -1,4 +1,6 @@
-@import "~_variables.scss";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins/breakpoints";
 .charts {
   &__background-canvas,
   &__canvas {
@@ -6,6 +8,11 @@
     top: 0;
     left: 0;
     max-width: 100%;
+  }
+  &__canvas-container {
+    @include media-breakpoint-up(md) {
+      margin-right: 15px;
+    }
   }
   &__canvas {
     margin-bottom: -7px!important;
