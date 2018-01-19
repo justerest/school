@@ -28,6 +28,7 @@ export class AppComponent {
       .addSvgIcon('rotate-left', getSafeURL('./assets/icons/ic_rotate_left_48px.svg'))
       .addSvgIcon('rotate-right', getSafeURL('./assets/icons/ic_rotate_right_48px.svg'))
       .addSvgIcon('more-horiz', getSafeURL('./assets/icons/ic_more_horiz_48px.svg'))
+      .addSvgIcon('more-vert', getSafeURL('./assets/icons/ic_more_vert_48px.svg'))
       .addSvgIcon('play', getSafeURL('./assets/icons/ic_play_arrow_48px.svg'))
       .addSvgIcon('game', getSafeURL('./assets/icons/ic_games_48px.svg'));
 

@@ -18,20 +18,22 @@ export class ChartsComponent implements AfterViewInit {
 
   functionType: ('linear' | 'parabole') = 'linear';
 
-  /** x^2 */
+  /** `k`x^2 */
   power2 = randomInt(-3, 3) || 1;
-  /** x */
+  /** `k`x */
   power1 = randomInt(-3, 3) || 1;
-  /** c */
+  /** `c` */
   power0 = randomInt(-3, 3) || 1;
 
   get formula() {
-    const a = this.functionType === 'parabole' ? this.power2 : 0;
+    const a = this.functionType === 'parabole' ? this.power2 || 0 : 0;
+    const b = this.power1 || 0;
+    const c = this.power0 || 0;
 
-    return 'y = ' + `${a}x<sup>2</sup> + ${this.power1}x + ${this.power0}`
-      .replace('+ -', '- ')
-      .replace(/(.\s)?0x?(<sup>2<\/sup>)?\s?/g, '')
-      .replace(/1x/g, 'x')
+    return 'y = ' + `${a}x<sup>2</sup> + ${b}x + ${c}`
+      .replace(/(^|\+\s)-/g, '- ')
+      .replace(/(^|\+\s)0(x|$)(<sup>2<\/sup>)?\s?/g, '')
+      .replace(/(^|\s)1x/g, ' x')
       .replace(/^\+\s/, '')
       .replace(/^$/, '0');
   }
@@ -48,12 +50,11 @@ export class ChartsComponent implements AfterViewInit {
   drawFunction() {
     const { ctx } = this;
     const { width, height } = ctx.canvas;
-    const { COLORS } = this.service;
     const range = width / 2;
 
     ctx.clearRect(0, 0, width, height);
     ctx.lineWidth = 2;
-    ctx.strokeStyle = COLORS.pencil;
+    ctx.strokeStyle = this.service.COLORS.pencil;
 
     ctx.save();
     ctx.translate(width / 2, -height / 2);
