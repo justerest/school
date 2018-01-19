@@ -9,12 +9,13 @@ export class ParamComponent implements OnInit {
 
   @Input() paramName: string;
   @Input() subtitle: string;
-  @Input() incrementValue: number;
   @Input() iconLeft: string;
   @Input() iconRight: string;
 
   @Input() param: number;
   @Output() paramChange = new EventEmitter<number>();
+
+  incrementValue = 0.5;
 
   constructor() { }
 

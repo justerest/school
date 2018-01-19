@@ -15,28 +15,25 @@ export class ChartsComponent implements AfterViewInit {
   ctx: CanvasRenderingContext2D;
 
   canvasSize = 600;
-  incrementValue = 0.5;
 
   functionType: ('linear' | 'parabole') = 'linear';
 
-  paramA = randomInt(-3, 3) || 1;
-  paramB = randomInt(-3, 3);
-  paramC = randomInt(-3, 3);
+  /** x^2 */
+  power2 = randomInt(-3, 3) || 1;
+  /** x */
+  power1 = randomInt(-3, 3) || 1;
+  /** c */
+  power0 = randomInt(-3, 3) || 1;
 
   get formula() {
-    const a = this.functionType === 'linear'
-      ? this.paramA || 0
-      : this.paramB || 0;
-    const b = this.functionType === 'linear'
-      ? this.paramB || 0
-      : this.paramC || 0;
+    const a = this.functionType === 'parabole' ? this.power2 : 0;
 
-    return 'y = ' + `${a}x ${b}`
-      .replace(/^0x\s/, '')
-      .replace(/[0-9|.]+/g, ' $&')
-      .replace(/x\s\s/g, 'x + ')
-      .replace(/\s\+\s0$/g, '')
-      .replace(/\s1x/g, ' x');
+    return 'y = ' + `${a}x<sup>2</sup> + ${this.power1}x + ${this.power0}`
+      .replace('+ -', '- ')
+      .replace(/(.\s)?0x?(<sup>2<\/sup>)?\s?/g, '')
+      .replace(/1x/g, 'x')
+      .replace(/^\+\s/, '')
+      .replace(/^$/, '0');
   }
 
   constructor(
@@ -71,13 +68,13 @@ export class ChartsComponent implements AfterViewInit {
   }
 
   linear(x: number) {
-    return x * this.paramA + this.paramB * this.service.cellSize;
+    return x * this.power1 + this.power0 * this.service.cellSize;
   }
 
   parabole(x: number) {
     const { cellSize } = this.service;
 
-    return Math.pow(x, 2) * this.paramA / cellSize + this.paramB * x + this.paramC * cellSize;
+    return Math.pow(x, 2) * this.power2 / cellSize + this.power1 * x + this.power0 * cellSize;
   }
 
 }

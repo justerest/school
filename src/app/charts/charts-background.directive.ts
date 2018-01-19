@@ -23,7 +23,7 @@ export class ChartsBackgroundDirective implements AfterViewInit {
   drawCells() {
     const { ctx } = this;
     const { width, height } = ctx.canvas;
-    const CSZ = this.service.cellSize / this.service.scale;
+    const CSZ = this.service.cellSize / 2;
 
     ctx.lineWidth = 0.3;
     ctx.strokeStyle = this.service.COLORS.blue;
@@ -45,7 +45,7 @@ export class ChartsBackgroundDirective implements AfterViewInit {
   drawAxis() {
     const { ctx } = this;
     const { width, height } = ctx.canvas;
-    const CSZ = this.service.cellSize / this.service.scale;
+    const CSZ = this.service.cellSize / 2;
 
     ctx.lineWidth = 0.5;
     ctx.strokeStyle = this.service.COLORS.boldPencil;
