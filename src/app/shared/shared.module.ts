@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
@@ -10,7 +11,6 @@ import {
 } from '@angular/material';
 
 import { ImagesLoaderService } from './images-loader.service';
-import { CommonModule } from '@angular/common';
 
 @NgModule({
   imports: [

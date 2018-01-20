@@ -95,7 +95,7 @@ THE SOFTWARE.
 MIT
 MIT
 
-sweetalert2@7.5.0
+sweetalert2@7.6.0
 MIT
 The MIT License (MIT)
 
