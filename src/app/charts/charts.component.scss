@@ -9,12 +9,12 @@
     left: 0;
     max-width: 100%;
   }
-  &__canvas-container {
+  &__first-col {
     @include media-breakpoint-up(md) {
       margin-right: 15px;
     }
   }
-  &__canvas {
+  &__canvas:last-child {
     margin-bottom: -7px!important;
   }
   &__background-canvas {
@@ -23,18 +23,15 @@
   &__select {
     min-width: 228px;
   }
-}
-
-.mat-card-subtitle {
-  margin-top: -15px!important;
-  margin-bottom: 0;
-}
-
-.mat-form-field {
-  margin-bottom: -20px;
-}
-
-.space {
-  width: 100%;
-  margin: 12px 0;
+  .mat-card-subtitle {
+    margin-top: -15px!important;
+    margin-bottom: 0;
+  }
+  .mat-form-field {
+    margin-bottom: -20px;
+  }
+  .space {
+    width: 100%;
+    margin: 12px 0;
+  }
 }
