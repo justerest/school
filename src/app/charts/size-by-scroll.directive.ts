@@ -15,7 +15,6 @@ export class SizeByScrollDirective implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.initSize = this.el.nativeElement.offsetHeight;
-
     window.addEventListener('scroll', this.listener.bind(this));
   }
 
