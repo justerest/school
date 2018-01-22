@@ -10,7 +10,8 @@
     "assets": [
       "assets",
       "favicons",
-      "manifest.json"
+      "manifest.json",
+      "404.html"
     ],
     "index": "index.html",
     "main": "main.ts",

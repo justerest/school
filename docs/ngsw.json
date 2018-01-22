@@ -7,6 +7,7 @@
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "urls": [
+        "/school/404.html",
         "/school/index.html",
         "/school/assets/icons/ic_arrow_downward_48px.svg",
         "/school/assets/icons/ic_arrow_upward_48px.svg",
@@ -30,6 +31,7 @@
     "/school/main.5b0b21df717341b3768a.bundle.js": "c7e30004f33b3915afeed5d23878fd6bfae0b0ea",
     "/school/polyfills.f20484b2fa4642e0dca8.bundle.js": "1973e2201185e6b94ecc056c0d12c75955a96283",
     "/school/styles.1866ee57ea2b0810dc1d.bundle.css": "8629ebd56ef447771fcb17a8ac85a6e404fe4678",
+    "/school/404.html": "4478f7627dd6e0dc8e682360c8875cd42d475d53",
     "/school/index.html": "4478f7627dd6e0dc8e682360c8875cd42d475d53",
     "/school/assets/icons/ic_arrow_downward_48px.svg": "0e7b3fee6a5574c1a3b68b88c9cd8167d7d7567f",
     "/school/assets/icons/ic_arrow_upward_48px.svg": "e20325d1b87e6bb170874b480b20bb1f6781f96d",

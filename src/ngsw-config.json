@@ -6,7 +6,6 @@
     "resources": {
       "files": [
         "/assets/icons/**",
-        "/favicon.ico",
         "/index.html",
         "/404.html"
       ],
