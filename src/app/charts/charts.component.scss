@@ -23,8 +23,8 @@
     }
   }
   &__canvas-container {
-    padding: 0;
-    transition: all .1s;
+    padding: 0!important;
+    transition: all .1s!important;
   }
   &__canvas {
     margin-bottom: -7px!important;

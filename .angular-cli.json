@@ -17,7 +17,10 @@
     "tsconfig": "tsconfig.app.json",
     "testTsconfig": "tsconfig.spec.json",
     "prefix": "app",
-    "styles": ["_styles.scss"],
+    "serviceWorker": true,
+    "styles": [
+      "_styles.scss"
+    ],
     "scripts": [],
     "environmentSource": "environments/environment.ts",
     "environments": {
