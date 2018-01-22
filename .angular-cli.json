@@ -9,7 +9,7 @@
     "deployUrl": "/school/",
     "assets": [
       "assets",
-      "favicon.ico",
+      "favicons",
       "manifest.json"
     ],
     "index": "index.html",
