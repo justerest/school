@@ -1,0 +1,7 @@
+{
+  "name": "Графики",
+  "short_name": "Графики",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/school/charts/"
+}
