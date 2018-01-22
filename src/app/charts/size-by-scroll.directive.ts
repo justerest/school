@@ -1,6 +1,6 @@
 import { Directive, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 
-const MIN_SIZE = 180;
+const MIN_SIZE = 200;
 
 @Directive({
   selector: '[appSizeByScroll]',
@@ -29,16 +29,16 @@ export class SizeByScrollDirective implements AfterViewInit, OnDestroy {
 
   handler() {
     const el: HTMLElement = this.el.nativeElement;
-
-    const scrollTop = window.scrollY - el.offsetTop - 150;
+    const scrollTop = window.scrollY - el.offsetTop - 50;
     const p = scrollTop < this.initSize - MIN_SIZE
-      ? scrollTop / this.initSize
-      : 1 - MIN_SIZE / this.initSize;
+      ? 1 - scrollTop / this.initSize
+      : MIN_SIZE / this.initSize;
+    const d = (0.9 - p) * this.initSize;
 
     if (scrollTop > 0) {
       el.style.opacity = '0.82';
-      el.style.transform = `scale(${1 - p})
-                        translate(${p * 80}%, -${p * 80}%)`;
+      el.style.transform = `scale(${p})
+                            translate(${d}px, -${d}px)`;
     }
     else el.style.transform = el.style.opacity = '';
   }

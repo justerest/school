@@ -20,11 +20,11 @@
       z-index: 10;
       top: -96px;
       margin-right: 0;
+      margin-left: auto;
     }
   }
   &__canvas-container {
     padding: 0!important;
-    transition: all .1s!important;
   }
   &__canvas {
     margin-bottom: -7px!important;
