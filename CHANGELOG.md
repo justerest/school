@@ -1,3 +1,19 @@
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/justerest/school/compare/v1.1.1...v1.2.0) (2018-01-23)
+
+
+### Bug Fixes
+
+* add favicons ([a492efb](https://github.com/justerest/school/commit/a492efb))
+* **charts:** rename a to k in linear function ([c5f43cf](https://github.com/justerest/school/commit/c5f43cf))
+
+
+### Features
+
+* lazy load games ([7ff23c2](https://github.com/justerest/school/commit/7ff23c2))
+
+
+
 <a name="1.1.1"></a>
 ## [1.1.1](https://github.com/justerest/school/compare/v1.1.0...v1.1.1) (2018-01-22)
 
