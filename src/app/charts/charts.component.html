@@ -37,7 +37,7 @@
                         tabindex="1"
                         [(value)]="functionType"
                         (change)="drawFunction()">
-              <mat-option value="linear">y = ax + b</mat-option>
+              <mat-option value="linear">y = kx + b</mat-option>
               <mat-option value="parabole">y = ax&#178; + bx + c</mat-option>
               <mat-option value="hyperbole">y = k/x</mat-option>
             </mat-select>
@@ -48,7 +48,7 @@
       <div class="space"></div>
 
       <ng-container *ngIf="functionType === 'linear'">
-        <app-param paramName="a"
+        <app-param paramName="k"
                    subtitle="Коэффициент наклона"
                    iconLeft="rotate-left"
                    iconRight="rotate-right"
