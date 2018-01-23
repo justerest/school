@@ -10,7 +10,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ChartsModule } from './charts/charts.module';
 import { CoreModule } from './core/core.module';
-import { GamesModule } from './games/games.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +21,6 @@ import { GamesModule } from './games/games.module';
     BrowserModule,
     ChartsModule,
     CoreModule,
-    GamesModule,
     HttpClientModule,
     ServiceWorkerModule.register('/school/ngsw-worker.js', { enabled: environment.production }),
   ],
