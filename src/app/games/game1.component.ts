@@ -1,5 +1,5 @@
 import swal from 'sweetalert2';
-import { randomInt } from 'utils/random-int';
+import { getRandomInt } from 'utils/get-random-int';
 import { toInt } from 'utils/to-int';
 
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
@@ -90,7 +90,7 @@ export class Game1Component implements AfterViewInit {
       });
 
       const x0 = barrierWidth * i + (barrierWidth - this.images.get('ice').width) / 2;
-      barrier.move(x0, -randomInt(120, canvas.height));
+      barrier.move(x0, -getRandomInt(120, canvas.height));
 
       this.barriers.push(barrier);
     }
@@ -104,7 +104,7 @@ export class Game1Component implements AfterViewInit {
         globalSpeed: this.gameSpeed,
       });
 
-      const y0 = -randomInt(120, canvas.height);
+      const y0 = -getRandomInt(120, canvas.height);
       star.move(canvas.width / STARS_LENGTH * i, y0);
 
       this.stars.push(star);
@@ -139,7 +139,7 @@ export class Game1Component implements AfterViewInit {
         this.score += 200;
         star
           .move(0, canvas.height - star.points[0][1])
-          .move(0, - randomInt(120, canvas.height));
+          .move(0, - getRandomInt(120, canvas.height));
       }
       else star.move().draw();
     });

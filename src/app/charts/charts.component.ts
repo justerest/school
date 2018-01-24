@@ -1,4 +1,4 @@
-import { randomInt } from 'utils/random-int';
+import { getRandomInt } from 'utils/get-random-int';
 
 import { AfterViewInit, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
 
@@ -18,16 +18,16 @@ export class ChartsComponent implements AfterViewInit {
 
   canvasSize = 600;
 
-  functionType: SupportedFunction = <SupportedFunction>SupportedFunctions[randomInt(0, 2)];
+  functionType: SupportedFunction = <SupportedFunction>SupportedFunctions[getRandomInt(0, 2)];
 
   /** `k`x^2 */
-  power2 = randomInt(-3, 3) || 1;
+  power2 = getRandomInt(-3, 3) || 1;
   /** `k`x */
-  power1 = randomInt(-3, 3) || 1;
+  power1 = getRandomInt(-3, 3) || 1;
   /** `c` */
-  power0 = randomInt(-3, 3) || 1;
+  power0 = getRandomInt(-3, 3) || 1;
   /** `k`/x */
-  power_1 = randomInt(-3, 3) || 1;
+  power_1 = getRandomInt(-3, 3) || 1;
 
   get formula() {
     let a, b, c, k;

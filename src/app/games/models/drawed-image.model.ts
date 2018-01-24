@@ -1,4 +1,4 @@
-import { randomInt } from 'utils/random-int';
+import { getRandomInt } from 'utils/get-random-int';
 
 import { Figure } from './figure.model';
 
@@ -30,7 +30,7 @@ export class DrawedImage extends Figure {
       [0, 0],
       [imageWidth, imageHeight],
     ];
-    this._spritePos = randomInt(0, spritesCount);
+    this._spritePos = getRandomInt(0, spritesCount - 1);
 
     if (this.destroyable) {
       // REVIEW: auto get all perimeter pixels of the image
