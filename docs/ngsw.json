@@ -17,8 +17,8 @@
         "/school/assets/icons/ic_play_arrow_48px.svg",
         "/school/assets/icons/ic_rotate_left_48px.svg",
         "/school/assets/icons/ic_rotate_right_48px.svg",
-        "/school/inline.4795d500c91c00472e64.bundle.js",
-        "/school/main.9a776b2602b353836c58.bundle.js",
+        "/school/inline.c5e1a47903294638dba0.bundle.js",
+        "/school/main.20e2f68cd33624e38899.bundle.js",
         "/school/polyfills.abdf53ca655716e505e0.bundle.js",
         "/school/styles.1866ee57ea2b0810dc1d.bundle.css"
       ],
@@ -29,20 +29,20 @@
       "installMode": "lazy",
       "updateMode": "lazy",
       "urls": [
-        "/school/0.4f5669f7fb45b10afaa9.chunk.js"
+        "/school/0.765e6cb76f1349d0f38d.chunk.js"
       ],
       "patterns": []
     }
   ],
   "dataGroups": [],
   "hashTable": {
-    "/school/inline.4795d500c91c00472e64.bundle.js": "c3824b1fc06504eafacfc2c276df091191f4e670",
-    "/school/0.4f5669f7fb45b10afaa9.chunk.js": "288dca47c396ddfcfe1722773bfded0b9d74b597",
-    "/school/main.9a776b2602b353836c58.bundle.js": "b95d4ccf525ee9545dfba1534ed6a288fd4a042a",
-    "/school/polyfills.abdf53ca655716e505e0.bundle.js": "ab0d2811797b2af594b591116f226ad278ffced6",
+    "/school/inline.c5e1a47903294638dba0.bundle.js": "c81d84a86bd2274e2758a7413eb8bc6358d218cc",
+    "/school/0.765e6cb76f1349d0f38d.chunk.js": "d92df0d5af1c555af7606868e095a747512a38d1",
+    "/school/main.20e2f68cd33624e38899.bundle.js": "bb65b689b5fe2aec7c15cb23f9be34b41eb69357",
+    "/school/polyfills.abdf53ca655716e505e0.bundle.js": "b838d2e8138f4c1dfbf35e40a68f6819bcc25a48",
     "/school/styles.1866ee57ea2b0810dc1d.bundle.css": "8629ebd56ef447771fcb17a8ac85a6e404fe4678",
-    "/school/404.html": "cb85db41ac106c058f743e703e3e3ba6e578292e",
-    "/school/index.html": "cb85db41ac106c058f743e703e3e3ba6e578292e",
+    "/school/404.html": "96961aa034c98fe80dcedd5f9f210efe6d921856",
+    "/school/index.html": "96961aa034c98fe80dcedd5f9f210efe6d921856",
     "/school/assets/icons/ic_arrow_downward_48px.svg": "0e7b3fee6a5574c1a3b68b88c9cd8167d7d7567f",
     "/school/assets/icons/ic_arrow_upward_48px.svg": "e20325d1b87e6bb170874b480b20bb1f6781f96d",
     "/school/assets/icons/ic_games_48px.svg": "3c49cc6a09cf8c4f28b0538a15c34058387a7c40",
