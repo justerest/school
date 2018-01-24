@@ -1,3 +1,13 @@
+<a name="1.2.1"></a>
+## [1.2.1](https://github.com/justerest/school/compare/v1.2.0...v1.2.1) (2018-01-24)
+
+
+### Bug Fixes
+
+* **charts:** get all numbers from min to max in getRandomInt function ([86512ac](https://github.com/justerest/school/commit/86512ac))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/justerest/school/compare/v1.1.1...v1.2.0) (2018-01-23)
 
