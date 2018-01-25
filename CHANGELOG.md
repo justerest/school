@@ -1,3 +1,18 @@
+<a name="1.3.2"></a>
+## [1.3.2](https://github.com/justerest/school/compare/v1.3.1...v1.3.2) (2018-01-25)
+
+
+### Bug Fixes
+
+* add images in cache ([b09e198](https://github.com/justerest/school/commit/b09e198))
+
+
+### Performance Improvements
+
+* update deps ([465dd09](https://github.com/justerest/school/commit/465dd09))
+
+
+
 <a name="1.3.1"></a>
 ## [1.3.1](https://github.com/justerest/school/compare/v1.3.0...v1.3.1) (2018-01-25)
 
