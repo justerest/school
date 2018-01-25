@@ -4,7 +4,7 @@
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
   "display": "standalone",
-  "start_url": "/",
+  "start_url": "/school/",
   "icons": [{
       "src": "/school/favicons/android-chrome-192x192.png",
       "sizes": "192x192",

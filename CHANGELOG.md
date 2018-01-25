@@ -1,3 +1,13 @@
+<a name="1.3.1"></a>
+## [1.3.1](https://github.com/justerest/school/compare/v1.3.0...v1.3.1) (2018-01-25)
+
+
+### Bug Fixes
+
+* **sw:** start page in manifest with relative path ([7c92e39](https://github.com/justerest/school/commit/7c92e39))
+
+
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/justerest/school/compare/v1.2.1...v1.3.0) (2018-01-25)
 
