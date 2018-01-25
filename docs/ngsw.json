@@ -1,0 +1,55 @@
+{
+  "configVersion": 1,
+  "index": "/school/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "/school/404.html",
+        "/school/index.html",
+        "/school/assets/icons/ic_arrow_downward_48px.svg",
+        "/school/assets/icons/ic_arrow_upward_48px.svg",
+        "/school/assets/icons/ic_games_48px.svg",
+        "/school/assets/icons/ic_more_horiz_48px.svg",
+        "/school/assets/icons/ic_more_vert_48px.svg",
+        "/school/assets/icons/ic_play_arrow_48px.svg",
+        "/school/assets/icons/ic_rotate_left_48px.svg",
+        "/school/assets/icons/ic_rotate_right_48px.svg",
+        "/school/inline.d8aaf0979a091508932a.bundle.js",
+        "/school/main.0914ae81109efd4be6b3.bundle.js",
+        "/school/polyfills.abdf53ca655716e505e0.bundle.js",
+        "/school/styles.1866ee57ea2b0810dc1d.bundle.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "games",
+      "installMode": "lazy",
+      "updateMode": "lazy",
+      "urls": [
+        "/school/0.1719401e11f47108c2b9.chunk.js"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/school/inline.d8aaf0979a091508932a.bundle.js": "1c3bd465d8a42df47af49ab0bbd6e33fd62e8b7a",
+    "/school/0.1719401e11f47108c2b9.chunk.js": "e08deea98b166a48e01b85cbc39d50717a9d266c",
+    "/school/main.0914ae81109efd4be6b3.bundle.js": "f462c0f8f5a87acef2fbf003305b515ab1613c62",
+    "/school/polyfills.abdf53ca655716e505e0.bundle.js": "b838d2e8138f4c1dfbf35e40a68f6819bcc25a48",
+    "/school/styles.1866ee57ea2b0810dc1d.bundle.css": "8629ebd56ef447771fcb17a8ac85a6e404fe4678",
+    "/school/404.html": "852fdb773a8ddae13ab909d960b6a817de012a98",
+    "/school/index.html": "852fdb773a8ddae13ab909d960b6a817de012a98",
+    "/school/assets/icons/ic_arrow_downward_48px.svg": "0e7b3fee6a5574c1a3b68b88c9cd8167d7d7567f",
+    "/school/assets/icons/ic_arrow_upward_48px.svg": "e20325d1b87e6bb170874b480b20bb1f6781f96d",
+    "/school/assets/icons/ic_games_48px.svg": "3c49cc6a09cf8c4f28b0538a15c34058387a7c40",
+    "/school/assets/icons/ic_more_horiz_48px.svg": "772382ef77ec8c34b77650a59a7a5dca6123a21d",
+    "/school/assets/icons/ic_more_vert_48px.svg": "4cff896d5f3b6584fddf6c4c37988118a005f86b",
+    "/school/assets/icons/ic_play_arrow_48px.svg": "43792a781fd45f2be52d19fd72083bb1252c5408",
+    "/school/assets/icons/ic_rotate_left_48px.svg": "32ce81e99c9bb66ba74b2867e8f3e6b1d7ca44bc",
+    "/school/assets/icons/ic_rotate_right_48px.svg": "79b28e4a195b9216dcc42e7afc479500ddc9ee91"
+  }
+}

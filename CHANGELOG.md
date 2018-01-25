@@ -1,3 +1,19 @@
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/justerest/school/compare/v1.2.1...v1.3.0) (2018-01-25)
+
+
+### Features
+
+* **games:** add mobile version ([24b3bb8](https://github.com/justerest/school/commit/24b3bb8))
+
+
+### Performance Improvements
+
+* updates + ([4307de0](https://github.com/justerest/school/commit/4307de0))
+* **dependencies:** remove sweetalert2 ([7cf1b4f](https://github.com/justerest/school/commit/7cf1b4f))
+
+
+
 <a name="1.2.1"></a>
 ## [1.2.1](https://github.com/justerest/school/compare/v1.2.0...v1.2.1) (2018-01-24)
 
