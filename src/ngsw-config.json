@@ -18,7 +18,11 @@
   }, {
     "name": "games",
     "installMode": "lazy",
+    "updateMode": "lazy",
     "resources": {
+      "files": [
+        "/assets/*"
+      ],
       "versionedFiles": [
         "/*.chunk.js"
       ]
