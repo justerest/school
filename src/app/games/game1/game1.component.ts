@@ -1,19 +1,16 @@
+import { environment } from 'environments/environment';
 import { getRandomInt } from 'utils/get-random-int';
 import { toInt } from 'utils/to-int';
 
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 
-import { ImagesLoaderService } from '../shared/images-loader.service';
-import { KeyboardControlService } from './keyboard-control.service';
-import { CicleImage } from './models/cicle-image.model';
-import { DrawedImage } from './models/drawed-image.model';
-import { GameSpeed } from './models/game-speed.model';
+import { ImagesLoaderService } from '../images-loader.service';
+import { KeyboardControlService } from '../keyboard-control.service';
+import { CicleImage } from '../models/cicle-image.model';
+import { GameSpeed } from '../models/game-speed.model';
+import { HeroModel } from '../models/hero.model';
 
-/** Максимальное ускорение героя. */
-const ACCELERATION_MAX = 8;
-
-/** Ускорение героя за один шаг. */
-const ACCELERATION_STEP = 0.5;
+const ROOT_PATH = environment.production ? '/school/' : '/';
 
 /** Количество препятствий */
 const BARRIERS_LENGTH = 11;
@@ -33,7 +30,7 @@ export class Game1Component implements AfterViewInit {
   ctx: CanvasRenderingContext2D;
 
   /** Герой */
-  hero: DrawedImage;
+  hero: HeroModel;
 
   /** Массив с препятствиями */
   barriers: CicleImage[];
@@ -52,7 +49,12 @@ export class Game1Component implements AfterViewInit {
   constructor(
     private control: KeyboardControlService,
     private images: ImagesLoaderService,
-  ) { }
+  ) {
+    this.images
+      .add('ice', ROOT_PATH + 'assets/ice.png')
+      .add('ironMan', ROOT_PATH + 'assets/iron-man.png')
+      .add('star', ROOT_PATH + 'assets/star.png');
+  }
 
   async ngAfterViewInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
@@ -116,7 +118,7 @@ export class Game1Component implements AfterViewInit {
       this.stars.push(star);
     }
 
-    this.hero = new DrawedImage({
+    this.hero = new HeroModel({
       ctx,
       image: this.images.get('ironMan'),
       destroyable: true,
@@ -150,7 +152,7 @@ export class Game1Component implements AfterViewInit {
       else star.move().draw();
     });
 
-    this.hero.move(control.dx, control.dy).draw();
+    this.hero.moveByControl(control.keys).draw();
 
     this.barriers.forEach(barrier => barrier.move().draw());
 
@@ -167,13 +169,9 @@ export class Game1Component implements AfterViewInit {
       return;
     }
 
-    const isAcceleration = (
-      (control.dx || control.dy) &&
-      control.touchAcceleration - this.gameSpeed.value < ACCELERATION_MAX
-    );
-    if (isAcceleration) control.touchAcceleration += ACCELERATION_STEP;
-
+    this.hero.accelerate(control.keys, this.gameSpeed);
     this.gameSpeed.up();
+
     requestAnimationFrame(() => this.startGame());
   }
 

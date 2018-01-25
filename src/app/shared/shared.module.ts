@@ -10,8 +10,6 @@ import {
   MatSelectModule
 } from '@angular/material';
 
-import { ImagesLoaderService } from './images-loader.service';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -33,6 +31,5 @@ import { ImagesLoaderService } from './images-loader.service';
     MatListModule,
     MatSelectModule,
   ],
-  providers: [ImagesLoaderService],
 })
 export class SharedModule { }

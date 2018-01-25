@@ -1,12 +1,6 @@
-import { environment } from 'environments/environment';
-
 import { Component } from '@angular/core';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-
-import { ImagesLoaderService } from './shared/images-loader.service';
-
-const ROOT_PATH = environment.production ? '/school/' : '/';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +12,6 @@ export class AppComponent {
   constructor(
     sanitizer: DomSanitizer,
     iconRegistry: MatIconRegistry,
-    imagesRegistry: ImagesLoaderService,
   ) {
     const getSafeURL = sanitizer.bypassSecurityTrustResourceUrl.bind(sanitizer);
     iconRegistry
@@ -30,12 +23,6 @@ export class AppComponent {
       .addSvgIcon('more-vert', getSafeURL('./assets/icons/ic_more_vert_48px.svg'))
       .addSvgIcon('play', getSafeURL('./assets/icons/ic_play_arrow_48px.svg'))
       .addSvgIcon('game', getSafeURL('./assets/icons/ic_games_48px.svg'));
-
-    imagesRegistry
-      .add('ice', ROOT_PATH + 'assets/ice.png')
-      .add('ironMan', ROOT_PATH + 'assets/iron-man.png')
-      .add('star', ROOT_PATH + 'assets/star.png')
-      .ready();
   }
 
 }
