@@ -1,5 +1,9 @@
 @import "~_variables.scss";
 
+/* Styles */
+
 .game1-canvas {
+  max-width: 100%;
+  max-height: calc(100vh - 50px);
   background-color: $app-color-black;
 }

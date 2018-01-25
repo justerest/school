@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { Game1Component } from './game1.component';
@@ -7,6 +8,7 @@ import { KeyboardControlService } from './keyboard-control.service';
 
 @NgModule({
   imports: [
+    CommonModule,
     GamesRoutingModule,
   ],
   declarations: [Game1Component, KeyboardControlDirective],

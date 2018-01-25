@@ -1,6 +1,6 @@
 import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
 
-import { KeyboardControlService, isInKeyCodes } from './keyboard-control.service';
+import { KeyCodes, KeyboardControlService, isInKeyCodes } from './keyboard-control.service';
 
 @Directive({
   selector: '[appKeyboardControl]',
@@ -15,12 +15,31 @@ export class KeyboardControlDirective {
 
   @HostListener('keydown', ['$event'])
   @HostListener('keyup', ['$event'])
-  controlObserver(event: KeyboardEvent) {
+  onKeyboardPress(event: KeyboardEvent) {
     if (isInKeyCodes(event.keyCode)) {
       event.preventDefault();
       this.kcKeypress.emit();
     }
-    this.control.setKey(event.keyCode, event.type === 'keydown' ? 1 : 0);
+    this.control.setKey(event.keyCode, event.type === 'keyup' ? 0 : 1);
+  }
+
+  @HostListener('touchstart', ['$event'])
+  onTouch(event: TouchEvent) {
+    const { clientX } = event.changedTouches.item(0);
+
+    if (clientX > window.innerWidth / 2) {
+      (<any>event).keyCode = KeyCodes.right;
+    }
+    if (clientX < window.innerWidth / 2) {
+      (<any>event).keyCode = KeyCodes.left;
+    }
+
+    this.onKeyboardPress(<KeyboardEvent><any>event);
+  }
+
+  @HostListener('touchend', ['$event'])
+  controlTouchEnd(event: TouchEvent) {
+    this.control.reset();
   }
 
 }

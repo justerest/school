@@ -16,12 +16,11 @@ const ROOT_PATH = environment.production ? '/school/' : '/';
 export class AppComponent {
 
   constructor(
-    iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
+    iconRegistry: MatIconRegistry,
     imagesRegistry: ImagesLoaderService,
   ) {
-
-    const getSafeURL = sanitizer.bypassSecurityTrustResourceUrl;
+    const getSafeURL = sanitizer.bypassSecurityTrustResourceUrl.bind(sanitizer);
     iconRegistry
       .addSvgIcon('up', getSafeURL('./assets/icons/ic_arrow_upward_48px.svg'))
       .addSvgIcon('down', getSafeURL('./assets/icons/ic_arrow_downward_48px.svg'))
@@ -35,10 +34,8 @@ export class AppComponent {
     imagesRegistry
       .add('ice', ROOT_PATH + 'assets/ice.png')
       .add('ironMan', ROOT_PATH + 'assets/iron-man.png')
-      .add('star', ROOT_PATH + 'assets/star.png');
-
-    imagesRegistry.ready();
-
+      .add('star', ROOT_PATH + 'assets/star.png')
+      .ready();
   }
 
 }

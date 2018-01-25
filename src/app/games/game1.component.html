@@ -1,7 +1,14 @@
+<p>
+  Score: {{score || 0}}
+</p>
 <canvas #canvas
         class="game1-canvas"
         tabindex="0"
         width="800"
         height="600"
         appKeyboardControl
+        (touchstart)="setPauseFalse()"
         (kcKeypress)="onPressEnter()"></canvas>
+<p *ngIf="bestScore">
+  The Best Score: {{bestScore}}
+</p>

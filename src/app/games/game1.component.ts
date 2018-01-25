@@ -1,4 +1,3 @@
-import swal from 'sweetalert2';
 import { getRandomInt } from 'utils/get-random-int';
 import { toInt } from 'utils/to-int';
 
@@ -68,6 +67,13 @@ export class Game1Component implements AfterViewInit {
     if (this.control.keys.enter) {
       this.pause = !this.pause;
       if (!this.pause) this.startGame();
+    }
+  }
+
+  setPauseFalse() {
+    if (this.pause) {
+      this.pause = false;
+      this.startGame();
     }
   }
 
@@ -149,20 +155,15 @@ export class Game1Component implements AfterViewInit {
     this.barriers.forEach(barrier => barrier.move().draw());
 
     if (this.hero.isDestroyed) {
-      const isOK: { value: boolean } = await swal({
-        type: 'warning',
-        title: 'GAME OVER!',
-        text: 'Retry?',
-        showCancelButton: true,
-      });
-      if (!isOK.value) this.pause = true;
+      this.pause = true;
 
       if (this.score > toInt(this.bestScore)) {
-        localStorage.setItem('school-game-1.best-score', this.score.toString());
+        localStorage.setItem('game-1.best-score', this.score.toString());
         this.bestScore = this.score.toString();
       }
 
       this.initGame();
+
       return;
     }
 
@@ -181,10 +182,6 @@ export class Game1Component implements AfterViewInit {
     const { canvas } = ctx;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = '#a7ffff';
-    ctx.font = 'bold 20px sans-serif';
-    ctx.fillText('SCORE: ' + this.score, 20, 30);
 
     ctx.fillStyle = '#ddd';
     ctx.font = 'bold 16px sans-serif';
