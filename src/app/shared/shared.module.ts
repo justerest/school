@@ -4,10 +4,8 @@ import { FormsModule } from '@angular/forms';
 import {
   MatButtonModule,
   MatCardModule,
-  MatChipsModule,
   MatIconModule,
   MatInputModule,
-  MatListModule,
   MatSelectModule
 } from '@angular/material';
 
@@ -17,10 +15,8 @@ import {
     FormsModule,
     MatButtonModule,
     MatCardModule,
-    MatChipsModule,
     MatIconModule,
     MatInputModule,
-    MatListModule,
     MatSelectModule,
   ],
   exports: [
@@ -28,10 +24,8 @@ import {
     FormsModule,
     MatButtonModule,
     MatCardModule,
-    MatChipsModule,
     MatIconModule,
     MatInputModule,
-    MatListModule,
     MatSelectModule,
   ],
 })
