@@ -2,13 +2,13 @@
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins/breakpoints";
 @import "~_variables.scss";
-/* Styles */
 
 .game-iron-man {
   display: flex;
-  justify-content: center;
   flex-direction: column;
+  justify-content: center;
   height: 100%;
+
   &__canvas {
     background-color: $app-color-black;
     @include media-breakpoint-down(md) {

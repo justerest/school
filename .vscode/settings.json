@@ -2,6 +2,31 @@
   "atomKeymap.promptV3Features": true,
   "beautify.config": {
     "indent_size": 2,
+    "preserve_newlines": true,
+    "css": {
+      "newline_between_rules": true,
+      "space_around_combinator": true,
+      "space_around_selector_separator": true
+    }
+  },
+  "beautify.language": {
+    "js": {
+      "type": [
+        "json"
+      ],
+      "filename": [
+        ".jshintrc",
+        ".jsbeautify"
+      ]
+    },
+    "css": [
+      "css",
+      "scss"
+    ],
+    "html": [
+      "htm",
+      "html"
+    ]
   },
   "debug.inlineValues": true,
   "editor.formatOnSave": true,
@@ -39,23 +64,5 @@
   "window.zoomLevel": 0,
   "workbench.startupEditor": "welcomePage",
   "workbench.colorTheme": "One Dark Pro",
-  "beautify.language": {
-    "js": {
-      "type": [
-        "json"
-      ],
-      "filename": [
-        ".jshintrc",
-        ".jsbeautify"
-      ]
-    },
-    "css": [
-      "css",
-      "scss"
-    ],
-    "html": [
-      "htm",
-      "html"
-    ]
-  },
+  "workbench.activityBar.visible": false,
 }

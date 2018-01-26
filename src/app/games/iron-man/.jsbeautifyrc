@@ -1,4 +1,10 @@
 {
   "wrap_attributes": "force-aligned",
-  "indent_size": 2
+  "indent_size": 2,
+  "preserve_newlines": true,
+  "css": {
+    "newline_between_rules": true,
+    "space_around_combinator": true,
+    "space_around_selector_separator": true
+  }
 }

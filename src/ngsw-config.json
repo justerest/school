@@ -6,6 +6,7 @@
     "resources": {
       "files": [
         "/assets/icons/**",
+        "/assets/logo.png",
         "/index.html",
         "/404.html"
       ],
@@ -18,7 +19,6 @@
   }, {
     "name": "games",
     "installMode": "lazy",
-    "updateMode": "lazy",
     "resources": {
       "files": [
         "/assets/*"
