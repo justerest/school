@@ -1,3 +1,13 @@
+<a name="1.4.1"></a>
+## [1.4.1](https://github.com/justerest/school/compare/v1.4.0...v1.4.1) (2018-01-26)
+
+
+### Bug Fixes
+
+* prod path to assets ([db02519](https://github.com/justerest/school/commit/db02519))
+
+
+
 <a name="1.4.0"></a>
 # [1.4.0](https://github.com/justerest/school/compare/v1.3.2...v1.4.0) (2018-01-26)
 
