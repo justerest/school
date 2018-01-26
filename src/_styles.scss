@@ -1,16 +1,25 @@
 @import "~bootstrap/scss/bootstrap-reboot";
-@import "~bootstrap/scss/bootstrap-grid";
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
-
 /* Global elements */
 
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  &>app-root {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+}
+
 * {
-  outline: none!important;
+  outline: none !important;
 }
 
 a {
-  text-decoration: none!important;
-  color: inherit!important;
+  text-decoration: none !important;
+  color: inherit !important;
 }
 
 .p0 {
@@ -18,7 +27,7 @@ a {
 }
 
 .mat-list-icon {
-  font-size: 0!important;
+  font-size: 0 !important;
 }
 
 .mat-list-info {

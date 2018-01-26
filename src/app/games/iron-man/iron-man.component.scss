@@ -1,9 +1,19 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins/breakpoints";
 @import "~_variables.scss";
-
 /* Styles */
 
-.game1-canvas {
-  max-width: 100%;
-  max-height: calc(100vh - 50px);
-  background-color: $app-color-black;
+.game-iron-man {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  &__canvas {
+    background-color: $app-color-black;
+    @include media-breakpoint-down(md) {
+      width: 100%;
+      max-height: 100%;
+    }
+  }
 }

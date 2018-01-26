@@ -1,4 +1,17 @@
-<div class="container">
-  <h1>Староуткинская средняя школа №13</h1>
-  <router-outlet></router-outlet>
-</div>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-icon-button class="menu-btn" (click)="sidenav.toggle()">
+      <mat-icon svgIcon="menu"></mat-icon>
+    </button>
+    <span>Школа №13</span>
+    <img class="logo" src="/assets/logo.png" alt="Староуткинск">
+  </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="over" [(opened)]="isSidenavOpened">
+    <app-nav (click)="sidenav.close()"></app-nav>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

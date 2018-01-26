@@ -102,9 +102,5 @@ export class ChartsComponent implements AfterViewInit {
     return this.power_1 / x * Math.pow(this.service.cellSize, 2);
   }
 
-  log(ev) {
-    console.log(ev);
-  }
-
 }
 

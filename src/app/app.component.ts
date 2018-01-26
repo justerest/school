@@ -9,6 +9,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class AppComponent {
 
+  isSidenavOpened = false;
+
   constructor(
     sanitizer: DomSanitizer,
     iconRegistry: MatIconRegistry,
@@ -21,6 +23,7 @@ export class AppComponent {
       .addSvgIcon('rotate-right', getSafeURL('./assets/icons/ic_rotate_right_48px.svg'))
       .addSvgIcon('more-horiz', getSafeURL('./assets/icons/ic_more_horiz_48px.svg'))
       .addSvgIcon('more-vert', getSafeURL('./assets/icons/ic_more_vert_48px.svg'))
+      .addSvgIcon('menu', getSafeURL('./assets/icons/ic_menu_48px.svg'))
       .addSvgIcon('play', getSafeURL('./assets/icons/ic_play_arrow_48px.svg'))
       .addSvgIcon('game', getSafeURL('./assets/icons/ic_games_48px.svg'));
   }

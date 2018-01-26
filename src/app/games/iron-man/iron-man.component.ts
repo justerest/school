@@ -136,9 +136,10 @@ export class IronManComponent implements AfterViewInit {
       this.drawPauseMessage();
       return;
     }
-    this.drawInterface();
 
     const { ctx: { canvas }, control } = this;
+
+    this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     this.score++;
 
@@ -173,17 +174,6 @@ export class IronManComponent implements AfterViewInit {
     this.gameSpeed.up();
 
     requestAnimationFrame(() => this.startGame());
-  }
-
-  drawInterface() {
-    const { ctx } = this;
-    const { canvas } = ctx;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    ctx.fillStyle = '#ddd';
-    ctx.font = 'bold 16px sans-serif';
-    ctx.fillText('PRESS ENTER TO PAUSE', canvas.width - 110, canvas.height - 10, 100);
   }
 
   drawPauseMessage() {

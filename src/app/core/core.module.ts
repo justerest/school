@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { MainPageComponent } from './main-page.component';
 import { SharedModule } from '../shared/shared.module';
+import { NavComponent } from './nav.component';
 
 @NgModule({
-  declarations: [MainPageComponent],
+  declarations: [NavComponent],
+  exports: [NavComponent],
   imports: [
     RouterModule,
     SharedModule,

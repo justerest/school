@@ -1,102 +1,89 @@
-<div class="charts"
-     (scroll)="log($event)">
-  <div class="row">
+<div class="charts">
 
-    <section class="charts__first-col">
-      <mat-card>
-        <mat-card-title [innerHTML]="formula"></mat-card-title>
-      </mat-card>
+  <section class="charts__col-1">
+    <mat-card>
+      <mat-card-title [innerHTML]="formula"></mat-card-title>
+    </mat-card>
 
+    <mat-card appSizeByScroll
+              class="charts__canvas-container">
+      <canvas appChartsBackground
+              class="charts__background-canvas"
+              [width]="canvasSize"
+              [height]="canvasSize"></canvas>
+      <canvas #canvas
+              class="charts__canvas"
+              [width]="canvasSize"
+              [height]="canvasSize"></canvas>
+    </mat-card>
+  </section>
+
+  <section class="charts__col-2">
+    <mat-card>
+      <mat-card-subtitle>
+        Уравнение в общем виде
+      </mat-card-subtitle>
+      <mat-card-title>
+        <mat-form-field class="charts__select">
+          <mat-select class="charts__select"
+                      tabindex="1"
+                      [(value)]="functionType"
+                      (change)="drawFunction()">
+            <mat-option value="linear">y = kx + b</mat-option>
+            <mat-option value="parabole">y = ax&#178; + bx + c</mat-option>
+            <mat-option value="hyperbole">y = k/x</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-title>
+    </mat-card>
+
+    <ng-container *ngIf="functionType === 'linear'">
+      <app-param paramName="k"
+                 subtitle="Коэффициент наклона"
+                 iconLeft="rotate-left"
+                 iconRight="rotate-right"
+                 [(param)]="power1"
+                 (paramChange)="drawFunction()"></app-param>
       <div class="space"></div>
+      <app-param paramName="b"
+                 subtitle="Вертикальное cмещение"
+                 iconLeft="up"
+                 iconRight="down"
+                 [(param)]="power0"
+                 (paramChange)="drawFunction()"></app-param>
+    </ng-container>
 
-      <mat-card appSizeByScroll
-                class="charts__canvas-container">
-        <canvas appChartsBackground
-                class="charts__background-canvas"
-                [width]="canvasSize"
-                [height]="canvasSize"></canvas>
-        <canvas #canvas
-                class="charts__canvas"
-                [width]="canvasSize"
-                [height]="canvasSize"></canvas>
-      </mat-card>
-
+    <ng-container *ngIf="functionType === 'parabole'">
+      <app-param paramName="a"
+                 subtitle="Коэффициент вогнутости/выпуклости"
+                 iconLeft="more-vert"
+                 iconRight="more-vert"
+                 [(param)]="power2"
+                 (paramChange)="drawFunction()"></app-param>
       <div class="space"></div>
-
-    </section>
-
-    <div class="col p0">
-
-      <mat-card>
-        <mat-card-subtitle>
-          Уравнение в общем виде
-        </mat-card-subtitle>
-        <mat-card-title>
-          <mat-form-field class="charts__select">
-            <mat-select class="charts__select"
-                        tabindex="1"
-                        [(value)]="functionType"
-                        (change)="drawFunction()">
-              <mat-option value="linear">y = kx + b</mat-option>
-              <mat-option value="parabole">y = ax&#178; + bx + c</mat-option>
-              <mat-option value="hyperbole">y = k/x</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </mat-card-title>
-      </mat-card>
-
+      <app-param paramName="b"
+                 subtitle="Горизонтальное смещение (влияет и на вертикальное)"
+                 iconLeft="more-horiz"
+                 iconRight="more-horiz"
+                 [(param)]="power1"
+                 (paramChange)="drawFunction()"></app-param>
       <div class="space"></div>
+      <app-param paramName="c"
+                 subtitle="Вертикальное смещение"
+                 iconLeft="up"
+                 iconRight="down"
+                 [(param)]="power0"
+                 (paramChange)="drawFunction()"></app-param>
+    </ng-container>
 
-      <ng-container *ngIf="functionType === 'linear'">
-        <app-param paramName="k"
-                   subtitle="Коэффициент наклона"
-                   iconLeft="rotate-left"
-                   iconRight="rotate-right"
-                   [(param)]="power1"
-                   (paramChange)="drawFunction()"></app-param>
-        <div class="space"></div>
-        <app-param paramName="b"
-                   subtitle="Вертикальное cмещение"
-                   iconLeft="up"
-                   iconRight="down"
-                   [(param)]="power0"
-                   (paramChange)="drawFunction()"></app-param>
-      </ng-container>
+    <ng-container *ngIf="functionType === 'hyperbole'">
+      <app-param paramName="k"
+                 subtitle="Коэффициент"
+                 iconLeft="more-horiz"
+                 iconRight="more-horiz"
+                 [(param)]="power_1"
+                 (paramChange)="drawFunction()"></app-param>
+    </ng-container>
+  </section>
 
-      <ng-container *ngIf="functionType === 'parabole'">
-        <app-param paramName="a"
-                   subtitle="Коэффициент вогнутости/выпуклости"
-                   iconLeft="more-vert"
-                   iconRight="more-vert"
-                   [(param)]="power2"
-                   (paramChange)="drawFunction()"></app-param>
-        <div class="space"></div>
-        <app-param paramName="b"
-                   subtitle="Горизонтальное смещение (влияет и на вертикальное)"
-                   iconLeft="more-horiz"
-                   iconRight="more-horiz"
-                   [(param)]="power1"
-                   (paramChange)="drawFunction()"></app-param>
-        <div class="space"></div>
-        <app-param paramName="c"
-                   subtitle="Вертикальное смещение"
-                   iconLeft="up"
-                   iconRight="down"
-                   [(param)]="power0"
-                   (paramChange)="drawFunction()"></app-param>
-      </ng-container>
-
-      <ng-container *ngIf="functionType === 'hyperbole'">
-        <app-param paramName="k"
-                   subtitle="Коэффициент"
-                   iconLeft="more-horiz"
-                   iconRight="more-horiz"
-                   [(param)]="power_1"
-                   (paramChange)="drawFunction()"></app-param>
-      </ng-container>
-
-    </div>
-
-  </div>
 </div>
-<div class="space"></div>

@@ -1,10 +1,28 @@
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins/breakpoints";
-
 /* Styles */
 
 .charts {
+  display: grid;
+  overflow-y: auto;
+  height: 100%;
+  padding: 0 15px;
+  grid-gap: 15px;
+  grid-template-columns: minmax(auto, 600px) 420px;
+  @include media-breakpoint-down(md) {
+    padding: 0;
+    grid-template-columns: 100%;
+  }
+  &__col-1 {
+    pointer-events: none;
+    @include media-breakpoint-down(md) {
+      position: sticky;
+      z-index: 10;
+      top: -100px;
+      margin-left: auto;
+    }
+  }
   &__background-canvas,
   &__canvas {
     position: relative;
@@ -12,22 +30,11 @@
     left: 0;
     max-width: 100%;
   }
-  &__first-col {
-    margin-right: 15px;
-    pointer-events: none;
-    @include media-breakpoint-down(md) {
-      position: sticky;
-      z-index: 10;
-      top: -96px;
-      margin-right: 0;
-      margin-left: auto;
-    }
-  }
   &__canvas-container {
-    padding: 0!important;
+    padding: 0 !important;
   }
   &__canvas {
-    margin-bottom: -7px!important;
+    margin-bottom: -7px !important;
   }
   &__background-canvas {
     position: absolute;
@@ -36,15 +43,13 @@
     min-width: 228px;
   }
   .mat-card-subtitle {
-    margin-top: -15px!important;
+    margin-top: -15px !important;
     margin-bottom: 0;
   }
   .mat-form-field {
     margin-bottom: -20px;
   }
-}
-
-.space {
-  width: 100%;
-  margin: 12px 0;
+  .mat-card {
+    margin-top: 15px;
+  }
 }

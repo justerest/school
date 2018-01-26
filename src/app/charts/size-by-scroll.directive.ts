@@ -8,6 +8,7 @@ const MIN_SIZE = 200;
 export class SizeByScrollDirective implements AfterViewInit, OnDestroy {
 
   initSize: number;
+  container: HTMLElement;
 
   constructor(
     private el: ElementRef,
@@ -15,11 +16,12 @@ export class SizeByScrollDirective implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.initSize = this.el.nativeElement.offsetHeight;
-    window.addEventListener('scroll', this.listener.bind(this));
+    this.container = this.el.nativeElement.parentElement.parentElement;
+    this.container.addEventListener('scroll', this.listener.bind(this));
   }
 
   ngOnDestroy() {
-    window.removeEventListener('scroll', this.listener.bind(this));
+    this.container.removeEventListener('scroll', this.listener.bind(this));
   }
 
   listener() {
@@ -29,16 +31,16 @@ export class SizeByScrollDirective implements AfterViewInit, OnDestroy {
 
   handler() {
     const el: HTMLElement = this.el.nativeElement;
-    const scrollTop = window.scrollY - el.offsetTop - 50;
+    const scrollTop = this.container.scrollTop - el.offsetTop;
     const p = scrollTop < this.initSize - MIN_SIZE
       ? 1 - scrollTop / this.initSize
       : MIN_SIZE / this.initSize;
     const d = (0.9 - p) * this.initSize;
 
-    if (scrollTop > 0) {
+    if (scrollTop > 10) {
       el.style.opacity = '0.82';
       el.style.transform = `scale(${p})
-                            translate(${d}px, -${d}px)`;
+                            translate(${d}px, ${- d}px)`;
     }
     else el.style.transform = el.style.opacity = '';
   }

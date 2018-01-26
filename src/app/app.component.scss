@@ -1,1 +1,19 @@
+.mat-sidenav-container {
+  flex: 1;
+}
 
+.mat-drawer-content {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.menu-btn {
+  margin-right: 10px;
+}
+
+.logo {
+  height: 100%;
+  margin-left: auto;
+  padding: 2px;
+}

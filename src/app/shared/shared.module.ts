@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import {
   MatButtonModule,
   MatCardModule,
+  MatChipsModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
@@ -16,6 +17,7 @@ import {
     FormsModule,
     MatButtonModule,
     MatCardModule,
+    MatChipsModule,
     MatIconModule,
     MatInputModule,
     MatListModule,
@@ -26,6 +28,7 @@ import {
     FormsModule,
     MatButtonModule,
     MatCardModule,
+    MatChipsModule,
     MatIconModule,
     MatInputModule,
     MatListModule,
