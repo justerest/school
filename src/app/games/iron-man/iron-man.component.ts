@@ -20,11 +20,11 @@ const STARS_LENGTH = 30;
 
 /** Железный человек против мороженого */
 @Component({
-  selector: 'app-game1',
-  templateUrl: './game1.component.html',
-  styleUrls: ['./game1.component.scss'],
+  selector: 'app-iron-man',
+  templateUrl: './iron-man.component.html',
+  styleUrls: ['./iron-man.component.scss'],
 })
-export class Game1Component implements AfterViewInit {
+export class IronManComponent implements AfterViewInit {
 
   @ViewChild('canvas') canvas: ElementRef;
   ctx: CanvasRenderingContext2D;

@@ -7,7 +7,7 @@ import { MainPageComponent } from './core/main-page.component';
 const routes: Routes = [
   { path: '', component: MainPageComponent },
   { path: 'charts', component: ChartsComponent },
-  { path: 'game1', loadChildren: 'app/games/games.module#GamesModule' },
+  { path: 'games', loadChildren: 'app/games/games.module#GamesModule' },
 ];
 
 @NgModule({
