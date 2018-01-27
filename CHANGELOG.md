@@ -1,3 +1,26 @@
+<a name="1.5.0"></a>
+# [1.5.0](https://github.com/justerest/school/compare/v1.4.1...v1.5.0) (2018-01-27)
+
+
+### Bug Fixes
+
+* refactore scss with  :host() ([33b975f](https://github.com/justerest/school/commit/33b975f))
+* **charts:** animation size of canvas ([458df89](https://github.com/justerest/school/commit/458df89))
+* **charts:** delete bugs in html ([ecd166d](https://github.com/justerest/school/commit/ecd166d))
+
+
+### Features
+
+* update to fullscreen ([a68bd62](https://github.com/justerest/school/commit/a68bd62))
+* **charts:** add test task ([c5f4302](https://github.com/justerest/school/commit/c5f4302))
+
+
+### Performance Improvements
+
+* updates ([fca0b31](https://github.com/justerest/school/commit/fca0b31))
+
+
+
 <a name="1.4.1"></a>
 ## [1.4.1](https://github.com/justerest/school/compare/v1.4.0...v1.4.1) (2018-01-26)
 
