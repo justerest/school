@@ -1,6 +1,6 @@
 import { getRandomInt } from 'utils/get-random-int';
 
-import { AfterViewInit, Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 
 import { ChartsService } from './charts.service';
 import { SupportedFunction, SupportedFunctions } from './supported-functions.enum';
@@ -9,7 +9,6 @@ import { SupportedFunction, SupportedFunctions } from './supported-functions.enu
   selector: 'app-charts',
   templateUrl: './charts.component.html',
   styleUrls: ['./charts.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class ChartsComponent implements AfterViewInit {
 

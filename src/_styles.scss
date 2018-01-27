@@ -1,18 +1,7 @@
 @import "~bootstrap/scss/bootstrap-reboot";
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
+
 /* Global elements */
-
-body {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-
-  & > app-root {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-  }
-}
 
 * {
   outline: none !important;
@@ -21,16 +10,4 @@ body {
 a {
   text-decoration: none !important;
   color: inherit !important;
-}
-
-.p0 {
-  padding: 0;
-}
-
-.mat-list-icon {
-  font-size: 0 !important;
-}
-
-.mat-list-info {
-  color: #ccc;
 }

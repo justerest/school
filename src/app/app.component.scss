@@ -1,11 +1,16 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
 .mat-sidenav-container {
   flex: 1;
 }
 
-.mat-drawer-content {
+.mat-sidenav-content {
   display: flex;
   justify-content: center;
-  height: 100%;
 }
 
 .menu-btn {
@@ -16,4 +21,8 @@
   height: 100%;
   margin-left: auto;
   padding: 2px;
+}
+
+.mat-list-info {
+  color: #ccc;
 }

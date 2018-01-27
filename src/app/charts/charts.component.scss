@@ -2,9 +2,11 @@
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins/breakpoints";
 
-.charts {
+:host {
   display: grid;
   overflow-y: auto;
+  justify-content: center;
+  width: 100%;
   height: 100%;
   padding: 0 15px;
   padding-bottom: 15px;
@@ -15,9 +17,12 @@
     padding-left: 0;
     grid-template-columns: 100%;
   }
+}
 
+.app-charts {
   &__col-1 {
     pointer-events: none;
+
     @include media-breakpoint-down(md) {
       position: sticky;
       z-index: 10;
@@ -49,17 +54,17 @@
   &__select {
     min-width: 228px;
   }
+}
 
-  .mat-card-subtitle {
-    margin-top: -15px !important;
-    margin-bottom: 0;
-  }
+.mat-card-subtitle {
+  margin-top: -15px !important;
+  margin-bottom: 0;
+}
 
-  .mat-form-field {
-    margin-bottom: -20px;
-  }
+.mat-form-field {
+  margin-bottom: -20px;
+}
 
-  .mat-card {
-    margin-top: 15px;
-  }
+.mat-card {
+  margin-top: 15px;
 }
