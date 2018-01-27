@@ -5,11 +5,10 @@ import { ChartsBackgroundDirective } from './charts-background.directive';
 import { ChartsComponent } from './charts.component';
 import { ChartsService } from './charts.service';
 import { ParamComponent } from './param/param.component';
-import { SizeByScrollDirective } from './size-by-scroll.directive';
 
 @NgModule({
   imports: [SharedModule],
-  declarations: [ChartsComponent, ChartsBackgroundDirective, ParamComponent, SizeByScrollDirective],
+  declarations: [ChartsComponent, ChartsBackgroundDirective, ParamComponent],
   providers: [ChartsService],
 })
 export class ChartsModule { }

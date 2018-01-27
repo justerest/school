@@ -1,6 +1,8 @@
+import { } from '@angular/core/src/metadata/directives';
+
 import { getRandomInt } from 'utils/get-random-int';
 
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 
 import { ChartsService } from './charts.service';
 import { SupportedFunction, SupportedFunctions } from './supported-functions.enum';
@@ -13,6 +15,7 @@ import { SupportedFunction, SupportedFunctions } from './supported-functions.enu
 export class ChartsComponent implements AfterViewInit {
 
   @ViewChild('canvas') canvas: ElementRef;
+  @ViewChild('stickyContainer') stickyContainer: ElementRef;
   ctx: CanvasRenderingContext2D;
 
   canvasSize = 600;
@@ -55,6 +58,25 @@ export class ChartsComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.ctx = (<HTMLCanvasElement>this.canvas.nativeElement).getContext('2d');
     this.drawFunction();
+  }
+
+  @HostListener('scroll', ['$event.target'])
+  handler(container: HTMLElement) {
+    const el: HTMLElement = this.stickyContainer.nativeElement;
+    const scrollTop = container.scrollTop - el.offsetTop;
+    const minSize = window.innerWidth / 2.5;
+
+    const scale = scrollTop < container.offsetWidth - minSize
+      ? 1 - scrollTop / container.offsetWidth
+      : minSize / container.offsetWidth;
+
+    const margin = 2 * Math.pow(1 - scale, 2) * container.offsetWidth;
+
+    if (scrollTop > 0) {
+      el.style.opacity = '0.82';
+      el.style.transform = `scale(${scale}) translate(${margin}px, ${-margin}px)`;
+    }
+    else el.style.transform = el.style.opacity = '';
   }
 
   drawFunction() {

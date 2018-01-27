@@ -3,17 +3,19 @@
     <mat-card-title [innerHTML]="formula"></mat-card-title>
   </mat-card>
 
-  <mat-card appSizeByScroll
-            class="app-charts__canvas-container">
-    <canvas appChartsBackground
-            class="app-charts__background-canvas"
-            [width]="canvasSize"
-            [height]="canvasSize"></canvas>
-    <canvas #canvas
-            class="app-charts__canvas"
-            [width]="canvasSize"
-            [height]="canvasSize"></canvas>
-  </mat-card>
+  <div #stickyContainer
+       class="app-charts__canvas-container">
+    <mat-card>
+      <canvas appChartsBackground
+              class="app-charts__background-canvas"
+              [width]="canvasSize"
+              [height]="canvasSize"></canvas>
+      <canvas #canvas
+              class="app-charts__canvas"
+              [width]="canvasSize"
+              [height]="canvasSize"></canvas>
+    </mat-card>
+  </div>
 </section>
 
 <section class="app-charts__col-2">
