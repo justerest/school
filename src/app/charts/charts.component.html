@@ -90,8 +90,9 @@
   <mat-card *ngIf="!paramsStore.test; else stopwatch">
     <mat-card-title> Тест </mat-card-title>
     <mat-card-content>
-      Узнай наколько хорошо ты усвоил материал!
+      Узнай наколько хорошо ты усвоил материал
       <br><strong>Построй предложенную функцию как можно быстрей!</strong>
+      <br><i>Попробуй ввести значения сразу, за использование клавиш добавляются секунды</i>
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button
@@ -108,7 +109,7 @@
   </ng-template>
 </section>
 
-<mat-card *ngIf="resultMessage; else space">
+<mat-card *ngIf="resultMessage">
   <mat-card-title>{{resultMessage}}</mat-card-title>
   <mat-card-content>
     <strong>Время:</strong> {{timerValue}} с

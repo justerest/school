@@ -30,7 +30,7 @@ export class ChartsComponent implements AfterViewInit {
 
   paramsStore: { tmp?: number[], test?: number[] } = {};
 
-  timerInit: Date;
+  timerInit: number;
   timerValue = 0;
   /**
    * BUG: Cannot find namespace 'NodeJS'
@@ -101,13 +101,15 @@ export class ChartsComponent implements AfterViewInit {
         this.paramsStore.test = null;
         clearInterval(this.timer);
         this.resultMessage = (
-          this.timerValue < 10 ? 'Отлично! 5' :
-            this.timerValue < 20 ? 'Хорошо! 4' :
-              this.timerValue < 30 ? 'Удовлетворительно! 3' :
+          this.timerValue <= 10 ? 'Отлично! 5' :
+            this.timerValue <= 20 ? 'Хорошо! 4' :
+              this.timerValue <= 30 ? 'Удовлетворительно! 3' :
                 'Не сдал'
         );
       }
       else {
+        this.timerInit -= 1500;
+
         [this.power0, this.power1, this.power2, this.power_1] = this.paramsStore.test;
         this.buildChart(this.service.COLORS.orange);
         [this.power0, this.power1, this.power2, this.power_1] = this.paramsStore.tmp;
@@ -125,10 +127,10 @@ export class ChartsComponent implements AfterViewInit {
     ];
 
     this.resultMessage = null;
-    this.timerInit = new Date();
+    this.timerInit = new Date().valueOf();
     this.timerValue = 0;
     this.timer = setInterval(() => {
-      const dms = (new Date().valueOf() - this.timerInit.valueOf()) / 1000;
+      const dms = (new Date().valueOf() - this.timerInit) / 1000;
       this.timerValue = Math.floor(dms);
     }, 900);
 
