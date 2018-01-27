@@ -6,17 +6,18 @@
   display: grid;
   overflow-x: hidden;
   overflow-y: auto;
+  align-items: flex-start;
   justify-content: center;
   width: 100%;
   height: 100%;
   padding: 0 15px;
   padding-bottom: 15px;
-  grid-gap: 15px;
+  grid-gap: 0 15px;
   grid-template-columns: minmax(auto, 600px) 420px;
+  grid-template-rows: min-content;
   @include media-breakpoint-down(md) {
     padding-right: 0;
     padding-left: 0;
-    grid-gap: 0;
     grid-template-columns: 100%;
   }
 }
@@ -24,13 +25,18 @@
 .app-charts {
   &__col-1 {
     pointer-events: none;
-
+    grid-column: 1;
+    grid-row: 1;
     @include media-breakpoint-down(md) {
       position: sticky;
       z-index: 10;
       top: -114px;
       margin-left: auto;
     }
+  }
+
+  &__col-2 {
+    grid-row: span 1/4;
   }
 
   &__background-canvas,
@@ -55,6 +61,10 @@
 
   &__select {
     min-width: 228px;
+  }
+
+  &__btn-random-func {
+    margin-top: 15px;
   }
 }
 

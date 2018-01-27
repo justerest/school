@@ -1,5 +1,3 @@
-import { } from '@angular/core/src/metadata/directives';
-
 import { getRandomInt } from 'utils/get-random-int';
 
 import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
@@ -14,29 +12,42 @@ import { SupportedFunction, SupportedFunctions } from './supported-functions.enu
 })
 export class ChartsComponent implements AfterViewInit {
 
+  canvasSize = 600;
+
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('stickyContainer') stickyContainer: ElementRef;
   ctx: CanvasRenderingContext2D;
 
-  canvasSize = 600;
-
-  functionType: SupportedFunction = <SupportedFunction>SupportedFunctions[getRandomInt(0, 2)];
-
+  functionType = <SupportedFunction>SupportedFunctions[getRandomInt(0, 2)];
   /** `k`x^2 */
-  power2 = getRandomInt(-3, 3) || 1;
+  power2 = this.getRandomK();
   /** `k`x */
-  power1 = getRandomInt(-3, 3) || 1;
+  power1 = this.getRandomK();
   /** `c` */
-  power0 = getRandomInt(-3, 3) || 1;
+  power0 = this.getRandomK();
   /** `k`/x */
-  power_1 = getRandomInt(-3, 3) || 1;
+  power_1 = this.getRandomK();
+
+  paramsStore: { tmp?: number[], test?: number[] } = {};
+
+  timerInit: Date;
+  timerValue = 0;
+  /**
+   * BUG: Cannot find namespace 'NodeJS'
+   * @type {NodeJS.Timer}  
+   */
+  timer: any;
+
+  resultMessage?: string;
+
+  constructor(
+    private service: ChartsService,
+  ) { }
 
   get formula() {
     let a, b, c, k;
 
-    if (this.functionType === 'hyperbole') {
-      k = this.power_1;
-    }
+    if (this.functionType === 'hyperbole') k = this.power_1;
     else {
       if (this.functionType === 'parabole') a = this.power2;
       b = this.power1;
@@ -50,10 +61,6 @@ export class ChartsComponent implements AfterViewInit {
       .replace(/^\+\s/, '')
       .replace(/^$/, '0');
   }
-
-  constructor(
-    private service: ChartsService,
-  ) { }
 
   ngAfterViewInit() {
     this.ctx = (<HTMLCanvasElement>this.canvas.nativeElement).getContext('2d');
@@ -84,11 +91,64 @@ export class ChartsComponent implements AfterViewInit {
     const { width, height } = ctx.canvas;
 
     ctx.clearRect(0, 0, width, height);
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = this.service.COLORS.pencil;
+
+    if (this.paramsStore.test) {
+      this.paramsStore.tmp = [this.power0, this.power1, this.power2, this.power_1];
+      const isSuccessTest = this.paramsStore.tmp
+        .every((param, i) => param === this.paramsStore.test[i] || this.paramsFilter(i));
+
+      if (isSuccessTest) {
+        this.paramsStore.test = null;
+        clearInterval(this.timer);
+        this.resultMessage = (
+          this.timerValue < 10 ? 'Отлично! 5' :
+            this.timerValue < 20 ? 'Хорошо! 4' :
+              this.timerValue < 30 ? 'Удовлетворительно! 3' :
+                'Не сдал'
+        );
+      }
+      else {
+        [this.power0, this.power1, this.power2, this.power_1] = this.paramsStore.test;
+        this.buildChart(this.service.COLORS.orange);
+        [this.power0, this.power1, this.power2, this.power_1] = this.paramsStore.tmp;
+      }
+    }
+    this.buildChart(this.service.COLORS.pencil);
+  }
+
+  setRandomParams() {
+    this.paramsStore.test = [
+      this.getRandomK(),
+      this.getRandomK(),
+      this.getRandomK(),
+      this.getRandomK(),
+    ];
+
+    this.resultMessage = null;
+    this.timerInit = new Date();
+    this.timerValue = 0;
+    this.timer = setInterval(() => {
+      const dms = (new Date().valueOf() - this.timerInit.valueOf()) / 1000;
+      this.timerValue = Math.floor(dms);
+    }, 900);
+
+    this.drawFunction();
+  }
+
+  private paramsFilter(i: number) {
+    if (this.functionType === 'linear') return i !== 0 && i !== 1;
+    if (this.functionType === 'parabole') return i === 3;
+    if (this.functionType === 'hyperbole') return i !== 3;
+  }
+
+  private buildChart(color: string) {
+    const { ctx } = this;
+    const { width, height } = ctx.canvas;
 
     ctx.save();
     ctx.translate(width / 2, -height / 2);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
 
     ctx.beginPath();
     if (this.functionType === 'hyperbole') {
@@ -111,15 +171,19 @@ export class ChartsComponent implements AfterViewInit {
     ctx.restore();
   }
 
-  linear(x: number) {
+  private getRandomK() {
+    return getRandomInt(-6, 6) / 2 || 1;
+  }
+
+  protected linear(x: number) {
     return x * this.power1 + this.power0 * this.service.cellSize;
   }
 
-  parabole(x: number) {
+  protected parabole(x: number) {
     return Math.pow(x, 2) * this.power2 / this.service.cellSize + this.linear(x);
   }
 
-  hyperbole(x: number) {
+  protected hyperbole(x: number) {
     return this.power_1 / x * Math.pow(this.service.cellSize, 2);
   }
 

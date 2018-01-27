@@ -5,9 +5,10 @@ export class ChartsService {
 
   /** Используемые цвета */
   COLORS = {
-    darkBlue: '#000aff',
     blue: '#009bff',
     boldPencil: '#505050',
+    darkBlue: '#000aff',
+    orange: '#f44336',
     pencil: '#737373',
   };
 

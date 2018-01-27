@@ -1,6 +1,8 @@
 <section class="app-charts__col-1">
   <mat-card>
-    <mat-card-title [innerHTML]="formula"></mat-card-title>
+    <mat-card-title>
+      <span [innerHTML]="formula"></span>
+    </mat-card-title>
   </mat-card>
 
   <div #stickyContainer
@@ -84,4 +86,31 @@
                [(param)]="power_1"
                (paramChange)="drawFunction()"></app-param>
   </ng-container>
+
+  <mat-card *ngIf="!paramsStore.test; else stopwatch">
+    <mat-card-title> Тест </mat-card-title>
+    <mat-card-content>
+      Узнай наколько хорошо ты усвоил материал!
+      <br><strong>Построй предложенную функцию как можно быстрей!</strong>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button
+              class="app-charts__btn-random-func"
+              color="warn"
+              (click)="setRandomParams()">Случайная функция</button>
+    </mat-card-actions>
+  </mat-card>
+  <ng-template #stopwatch>
+    <mat-card>
+      <mat-card-subtitle> Секундомер: </mat-card-subtitle>
+      <mat-card-title> {{timerValue}} c </mat-card-title>
+    </mat-card>
+  </ng-template>
 </section>
+
+<mat-card *ngIf="resultMessage; else space">
+  <mat-card-title>{{resultMessage}}</mat-card-title>
+  <mat-card-content>
+    <strong>Время:</strong> {{timerValue}} с
+  </mat-card-content>
+</mat-card>
