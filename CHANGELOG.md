@@ -1,3 +1,13 @@
+<a name="1.5.2"></a>
+## [1.5.2](https://github.com/justerest/school/compare/v1.5.1...v1.5.2) (2018-01-28)
+
+
+### Bug Fixes
+
+* **style:** add box-shadow for toolbar ([97aafc9](https://github.com/justerest/school/commit/97aafc9))
+
+
+
 <a name="1.5.1"></a>
 ## [1.5.1](https://github.com/justerest/school/compare/v1.5.0...v1.5.1) (2018-01-28)
 
