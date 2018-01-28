@@ -1,3 +1,13 @@
+<a name="1.5.1"></a>
+## [1.5.1](https://github.com/justerest/school/compare/v1.5.0...v1.5.1) (2018-01-28)
+
+
+### Bug Fixes
+
+* **charts:** delete mistake in the text ([2ba8e02](https://github.com/justerest/school/commit/2ba8e02))
+
+
+
 <a name="1.5.0"></a>
 # [1.5.0](https://github.com/justerest/school/compare/v1.4.1...v1.5.0) (2018-01-27)
 
