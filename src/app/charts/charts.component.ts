@@ -2,8 +2,7 @@ import { getRandomInt } from 'utils/get-random-int';
 
 import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 
-import { ChartsService } from './charts.service';
-import { SupportedFunction, SupportedFunctions } from './supported-functions.enum';
+import { CELL_SIZE, COLORS, SupportedFunction, SupportedFunctions } from './constants';
 
 @Component({
   selector: 'app-charts',
@@ -39,10 +38,6 @@ export class ChartsComponent implements AfterViewInit {
   timer: any;
 
   resultMessage?: string;
-
-  constructor(
-    private service: ChartsService,
-  ) { }
 
   get formula() {
     const [c, b, a, k] = this.allParams.map((power, i) => this.paramsFilter(i) ? power : 0);
@@ -89,7 +84,6 @@ export class ChartsComponent implements AfterViewInit {
   drawFunction() {
     const { ctx } = this;
     const { width, height } = ctx.canvas;
-    const { COLORS } = this.service;
 
     ctx.clearRect(0, 0, width, height);
 
@@ -173,19 +167,19 @@ export class ChartsComponent implements AfterViewInit {
   }
 
   private getRandomK() {
-    return getRandomInt(-6, 6) / 2 || 1;
+    return getRandomInt(-6, 6);
   }
 
   private linear(x: number) {
-    return x * this.power1 + this.power0 * this.service.cellSize;
+    return x * this.power1 + this.power0 * CELL_SIZE;
   }
 
   private parabole(x: number) {
-    return Math.pow(x, 2) * this.power2 / this.service.cellSize + this.linear(x);
+    return Math.pow(x, 2) * this.power2 / CELL_SIZE + this.linear(x);
   }
 
   private hyperbole(x: number) {
-    return this.power_1 / x * Math.pow(this.service.cellSize, 2);
+    return this.power_1 / x * Math.pow(CELL_SIZE, 2);
   }
 
 }

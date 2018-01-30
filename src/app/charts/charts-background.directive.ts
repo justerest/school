@@ -1,5 +1,6 @@
-import { ChartsService } from './charts.service';
 import { AfterViewInit, Directive, ElementRef } from '@angular/core';
+
+import { CELL_SIZE, COLORS } from './constants';
 
 @Directive({
   selector: '[appChartsBackground]',
@@ -10,7 +11,6 @@ export class ChartsBackgroundDirective implements AfterViewInit {
 
   constructor(
     private el: ElementRef,
-    private service: ChartsService,
   ) { }
 
   ngAfterViewInit() {
@@ -23,10 +23,10 @@ export class ChartsBackgroundDirective implements AfterViewInit {
   drawCells() {
     const { ctx } = this;
     const { width, height } = ctx.canvas;
-    const CSZ = this.service.cellSize / 2;
+    const CSZ = CELL_SIZE / 2;
 
     ctx.lineWidth = 0.3;
-    ctx.strokeStyle = this.service.COLORS.blue;
+    ctx.strokeStyle = COLORS.blue;
 
     ctx.beginPath();
 
@@ -45,10 +45,10 @@ export class ChartsBackgroundDirective implements AfterViewInit {
   drawAxis() {
     const { ctx } = this;
     const { width, height } = ctx.canvas;
-    const CSZ = this.service.cellSize / 2;
+    const CSZ = CELL_SIZE / 2;
 
     ctx.lineWidth = 0.5;
-    ctx.strokeStyle = this.service.COLORS.boldPencil;
+    ctx.strokeStyle = COLORS.boldPencil;
 
     ctx.beginPath();
 
@@ -80,9 +80,9 @@ export class ChartsBackgroundDirective implements AfterViewInit {
   drawSigns() {
     const { ctx } = this;
     const { width, height } = ctx.canvas;
-    const CSZ = this.service.cellSize / 2;
+    const CSZ = CELL_SIZE / 2;
 
-    ctx.fillStyle = this.service.COLORS.darkBlue;
+    ctx.fillStyle = COLORS.darkBlue;
     ctx.font = 'italic 20px sans-serif';
 
     ctx.fillText('x', width - CSZ, height / 2 + CSZ, CSZ);

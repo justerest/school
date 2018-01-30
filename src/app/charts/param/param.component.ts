@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-param',
   templateUrl: './param.component.html',
   styleUrls: ['./param.component.scss'],
 })
-export class ParamComponent implements OnInit {
+export class ParamComponent {
 
   @Input() paramName: string;
   @Input() subtitle: string;
@@ -15,12 +15,7 @@ export class ParamComponent implements OnInit {
   @Input() param: number;
   @Output() paramChange = new EventEmitter<number>();
 
-  incrementValue = 0.5;
-
-  constructor() { }
-
-  ngOnInit() {
-  }
+  incrementValue = 1;
 
   incrementParam() {
     this.param += this.incrementValue;
