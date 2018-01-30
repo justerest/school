@@ -8,7 +8,7 @@ export const COLORS = {
 };
 
 /** Размер одной клетки */
-export const CELL_SIZE = 60;
+export const CELL_SIZE = 30;
 
 export enum SupportedFunctions {
   'linear' = 0,

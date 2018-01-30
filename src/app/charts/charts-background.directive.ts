@@ -23,18 +23,17 @@ export class ChartsBackgroundDirective implements AfterViewInit {
   drawCells() {
     const { ctx } = this;
     const { width, height } = ctx.canvas;
-    const CSZ = CELL_SIZE / 2;
 
     ctx.lineWidth = 0.3;
     ctx.strokeStyle = COLORS.blue;
 
     ctx.beginPath();
 
-    for (let i = CSZ; i < width; i += CSZ) {
+    for (let i = CELL_SIZE; i < width; i += CELL_SIZE) {
       ctx.moveTo(i, 0);
       ctx.lineTo(i, height);
     }
-    for (let i = CSZ; i < height; i += CSZ) {
+    for (let i = CELL_SIZE; i < height; i += CELL_SIZE) {
       ctx.moveTo(0, i);
       ctx.lineTo(width, i);
     }
@@ -85,14 +84,14 @@ export class ChartsBackgroundDirective implements AfterViewInit {
     ctx.fillStyle = COLORS.darkBlue;
     ctx.font = 'italic 20px sans-serif';
 
-    ctx.fillText('x', width - CSZ, height / 2 + CSZ, CSZ);
-    ctx.fillText('y', width / 2 - CSZ, CSZ, CSZ);
+    ctx.fillText('x', width - CSZ, height / 2 + 1.7 * CSZ, CSZ);
+    ctx.fillText('y', width / 2 - 1.7 * CSZ, CSZ, CSZ);
 
     ctx.font = 'italic 14px sans-serif';
 
-    ctx.fillText('0', width / 2 - CSZ / 2, height / 2 + CSZ, CSZ);
-    ctx.fillText('1', width / 2 + 2 * CSZ, height / 2 + CSZ, CSZ);
-    ctx.fillText('1', width / 2 - CSZ / 2, height / 2 - 2 * CSZ, CSZ);
+    ctx.fillText('0', width / 2 - CSZ, height / 2 + CSZ, CSZ);
+    ctx.fillText('1', width / 2 + 1.7 * CSZ, height / 2 + CSZ, CSZ);
+    ctx.fillText('1', width / 2 - CSZ, height / 2 - 1.7 * CSZ, CSZ);
   }
 
 }

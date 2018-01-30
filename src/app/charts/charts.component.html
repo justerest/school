@@ -88,21 +88,20 @@
   </ng-container>
 
   <mat-card *ngIf="!paramsStore.test; else stopwatch">
-    <mat-card-title> Тест </mat-card-title>
+    <!-- <mat-card-title> Тест </mat-card-title> -->
     <mat-card-content>
-      <strong>Построй предложенную функцию как можно быстрей!</strong>
-      <br><i>Попробуй ввести значения сразу (за использование клавиш добавляются секунды)</i>
+      <strong>Построй предложенную функцию</strong>
+      <br><i>За использование клавиш добавляются секунды</i>
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button
               class="app-charts__btn-random-func"
               color="warn"
-              (click)="setRandomParams()">Случайная функция</button>
+              (click)="setRandomParams()">ТЕСТ</button>
     </mat-card-actions>
   </mat-card>
   <ng-template #stopwatch>
     <mat-card>
-      <mat-card-subtitle> Секундомер: </mat-card-subtitle>
       <mat-card-title> {{timerValue}} c </mat-card-title>
     </mat-card>
   </ng-template>

@@ -95,21 +95,22 @@ export class ChartsComponent implements AfterViewInit {
       if (isSuccessTest) {
         this.paramsStore.test = null;
         clearInterval(this.timer);
+        const paramsLength = this.allParams.filter((_, i) => this.paramsFilter(i)).length;
         this.resultMessage = (
-          this.timerValue <= 10 ? 'Отлично! 5' :
-            this.timerValue <= 20 ? 'Хорошо! 4' :
-              this.timerValue <= 30 ? 'Удовлетворительно! 3' :
+          this.timerValue <= 10 * paramsLength ? 'Отлично!' :
+            this.timerValue <= 15 * paramsLength ? 'Хорошо!' :
+              this.timerValue <= 20 * paramsLength ? 'Удовлетворительно!' :
                 'Не сдал'
         );
       }
       else {
-        this.timerInit -= 1500;
-
+        if (this.timerValue) this.timerInit -= 2000;
         this.allParams = this.paramsStore.test;
         this.buildChart(COLORS.orange);
         this.allParams = this.paramsStore.tmp;
       }
     }
+
     this.buildChart(COLORS.pencil);
   }
 
@@ -122,7 +123,7 @@ export class ChartsComponent implements AfterViewInit {
     this.timer = setInterval(() => {
       const dms = (new Date().valueOf() - this.timerInit) / 1000;
       this.timerValue = Math.floor(dms);
-    }, 1000);
+    }, 500);
 
     this.drawFunction();
   }
@@ -167,7 +168,7 @@ export class ChartsComponent implements AfterViewInit {
   }
 
   private getRandomK() {
-    return getRandomInt(-6, 6);
+    return getRandomInt(-5, 5);
   }
 
   private linear(x: number) {
