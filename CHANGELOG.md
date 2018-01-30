@@ -1,3 +1,18 @@
+<a name="1.6.0"></a>
+# [1.6.0](https://github.com/justerest/school/compare/v1.5.2...v1.6.0) (2018-01-30)
+
+
+### Features
+
+* **charts:** cell size = 1 ([5dae24c](https://github.com/justerest/school/commit/5dae24c))
+
+
+### Performance Improvements
+
+* **updates:** [@angular](https://github.com/angular)/material ([2435edd](https://github.com/justerest/school/commit/2435edd))
+
+
+
 <a name="1.5.2"></a>
 ## [1.5.2](https://github.com/justerest/school/compare/v1.5.1...v1.5.2) (2018-01-28)
 
