@@ -138,7 +138,7 @@ export class ChartsComponent implements AfterViewInit {
     this.drawFunction();
   }
 
-  private paramsFilter(i: number, j: number) {
+  private paramsFilter(i: number, j?: number) {
     if (typeof j !== 'undefined') i = j;
 
     if (this.functionType === 'linear') return i !== 0 && i !== 1;
