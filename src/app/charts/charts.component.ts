@@ -45,21 +45,21 @@ export class ChartsComponent implements AfterViewInit {
   ) { }
 
   get formula() {
-    let a, b, c, k;
+    const [c, b, a, k] = this.allParams.map((power, i) => this.paramsFilter(i) ? power : 0);
 
-    if (this.functionType === 'hyperbole') k = this.power_1;
-    else {
-      if (this.functionType === 'parabole') a = this.power2;
-      b = this.power1;
-      c = this.power0;
-    }
-
-    return 'y = ' + `${a || 0}x<sup>2</sup> + ${b || 0}x + ${c || 0} + ${k || 0}x<sup>-1</sup>`
+    return 'y = ' + `${a}x<sup>2</sup> + ${b}x + ${c} + ${k}x<sup>-1</sup>`
       .replace(/(^|\+\s)-/g, '- ')
       .replace(/(^|\+\s)0(x|\s|$)(<sup>.?.<\/sup>)?\s?/g, '')
       .replace(/(^|\s)1x/g, ' x')
       .replace(/^\+\s/, '')
       .replace(/^$/, '0');
+  }
+
+  get allParams() {
+    return [this.power0, this.power1, this.power2, this.power_1];
+  }
+  set allParams(arr: number[]) {
+    [this.power0, this.power1, this.power2, this.power_1] = arr;
   }
 
   ngAfterViewInit() {
@@ -94,9 +94,9 @@ export class ChartsComponent implements AfterViewInit {
     ctx.clearRect(0, 0, width, height);
 
     if (this.paramsStore.test) {
-      this.paramsStore.tmp = [this.power0, this.power1, this.power2, this.power_1];
+      this.paramsStore.tmp = this.allParams;
       const isSuccessTest = this.paramsStore.tmp
-        .every((param, i) => param === this.paramsStore.test[i] || this.paramsFilter(i));
+        .every((param, i) => param === this.paramsStore.test[i] || !this.paramsFilter(i));
 
       if (isSuccessTest) {
         this.paramsStore.test = null;
@@ -111,21 +111,16 @@ export class ChartsComponent implements AfterViewInit {
       else {
         this.timerInit -= 1500;
 
-        [this.power0, this.power1, this.power2, this.power_1] = this.paramsStore.test;
+        this.allParams = this.paramsStore.test;
         this.buildChart(COLORS.orange);
-        [this.power0, this.power1, this.power2, this.power_1] = this.paramsStore.tmp;
+        this.allParams = this.paramsStore.tmp;
       }
     }
     this.buildChart(COLORS.pencil);
   }
 
   setRandomParams() {
-    this.paramsStore.test = [
-      this.getRandomK(),
-      this.getRandomK(),
-      this.getRandomK(),
-      this.getRandomK(),
-    ];
+    this.paramsStore.test = this.allParams.map(this.getRandomK);
 
     this.resultMessage = null;
     this.timerInit = new Date().valueOf();
@@ -138,12 +133,12 @@ export class ChartsComponent implements AfterViewInit {
     this.drawFunction();
   }
 
-  private paramsFilter(i: number, j?: number) {
-    if (typeof j !== 'undefined') i = j;
-
-    if (this.functionType === 'linear') return i !== 0 && i !== 1;
-    if (this.functionType === 'parabole') return i === 3;
-    if (this.functionType === 'hyperbole') return i !== 3;
+  private paramsFilter(i: number) {
+    return (
+      this.functionType === 'linear' ? i === 0 || i === 1 :
+        this.functionType === 'parabole' ? i !== 3 :
+          this.functionType === 'hyperbole' && i === 3
+    );
   }
 
   private buildChart(color: string) {
@@ -153,7 +148,7 @@ export class ChartsComponent implements AfterViewInit {
       this.functionType === 'hyperbole' ? this.hyperbole :
         this.functionType === 'parabole' ? this.parabole :
           this.linear
-    );
+    ).bind(this);
 
     ctx.save();
 
