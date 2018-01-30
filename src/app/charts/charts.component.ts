@@ -89,6 +89,7 @@ export class ChartsComponent implements AfterViewInit {
   drawFunction() {
     const { ctx } = this;
     const { width, height } = ctx.canvas;
+    const { COLORS } = this.service;
 
     ctx.clearRect(0, 0, width, height);
 
@@ -111,11 +112,11 @@ export class ChartsComponent implements AfterViewInit {
         this.timerInit -= 1500;
 
         [this.power0, this.power1, this.power2, this.power_1] = this.paramsStore.test;
-        this.buildChart(this.service.COLORS.orange);
+        this.buildChart(COLORS.orange);
         [this.power0, this.power1, this.power2, this.power_1] = this.paramsStore.tmp;
       }
     }
-    this.buildChart(this.service.COLORS.pencil);
+    this.buildChart(COLORS.pencil);
   }
 
   setRandomParams() {
@@ -132,12 +133,14 @@ export class ChartsComponent implements AfterViewInit {
     this.timer = setInterval(() => {
       const dms = (new Date().valueOf() - this.timerInit) / 1000;
       this.timerValue = Math.floor(dms);
-    }, 900);
+    }, 1000);
 
     this.drawFunction();
   }
 
-  private paramsFilter(i: number) {
+  private paramsFilter(i: number, j: number) {
+    if (typeof j !== 'undefined') i = j;
+
     if (this.functionType === 'linear') return i !== 0 && i !== 1;
     if (this.functionType === 'parabole') return i === 3;
     if (this.functionType === 'hyperbole') return i !== 3;
@@ -146,27 +149,28 @@ export class ChartsComponent implements AfterViewInit {
   private buildChart(color: string) {
     const { ctx } = this;
     const { width, height } = ctx.canvas;
+    const mathFunc = (
+      this.functionType === 'hyperbole' ? this.hyperbole :
+        this.functionType === 'parabole' ? this.parabole :
+          this.linear
+    );
 
     ctx.save();
+
     ctx.translate(width / 2, -height / 2);
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
 
     ctx.beginPath();
+    for (let x = - width / 2; x < 0; x++) {
+      ctx.lineTo(x, height - mathFunc(x));
+    }
     if (this.functionType === 'hyperbole') {
-      for (let x = -width / 2; x < 0; x++) {
-        ctx.lineTo(x, height - this[this.functionType](x));
-      }
       ctx.stroke();
       ctx.beginPath();
-      for (let x = 0; x < width / 2; x++) {
-        ctx.lineTo(x, height - this[this.functionType](x));
-      }
     }
-    else {
-      for (let x = -width / 2; x < width / 2; x++) {
-        ctx.lineTo(x, height - this[this.functionType](x));
-      }
+    for (let x = 0; x < width / 2; x++) {
+      ctx.lineTo(x, height - mathFunc(x));
     }
     ctx.stroke();
 
@@ -177,15 +181,15 @@ export class ChartsComponent implements AfterViewInit {
     return getRandomInt(-6, 6) / 2 || 1;
   }
 
-  protected linear(x: number) {
+  private linear(x: number) {
     return x * this.power1 + this.power0 * this.service.cellSize;
   }
 
-  protected parabole(x: number) {
+  private parabole(x: number) {
     return Math.pow(x, 2) * this.power2 / this.service.cellSize + this.linear(x);
   }
 
-  protected hyperbole(x: number) {
+  private hyperbole(x: number) {
     return this.power_1 / x * Math.pow(this.service.cellSize, 2);
   }
 
