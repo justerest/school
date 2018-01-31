@@ -11,11 +11,10 @@ import { CELL_SIZE, COLORS, SupportedFunction, SupportedFunctions } from './cons
 })
 export class ChartsComponent implements AfterViewInit {
 
-  canvasSize = 600;
-
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('stickyContainer') stickyContainer: ElementRef;
   ctx: CanvasRenderingContext2D;
+  canvasSize = 600;
 
   functionType = <SupportedFunction>SupportedFunctions[getRandomInt(0, 2)];
   /** `k`x^2 */
@@ -29,14 +28,15 @@ export class ChartsComponent implements AfterViewInit {
 
   paramsStore: { tmp?: number[], test?: number[] } = {};
 
-  timerInit: number;
   timerValue = 0;
+  timerInitDateValue: number;
   /**
    * BUG: Cannot find namespace 'NodeJS'
    * @type {NodeJS.Timer}  
    */
-  timer: any;
+  timerInterval: any;
 
+  /** Message with mark */
   resultMessage?: string;
 
   get formula() {
@@ -53,6 +53,7 @@ export class ChartsComponent implements AfterViewInit {
   get allParams() {
     return [this.power0, this.power1, this.power2, this.power_1];
   }
+
   set allParams(arr: number[]) {
     [this.power0, this.power1, this.power2, this.power_1] = arr;
   }
@@ -94,7 +95,7 @@ export class ChartsComponent implements AfterViewInit {
 
       if (isSuccessTest) {
         this.paramsStore.test = null;
-        clearInterval(this.timer);
+        clearInterval(this.timerInterval);
         const paramsLength = this.allParams.filter((_, i) => this.paramsFilter(i)).length;
         this.resultMessage = (
           this.timerValue <= 10 * paramsLength ? 'Отлично!' :
@@ -104,7 +105,7 @@ export class ChartsComponent implements AfterViewInit {
         );
       }
       else {
-        if (this.timerValue) this.timerInit -= 2000;
+        if (this.timerValue) this.timerInitDateValue -= 2000;
         this.allParams = this.paramsStore.test;
         this.buildChart(COLORS.orange);
         this.allParams = this.paramsStore.tmp;
@@ -118,10 +119,10 @@ export class ChartsComponent implements AfterViewInit {
     this.paramsStore.test = this.allParams.map(this.getRandomK);
 
     this.resultMessage = null;
-    this.timerInit = new Date().valueOf();
+    this.timerInitDateValue = new Date().valueOf();
     this.timerValue = 0;
-    this.timer = setInterval(() => {
-      const dms = (new Date().valueOf() - this.timerInit) / 1000;
+    this.timerInterval = setInterval(() => {
+      const dms = (new Date().valueOf() - this.timerInitDateValue) / 1000;
       this.timerValue = Math.floor(dms);
     }, 500);
 
