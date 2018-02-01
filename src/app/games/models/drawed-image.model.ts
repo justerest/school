@@ -93,9 +93,9 @@ export class DrawedImage extends Figure {
     const size = [this.image.naturalWidth, this.image.naturalHeight / this.spritesCount];
     this.ctx.drawImage(this.image,
       0, size[1] * this._spritePos,
-      ...size,
-      ...this.points[0],
-      ...size,
+      size[0], size[1],
+      this.points[0][0], this.points[0][1],
+      size[0], size[1],
     );
     return this;
   }
