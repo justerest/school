@@ -65,4 +65,5 @@
   "workbench.startupEditor": "welcomePage",
   "workbench.colorTheme": "One Dark Pro",
   "workbench.activityBar.visible": false,
+  "typescript.tsdk": "node_modules/typescript/lib",
 }
