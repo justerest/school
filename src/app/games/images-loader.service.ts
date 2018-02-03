@@ -10,7 +10,7 @@ export class ImagesLoaderService {
     const image = new Image;
 
     const promise = new Promise((resolve, reject) => {
-      image.onerror = reject;
+      image.onerror = () => reject();
       image.onload = () => {
         this._collection[imageName] = image;
         resolve();

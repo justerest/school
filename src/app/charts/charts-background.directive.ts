@@ -17,81 +17,79 @@ export class ChartsBackgroundDirective implements AfterViewInit {
     this.ctx = this.el.nativeElement.getContext('2d');
     this.drawCells();
     this.drawAxis();
+  }
+
+  private drawCells() {
+    this.ctx.lineWidth = 0.3;
+    this.ctx.strokeStyle = COLORS.blue;
+
+    this.ctx.beginPath();
+
+    for (let i = CELL_SIZE; i < this.ctx.canvas.width; i += CELL_SIZE) {
+      this.ctx.moveTo(i, 0);
+      this.ctx.lineTo(i, this.ctx.canvas.height);
+    }
+    for (let i = CELL_SIZE; i < this.ctx.canvas.height; i += CELL_SIZE) {
+      this.ctx.moveTo(0, i);
+      this.ctx.lineTo(this.ctx.canvas.width, i);
+    }
+
+    this.ctx.stroke();
+  }
+
+  private drawAxis() {
+    this.ctx.lineWidth = 0.5;
+    this.ctx.strokeStyle = COLORS.boldPencil;
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.ctx.canvas.width / 2, 0);
+    this.ctx.lineTo(this.ctx.canvas.width / 2, this.ctx.canvas.height);
+    this.ctx.moveTo(0, this.ctx.canvas.height / 2);
+    this.ctx.lineTo(this.ctx.canvas.width, this.ctx.canvas.height / 2);
+
+    this.drawArrowX();
+    this.drawArrowY();
+    this.drawLittleLines();
     this.drawSigns();
+
+    this.ctx.stroke();
   }
 
-  drawCells() {
-    const { ctx } = this;
-    const { width, height } = ctx.canvas;
-
-    ctx.lineWidth = 0.3;
-    ctx.strokeStyle = COLORS.blue;
-
-    ctx.beginPath();
-
-    for (let i = CELL_SIZE; i < width; i += CELL_SIZE) {
-      ctx.moveTo(i, 0);
-      ctx.lineTo(i, height);
-    }
-    for (let i = CELL_SIZE; i < height; i += CELL_SIZE) {
-      ctx.moveTo(0, i);
-      ctx.lineTo(width, i);
-    }
-
-    ctx.stroke();
+  private drawArrowX() {
+    this.ctx.moveTo(this.ctx.canvas.width, this.ctx.canvas.height / 2);
+    this.ctx.lineTo(this.ctx.canvas.width - CELL_SIZE / 2, this.ctx.canvas.height / 2 - CELL_SIZE / 2 / 2);
+    this.ctx.moveTo(this.ctx.canvas.width, this.ctx.canvas.height / 2);
+    this.ctx.lineTo(this.ctx.canvas.width - CELL_SIZE / 2, this.ctx.canvas.height / 2 + CELL_SIZE / 2 / 2);
   }
 
-  drawAxis() {
-    const { ctx } = this;
-    const { width, height } = ctx.canvas;
+  private drawArrowY() {
+    this.ctx.moveTo(this.ctx.canvas.width / 2, 0);
+    this.ctx.lineTo(this.ctx.canvas.width / 2 - CELL_SIZE / 2 / 2, CELL_SIZE / 2);
+    this.ctx.moveTo(this.ctx.canvas.width / 2, 0);
+    this.ctx.lineTo(this.ctx.canvas.width / 2 + CELL_SIZE / 2 / 2, CELL_SIZE / 2);
+  }
+
+  private drawLittleLines() {
+    this.ctx.moveTo(this.ctx.canvas.width / 2 + 2 * CELL_SIZE / 2, this.ctx.canvas.height / 2 - CELL_SIZE / 2 / 4);
+    this.ctx.lineTo(this.ctx.canvas.width / 2 + 2 * CELL_SIZE / 2, this.ctx.canvas.height / 2 + CELL_SIZE / 2 / 4);
+    this.ctx.moveTo(this.ctx.canvas.width / 2 - CELL_SIZE / 2 / 4, this.ctx.canvas.height / 2 - 2 * CELL_SIZE / 2);
+    this.ctx.lineTo(this.ctx.canvas.width / 2 + CELL_SIZE / 2 / 4, this.ctx.canvas.height / 2 - 2 * CELL_SIZE / 2);
+  }
+
+  private drawSigns() {
     const CSZ = CELL_SIZE / 2;
 
-    ctx.lineWidth = 0.5;
-    ctx.strokeStyle = COLORS.boldPencil;
+    this.ctx.fillStyle = COLORS.darkBlue;
+    this.ctx.font = 'italic 20px sans-serif';
 
-    ctx.beginPath();
+    this.ctx.fillText('x', this.ctx.canvas.width - CSZ, this.ctx.canvas.height / 2 + 1.7 * CSZ, CSZ);
+    this.ctx.fillText('y', this.ctx.canvas.width / 2 - 1.7 * CSZ, CSZ, CSZ);
 
-    ctx.moveTo(width / 2, 0);
-    ctx.lineTo(width / 2, height);
+    this.ctx.font = 'italic 14px sans-serif';
 
-    ctx.moveTo(width / 2, 0);
-    ctx.lineTo(width / 2 - CSZ / 2, CSZ);
-    ctx.moveTo(width / 2, 0);
-    ctx.lineTo(width / 2 + CSZ / 2, CSZ);
-
-    ctx.moveTo(0, height / 2);
-    ctx.lineTo(width, height / 2);
-
-    ctx.moveTo(width, height / 2);
-    ctx.lineTo(width - CSZ, height / 2 - CSZ / 2);
-    ctx.moveTo(width, height / 2);
-    ctx.lineTo(width - CSZ, height / 2 + CSZ / 2);
-
-    ctx.moveTo(width / 2 + 2 * CSZ, height / 2 - CSZ / 4);
-    ctx.lineTo(width / 2 + 2 * CSZ, height / 2 + CSZ / 4);
-
-    ctx.moveTo(width / 2 - CSZ / 4, height / 2 - 2 * CSZ);
-    ctx.lineTo(width / 2 + CSZ / 4, height / 2 - 2 * CSZ);
-
-    ctx.stroke();
-  }
-
-  drawSigns() {
-    const { ctx } = this;
-    const { width, height } = ctx.canvas;
-    const CSZ = CELL_SIZE / 2;
-
-    ctx.fillStyle = COLORS.darkBlue;
-    ctx.font = 'italic 20px sans-serif';
-
-    ctx.fillText('x', width - CSZ, height / 2 + 1.7 * CSZ, CSZ);
-    ctx.fillText('y', width / 2 - 1.7 * CSZ, CSZ, CSZ);
-
-    ctx.font = 'italic 14px sans-serif';
-
-    ctx.fillText('0', width / 2 - CSZ, height / 2 + CSZ, CSZ);
-    ctx.fillText('1', width / 2 + 1.7 * CSZ, height / 2 + CSZ, CSZ);
-    ctx.fillText('1', width / 2 - CSZ, height / 2 - 1.7 * CSZ, CSZ);
+    this.ctx.fillText('0', this.ctx.canvas.width / 2 - CSZ, this.ctx.canvas.height / 2 + CSZ, CSZ);
+    this.ctx.fillText('1', this.ctx.canvas.width / 2 + 1.7 * CSZ, this.ctx.canvas.height / 2 + CSZ, CSZ);
+    this.ctx.fillText('1', this.ctx.canvas.width / 2 - CSZ, this.ctx.canvas.height / 2 - 1.7 * CSZ, CSZ);
   }
 
 }
