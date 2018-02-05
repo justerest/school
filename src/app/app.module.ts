@@ -16,6 +16,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ChartsModule } from './charts/charts.module';
+import { ConverterModule } from './converter/converter.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ChartsModule } from './charts/charts.module';
     BrowserAnimationsModule,
     BrowserModule,
     ChartsModule,
+    ConverterModule,
     HttpClientModule,
     MatButtonModule,
     MatIconModule,
