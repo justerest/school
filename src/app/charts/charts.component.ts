@@ -11,10 +11,11 @@ import { CELL_SIZE, COLORS, SupportedFunction, SupportedFunctions } from './cons
 })
 export class ChartsComponent implements AfterViewInit {
 
+  readonly canvasSize = 600;
+
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('stickyContainer') stickyContainer: ElementRef;
   ctx: CanvasRenderingContext2D;
-  canvasSize = 600;
 
   functionType = <SupportedFunction>SupportedFunctions[getRandomInt(0, 2)];
   /** `k`x^2 */
@@ -29,12 +30,8 @@ export class ChartsComponent implements AfterViewInit {
   paramsStore: { tmp?: number[], test?: number[] } = {};
 
   timerValue = 0;
-  timerInitDateValue: number;
-  /**
-   * BUG: Cannot find namespace 'NodeJS'
-   * @type {NodeJS.Timer}  
-   */
-  timerInterval: any;
+  timerInitDateValue = 0;
+  timerInterval?: NodeJS.Timer;
 
   /** Message with mark */
   resultMessage?: string;
@@ -83,10 +80,7 @@ export class ChartsComponent implements AfterViewInit {
   }
 
   drawFunction() {
-    const { ctx } = this;
-    const { width, height } = ctx.canvas;
-
-    ctx.clearRect(0, 0, width, height);
+    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
     if (this.paramsStore.test) {
       this.paramsStore.tmp = this.allParams;
@@ -140,6 +134,7 @@ export class ChartsComponent implements AfterViewInit {
   private buildChart(color: string) {
     const { ctx } = this;
     const { width, height } = ctx.canvas;
+
     const mathFunc = (
       this.functionType === 'hyperbole' ? this.hyperbole :
         this.functionType === 'parabole' ? this.parabole :

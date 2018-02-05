@@ -37,8 +37,8 @@ export class KeyboardControlDirective {
     this.onKeyboardPress(<KeyboardEvent><any>event);
   }
 
-  @HostListener('touchend', ['$event'])
-  controlTouchEnd(event: TouchEvent) {
+  @HostListener('touchend')
+  controlTouchEnd() {
     this.control.reset();
   }
 
