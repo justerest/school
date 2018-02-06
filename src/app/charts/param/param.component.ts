@@ -7,6 +7,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class ParamComponent {
 
+  readonly incrementValue = 1;
+
   @Input() paramName: string;
   @Input() subtitle: string;
   @Input() iconLeft: string;
@@ -14,8 +16,6 @@ export class ParamComponent {
 
   @Input() param: number;
   @Output() paramChange = new EventEmitter<number>();
-
-  incrementValue = 1;
 
   incrementParam() {
     this.param += this.incrementValue;

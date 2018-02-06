@@ -30,7 +30,7 @@
         <mat-select class="app-charts__select"
                     tabindex="1"
                     [(value)]="functionType"
-                    (change)="drawFunction()">
+                    (change)="draw()">
           <mat-option value="linear">y = kx + b</mat-option>
           <mat-option value="parabole">y = ax&#178; + bx + c</mat-option>
           <mat-option value="hyperbole">y = k/x</mat-option>
@@ -45,14 +45,14 @@
                iconLeft="rotate-left"
                iconRight="rotate-right"
                [(param)]="power1"
-               (paramChange)="drawFunction()"></app-param>
+               (paramChange)="draw()"></app-param>
     <div class="space"></div>
     <app-param paramName="b"
                subtitle="Вертикальное cмещение"
                iconLeft="up"
                iconRight="down"
                [(param)]="power0"
-               (paramChange)="drawFunction()"></app-param>
+               (paramChange)="draw()"></app-param>
   </ng-container>
 
   <ng-container *ngIf="functionType === 'parabole'">
@@ -61,21 +61,21 @@
                iconLeft="more-vert"
                iconRight="more-vert"
                [(param)]="power2"
-               (paramChange)="drawFunction()"></app-param>
+               (paramChange)="draw()"></app-param>
     <div class="space"></div>
     <app-param paramName="b"
                subtitle="Горизонтальное смещение (влияет и на вертикальное)"
                iconLeft="more-horiz"
                iconRight="more-horiz"
                [(param)]="power1"
-               (paramChange)="drawFunction()"></app-param>
+               (paramChange)="draw()"></app-param>
     <div class="space"></div>
     <app-param paramName="c"
                subtitle="Вертикальное смещение"
                iconLeft="up"
                iconRight="down"
                [(param)]="power0"
-               (paramChange)="drawFunction()"></app-param>
+               (paramChange)="draw()"></app-param>
   </ng-container>
 
   <ng-container *ngIf="functionType === 'hyperbole'">
@@ -84,7 +84,7 @@
                iconLeft="more-horiz"
                iconRight="more-horiz"
                [(param)]="power_1"
-               (paramChange)="drawFunction()"></app-param>
+               (paramChange)="draw()"></app-param>
   </ng-container>
 
   <mat-card *ngIf="!paramsStore.test; else stopwatch">

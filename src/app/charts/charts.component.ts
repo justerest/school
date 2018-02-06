@@ -36,28 +36,9 @@ export class ChartsComponent implements AfterViewInit {
   /** Message with mark */
   resultMessage?: string;
 
-  get formula() {
-    const [c, b, a, k] = this.allParams.map((power, i) => this.paramsFilter(i) ? power : 0);
-
-    return 'y = ' + `${a}x<sup>2</sup> + ${b}x + ${c} + ${k}x<sup>-1</sup>`
-      .replace(/(^|\+\s)-/g, '- ')
-      .replace(/(^|\+\s)0(x|\s|$)(<sup>.?.<\/sup>)?\s?/g, '')
-      .replace(/(^|\s)1x/g, ' x')
-      .replace(/^\+\s/, '')
-      .replace(/^$/, '0');
-  }
-
-  get allParams() {
-    return [this.power0, this.power1, this.power2, this.power_1];
-  }
-
-  set allParams(arr: number[]) {
-    [this.power0, this.power1, this.power2, this.power_1] = arr;
-  }
-
   ngAfterViewInit() {
     this.ctx = (<HTMLCanvasElement>this.canvas.nativeElement).getContext('2d');
-    this.drawFunction();
+    this.draw();
   }
 
   @HostListener('scroll', ['$event.target'])
@@ -79,7 +60,26 @@ export class ChartsComponent implements AfterViewInit {
     else el.style.transform = el.style.opacity = '';
   }
 
-  drawFunction() {
+  get formula() {
+    const [c, b, a, k] = this.allParams.map((power, i) => this.paramsFilter(i) ? power : 0);
+
+    return 'y = ' + `${a}x<sup>2</sup> + ${b}x + ${c} + ${k}x<sup>-1</sup>`
+      .replace(/(^|\+\s)-/g, '- ')
+      .replace(/(^|\+\s)0(x|\s|$)(<sup>.?.<\/sup>)?\s?/g, '')
+      .replace(/(^|\s)1x/g, ' x')
+      .replace(/^\+\s/, '')
+      .replace(/^$/, '0');
+  }
+
+  get allParams() {
+    return [this.power0, this.power1, this.power2, this.power_1];
+  }
+
+  set allParams(arr: number[]) {
+    [this.power0, this.power1, this.power2, this.power_1] = arr;
+  }
+
+  draw() {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
     if (this.paramsStore.test) {
@@ -101,12 +101,12 @@ export class ChartsComponent implements AfterViewInit {
       else {
         if (this.timerValue) this.timerInitDateValue -= 2000;
         this.allParams = this.paramsStore.test;
-        this.buildChart(COLORS.orange);
+        this.drawChart(COLORS.orange);
         this.allParams = this.paramsStore.tmp;
       }
     }
 
-    this.buildChart(COLORS.pencil);
+    this.drawChart(COLORS.pencil);
   }
 
   setRandomParams() {
@@ -120,7 +120,7 @@ export class ChartsComponent implements AfterViewInit {
       this.timerValue = Math.floor(dms);
     }, 500);
 
-    this.drawFunction();
+    this.draw();
   }
 
   private paramsFilter(i: number) {
@@ -131,7 +131,7 @@ export class ChartsComponent implements AfterViewInit {
     );
   }
 
-  private buildChart(color: string) {
+  private drawChart(color: string) {
     const { ctx } = this;
     const { width, height } = ctx.canvas;
 
