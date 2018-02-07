@@ -19,7 +19,7 @@ export class DrawedImage extends Figure {
   private _spritePos: number;
   private _spritePosFromEnd: boolean;
 
-  constructor(params: Params<DrawedImage, 'ctx' | 'image'>) {
+  constructor(params: Pick<DrawedImage, 'ctx' | 'image'> & Partial<DrawedImage>) {
     super(params);
     Object.assign(this, params);
 
