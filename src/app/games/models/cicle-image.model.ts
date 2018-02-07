@@ -8,7 +8,7 @@ export class CicleImage extends DrawedImage {
   globalSpeed: GameSpeed;
   speed = getRandomInt(3, 6);
 
-  constructor(params: Params<CicleImage, 'ctx' | 'image' | 'globalSpeed'>) {
+  constructor(params: Pick<CicleImage, 'ctx' | 'image' | 'globalSpeed'> & Partial<CicleImage>) {
     super(params);
     Object.assign(this, params);
   }

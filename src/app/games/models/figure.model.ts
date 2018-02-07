@@ -14,7 +14,7 @@ export class Figure {
 
   strokeStyle = '#123';
 
-  constructor(params: Params<Figure, 'ctx'>) {
+  constructor(params: Pick<Figure, 'ctx'> & Partial<Figure>) {
     Object.assign(this, params);
   }
 
