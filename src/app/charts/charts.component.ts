@@ -53,7 +53,7 @@ export class ChartsComponent implements AfterViewInit {
 
     const margin = 2 * Math.pow(1 - scale, 2) * container.offsetWidth;
 
-    if (scrollTop > 0) {
+    if (scrollTop > 0 && window.innerWidth < 761) {
       el.style.opacity = '0.82';
       el.style.transform = `scale(${scale}) translate(${margin}px, ${-margin}px)`;
     }
