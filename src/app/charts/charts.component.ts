@@ -2,7 +2,8 @@ import { getRandomInt } from 'utils/get-random-int';
 
 import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 
-import { CELL_SIZE, COLORS, SupportedFunction, SupportedFunctions } from './constants';
+import { CanvasColors } from './canvas-colors.enum';
+import { ChartTypes } from './chart-types.enum';
 
 @Component({
   selector: 'app-charts',
@@ -11,13 +12,16 @@ import { CELL_SIZE, COLORS, SupportedFunction, SupportedFunctions } from './cons
 })
 export class ChartsComponent implements AfterViewInit {
 
+  /** Размер одной клетки */
+  readonly cellSize = 30;
+  /** Размер холста */
   readonly canvasSize = 600;
 
   @ViewChild('canvas') canvas: ElementRef;
   @ViewChild('stickyContainer') stickyContainer: ElementRef;
   ctx: CanvasRenderingContext2D;
 
-  functionType = <SupportedFunction>SupportedFunctions[getRandomInt(0, 2)];
+  functionType = ChartTypes.linear;
   /** `k`x^2 */
   power2 = this.getRandomK();
   /** `k`x */
@@ -101,12 +105,12 @@ export class ChartsComponent implements AfterViewInit {
       else {
         if (this.timerValue) this.timerInitDateValue -= 2000;
         this.allParams = this.paramsStore.test;
-        this.drawChart(COLORS.orange);
+        this.drawChart(CanvasColors.orange);
         this.allParams = this.paramsStore.tmp;
       }
     }
 
-    this.drawChart(COLORS.pencil);
+    this.drawChart(CanvasColors.pencil);
   }
 
   setRandomParams() {
@@ -125,9 +129,9 @@ export class ChartsComponent implements AfterViewInit {
 
   private paramsFilter(i: number) {
     return (
-      this.functionType === 'linear' ? i === 0 || i === 1 :
-        this.functionType === 'parabole' ? i !== 3 :
-          this.functionType === 'hyperbole' && i === 3
+      this.functionType === ChartTypes.linear ? i === 0 || i === 1 :
+        this.functionType === ChartTypes.parabole ? i !== 3 :
+          this.functionType === ChartTypes.hyperbole && i === 3
     );
   }
 
@@ -136,9 +140,9 @@ export class ChartsComponent implements AfterViewInit {
     const { width, height } = ctx.canvas;
 
     const mathFunc = (
-      this.functionType === 'hyperbole' ? this.hyperbole :
-        this.functionType === 'parabole' ? this.parabole :
-          this.linear
+      this.functionType === ChartTypes.hyperbole ? this[ChartTypes.hyperbole] :
+        this.functionType === ChartTypes.parabole ? this[ChartTypes.parabole] :
+          this[ChartTypes.linear]
     ).bind(this);
 
     ctx.save();
@@ -151,7 +155,7 @@ export class ChartsComponent implements AfterViewInit {
     for (let x = - width / 2; x < 0; x++) {
       ctx.lineTo(x, height - mathFunc(x));
     }
-    if (this.functionType === 'hyperbole') {
+    if (this.functionType === ChartTypes.hyperbole) {
       ctx.stroke();
       ctx.beginPath();
     }
@@ -167,16 +171,16 @@ export class ChartsComponent implements AfterViewInit {
     return getRandomInt(-5, 5);
   }
 
-  private linear(x: number) {
-    return x * this.power1 + this.power0 * CELL_SIZE;
+  private [ChartTypes.linear](x: number) {
+    return x * this.power1 + this.power0 * this.cellSize;
   }
 
-  private parabole(x: number) {
-    return Math.pow(x, 2) * this.power2 / CELL_SIZE + this.linear(x);
+  private [ChartTypes.parabole](x: number) {
+    return Math.pow(x, 2) * this.power2 / this.cellSize + this[ChartTypes.linear](x);
   }
 
-  private hyperbole(x: number) {
-    return this.power_1 / x * Math.pow(CELL_SIZE, 2);
+  private [ChartTypes.hyperbole](x: number) {
+    return this.power_1 / x * Math.pow(this.cellSize, 2);
   }
 
 }

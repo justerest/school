@@ -1,11 +1,13 @@
-import { AfterViewInit, Directive, ElementRef } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
 
-import { CELL_SIZE, COLORS } from './constants';
+import { CanvasColors } from './canvas-colors.enum';
 
 @Directive({
   selector: '[appChartsBackground]',
 })
 export class ChartsBackgroundDirective implements AfterViewInit {
+
+  @Input() cellSize: number;
 
   ctx: CanvasRenderingContext2D;
 
@@ -21,15 +23,15 @@ export class ChartsBackgroundDirective implements AfterViewInit {
 
   private drawCells() {
     this.ctx.lineWidth = 0.3;
-    this.ctx.strokeStyle = COLORS.blue;
+    this.ctx.strokeStyle = CanvasColors.blue;
 
     this.ctx.beginPath();
 
-    for (let i = CELL_SIZE; i < this.ctx.canvas.width; i += CELL_SIZE) {
+    for (let i = this.cellSize; i < this.ctx.canvas.width; i += this.cellSize) {
       this.ctx.moveTo(i, 0);
       this.ctx.lineTo(i, this.ctx.canvas.height);
     }
-    for (let i = CELL_SIZE; i < this.ctx.canvas.height; i += CELL_SIZE) {
+    for (let i = this.cellSize; i < this.ctx.canvas.height; i += this.cellSize) {
       this.ctx.moveTo(0, i);
       this.ctx.lineTo(this.ctx.canvas.width, i);
     }
@@ -39,7 +41,7 @@ export class ChartsBackgroundDirective implements AfterViewInit {
 
   private drawAxis() {
     this.ctx.lineWidth = 0.5;
-    this.ctx.strokeStyle = COLORS.boldPencil;
+    this.ctx.strokeStyle = CanvasColors.boldPencil;
 
     this.ctx.beginPath();
     this.ctx.moveTo(this.ctx.canvas.width / 2, 0);
@@ -57,29 +59,29 @@ export class ChartsBackgroundDirective implements AfterViewInit {
 
   private drawArrowX() {
     this.ctx.moveTo(this.ctx.canvas.width, this.ctx.canvas.height / 2);
-    this.ctx.lineTo(this.ctx.canvas.width - CELL_SIZE / 2, this.ctx.canvas.height / 2 - CELL_SIZE / 2 / 2);
+    this.ctx.lineTo(this.ctx.canvas.width - this.cellSize / 2, this.ctx.canvas.height / 2 - this.cellSize / 2 / 2);
     this.ctx.moveTo(this.ctx.canvas.width, this.ctx.canvas.height / 2);
-    this.ctx.lineTo(this.ctx.canvas.width - CELL_SIZE / 2, this.ctx.canvas.height / 2 + CELL_SIZE / 2 / 2);
+    this.ctx.lineTo(this.ctx.canvas.width - this.cellSize / 2, this.ctx.canvas.height / 2 + this.cellSize / 2 / 2);
   }
 
   private drawArrowY() {
     this.ctx.moveTo(this.ctx.canvas.width / 2, 0);
-    this.ctx.lineTo(this.ctx.canvas.width / 2 - CELL_SIZE / 2 / 2, CELL_SIZE / 2);
+    this.ctx.lineTo(this.ctx.canvas.width / 2 - this.cellSize / 2 / 2, this.cellSize / 2);
     this.ctx.moveTo(this.ctx.canvas.width / 2, 0);
-    this.ctx.lineTo(this.ctx.canvas.width / 2 + CELL_SIZE / 2 / 2, CELL_SIZE / 2);
+    this.ctx.lineTo(this.ctx.canvas.width / 2 + this.cellSize / 2 / 2, this.cellSize / 2);
   }
 
   private drawLittleLines() {
-    this.ctx.moveTo(this.ctx.canvas.width / 2 + 2 * CELL_SIZE / 2, this.ctx.canvas.height / 2 - CELL_SIZE / 2 / 4);
-    this.ctx.lineTo(this.ctx.canvas.width / 2 + 2 * CELL_SIZE / 2, this.ctx.canvas.height / 2 + CELL_SIZE / 2 / 4);
-    this.ctx.moveTo(this.ctx.canvas.width / 2 - CELL_SIZE / 2 / 4, this.ctx.canvas.height / 2 - 2 * CELL_SIZE / 2);
-    this.ctx.lineTo(this.ctx.canvas.width / 2 + CELL_SIZE / 2 / 4, this.ctx.canvas.height / 2 - 2 * CELL_SIZE / 2);
+    this.ctx.moveTo(this.ctx.canvas.width / 2 + 2 * this.cellSize / 2, this.ctx.canvas.height / 2 - this.cellSize / 2 / 4);
+    this.ctx.lineTo(this.ctx.canvas.width / 2 + 2 * this.cellSize / 2, this.ctx.canvas.height / 2 + this.cellSize / 2 / 4);
+    this.ctx.moveTo(this.ctx.canvas.width / 2 - this.cellSize / 2 / 4, this.ctx.canvas.height / 2 - 2 * this.cellSize / 2);
+    this.ctx.lineTo(this.ctx.canvas.width / 2 + this.cellSize / 2 / 4, this.ctx.canvas.height / 2 - 2 * this.cellSize / 2);
   }
 
   private drawSigns() {
-    const CSZ = CELL_SIZE / 2;
+    const CSZ = this.cellSize / 2;
 
-    this.ctx.fillStyle = COLORS.darkBlue;
+    this.ctx.fillStyle = CanvasColors.darkBlue;
     this.ctx.font = 'italic 20px sans-serif';
 
     this.ctx.fillText('x', this.ctx.canvas.width - CSZ, this.ctx.canvas.height / 2 + 1.7 * CSZ, CSZ);
