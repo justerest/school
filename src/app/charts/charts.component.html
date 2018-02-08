@@ -30,7 +30,7 @@
       <mat-form-field class="app-charts__select">
         <mat-select class="app-charts__select"
                     tabindex="1"
-                    [(value)]="functionType"
+                    [(value)]="chartType"
                     (change)="draw()">
           <mat-option value="linear">y = kx + b</mat-option>
           <mat-option value="parabole">y = ax&#178; + bx + c</mat-option>
@@ -40,7 +40,7 @@
     </mat-card-title>
   </mat-card>
 
-  <ng-container *ngIf="functionType === 'linear'">
+  <ng-container *ngIf="chartType === 'linear'">
     <app-param paramName="k"
                subtitle="Коэффициент наклона"
                iconLeft="rotate-left"
@@ -56,7 +56,7 @@
                (paramChange)="draw()"></app-param>
   </ng-container>
 
-  <ng-container *ngIf="functionType === 'parabole'">
+  <ng-container *ngIf="chartType === 'parabole'">
     <app-param paramName="a"
                subtitle="Коэффициент вогнутости/выпуклости"
                iconLeft="more-vert"
@@ -79,7 +79,7 @@
                (paramChange)="draw()"></app-param>
   </ng-container>
 
-  <ng-container *ngIf="functionType === 'hyperbole'">
+  <ng-container *ngIf="chartType === 'hyperbole'">
     <app-param paramName="k"
                subtitle="Коэффициент"
                iconLeft="more-horiz"
@@ -98,7 +98,7 @@
       <button mat-raised-button
               class="app-charts__btn-random-func"
               color="warn"
-              (click)="setRandomParams()">ТЕСТ</button>
+              (click)="runTest()">ТЕСТ</button>
     </mat-card-actions>
   </mat-card>
   <ng-template #stopwatch>

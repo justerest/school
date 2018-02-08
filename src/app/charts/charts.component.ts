@@ -17,11 +17,15 @@ export class ChartsComponent implements AfterViewInit {
   /** Размер холста */
   readonly canvasSize = 600;
 
+  /** HTML-элемент холста */
   @ViewChild('canvas') canvas: ElementRef;
+  /** Плавающий HTML-элемент контейнера холста */
   @ViewChild('stickyContainer') stickyContainer: ElementRef;
+  /** Контекст, через который происходит рисование на холсте */
   ctx: CanvasRenderingContext2D;
 
-  functionType = ChartTypes.linear;
+  /** Выбранная функция */
+  chartType = ChartTypes.linear;
   /** `k`x^2 */
   power2 = this.getRandomK();
   /** `k`x */
@@ -31,39 +35,33 @@ export class ChartsComponent implements AfterViewInit {
   /** `k`/x */
   power_1 = this.getRandomK();
 
-  paramsStore: { tmp?: number[], test?: number[] } = {};
+  /** Хранилище коэффициентов */
+  paramsStore: {
+    /** Временное хранилище текущих коэффициентов */
+    tmp?: number[],
+    /** Временное хранилище коэффициентов тестового графика */
+    test?: number[],
+  } = {};
 
+  /** Значение секундомера */
   timerValue = 0;
+  /** Время отсчёта в формате `int` */
   timerInitDateValue = 0;
+  /** Переменная для автозапускающейся функции обновления секундомера */
   timerInterval?: NodeJS.Timer;
 
-  /** Message with mark */
+  /** Сообщение с оценкой */
   resultMessage?: string;
 
+  constructor() { }
+
+  /** Функция, запускающаяся после отображения HTML-элементов */
   ngAfterViewInit() {
     this.ctx = (<HTMLCanvasElement>this.canvas.nativeElement).getContext('2d');
     this.draw();
   }
 
-  @HostListener('scroll', ['$event.target'])
-  handler(container: HTMLElement) {
-    const el: HTMLElement = this.stickyContainer.nativeElement;
-    const scrollTop = container.scrollTop - el.offsetTop;
-    const minSize = window.innerWidth / 2.5;
-
-    const scale = scrollTop < container.offsetWidth - minSize
-      ? 1 - scrollTop / container.offsetWidth
-      : minSize / container.offsetWidth;
-
-    const margin = 2 * Math.pow(1 - scale, 2) * container.offsetWidth;
-
-    if (scrollTop > 0 && window.innerWidth < 761) {
-      el.style.opacity = '0.82';
-      el.style.transform = `scale(${scale}) translate(${margin}px, ${-margin}px)`;
-    }
-    else el.style.transform = el.style.opacity = '';
-  }
-
+  /** Отформатированная формула графика */
   get formula() {
     const [c, b, a, k] = this.allParams.map((power, i) => this.paramsFilter(i) ? power : 0);
 
@@ -75,14 +73,15 @@ export class ChartsComponent implements AfterViewInit {
       .replace(/^$/, '0');
   }
 
+  /** Короткое обращение ко всем параметрам */
   get allParams() {
     return [this.power0, this.power1, this.power2, this.power_1];
   }
-
   set allParams(arr: number[]) {
     [this.power0, this.power1, this.power2, this.power_1] = arr;
   }
 
+  /** Главная функция отрисовки графиков */
   draw() {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
@@ -113,7 +112,8 @@ export class ChartsComponent implements AfterViewInit {
     this.drawChart(CanvasColors.pencil);
   }
 
-  setRandomParams() {
+  /** Новое тестовое задание со случайными коэффициентами */
+  runTest() {
     this.paramsStore.test = this.allParams.map(this.getRandomK);
 
     this.resultMessage = null;
@@ -127,21 +127,26 @@ export class ChartsComponent implements AfterViewInit {
     this.draw();
   }
 
+  /**
+   * Вспомогательная функция, позволяющая выбрать необходимые параметры из {@link ChartsComponent.allParams}
+   * в зависимости от выбранной функции {@link ChartsComponent.functionType}
+   */
   private paramsFilter(i: number) {
     return (
-      this.functionType === ChartTypes.linear ? i === 0 || i === 1 :
-        this.functionType === ChartTypes.parabole ? i !== 3 :
-          this.functionType === ChartTypes.hyperbole && i === 3
+      this.chartType === ChartTypes.linear ? i === 0 || i === 1 :
+        this.chartType === ChartTypes.parabole ? i !== 3 :
+          this.chartType === ChartTypes.hyperbole && i === 3
     );
   }
 
+  /** Отрисовка конкретного графика */
   private drawChart(color: string) {
     const { ctx } = this;
     const { width, height } = ctx.canvas;
 
     const mathFunc = (
-      this.functionType === ChartTypes.hyperbole ? this[ChartTypes.hyperbole] :
-        this.functionType === ChartTypes.parabole ? this[ChartTypes.parabole] :
+      this.chartType === ChartTypes.hyperbole ? this[ChartTypes.hyperbole] :
+        this.chartType === ChartTypes.parabole ? this[ChartTypes.parabole] :
           this[ChartTypes.linear]
     ).bind(this);
 
@@ -155,7 +160,7 @@ export class ChartsComponent implements AfterViewInit {
     for (let x = - width / 2; x < 0; x++) {
       ctx.lineTo(x, height - mathFunc(x));
     }
-    if (this.functionType === ChartTypes.hyperbole) {
+    if (this.chartType === ChartTypes.hyperbole) {
       ctx.stroke();
       ctx.beginPath();
     }
@@ -167,6 +172,7 @@ export class ChartsComponent implements AfterViewInit {
     ctx.restore();
   }
 
+  /** Получение случайного параметра */
   private getRandomK() {
     return getRandomInt(-5, 5);
   }
@@ -181,6 +187,26 @@ export class ChartsComponent implements AfterViewInit {
 
   private [ChartTypes.hyperbole](x: number) {
     return this.power_1 / x * Math.pow(this.cellSize, 2);
+  }
+
+  /** Обработчик события прокрутки */
+  @HostListener('scroll', ['$event.target'])
+  onScroll(container: HTMLElement) {
+    const el: HTMLElement = this.stickyContainer.nativeElement;
+    const scrollTop = container.scrollTop - el.offsetTop;
+    const minSize = window.innerWidth / 2.5;
+
+    const scale = scrollTop < container.offsetWidth - minSize
+      ? 1 - scrollTop / container.offsetWidth
+      : minSize / container.offsetWidth;
+
+    const margin = 2 * Math.pow(1 - scale, 2) * container.offsetWidth;
+
+    if (scrollTop > 0 && window.innerWidth < 761) {
+      el.style.opacity = '0.82';
+      el.style.transform = `scale(${scale}) translate(${margin}px, ${-margin}px)`;
+    }
+    else el.style.transform = el.style.opacity = '';
   }
 
 }
