@@ -128,8 +128,8 @@ export class ChartsComponent implements AfterViewInit {
   }
 
   /**
-   * Вспомогательная функция, позволяющая выбрать необходимые параметры из {@link ChartsComponent.allParams}
-   * в зависимости от выбранной функции {@link ChartsComponent.functionType}
+   * Вспомогательная функция, позволяющая выбрать необходимые параметры из [allParams]{@link ChartsComponent#allParams}
+   * в зависимости от выбранной функции [chartType]{@link ChartsComponent#chartType}
    */
   private paramsFilter(i: number) {
     return (

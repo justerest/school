@@ -3,9 +3,9 @@ import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
 import { CanvasColors } from './canvas-colors.enum';
 
 @Directive({
-  selector: '[appChartsBackground]',
+  selector: '[appBackgroundGrid]',
 })
-export class ChartsBackgroundDirective implements AfterViewInit {
+export class BackgroundGridDirective implements AfterViewInit {
 
   @Input() cellSize: number;
 

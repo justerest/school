@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-param',
-  templateUrl: './param.component.html',
-  styleUrls: ['./param.component.scss'],
+  selector: 'app-chart-param',
+  templateUrl: './chart-param.component.html',
+  styleUrls: ['./chart-param.component.scss'],
 })
-export class ParamComponent {
+export class ChartParamComponent {
 
   readonly incrementValue = 1;
 
