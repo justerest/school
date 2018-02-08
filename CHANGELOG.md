@@ -1,3 +1,19 @@
+<a name="1.6.1"></a>
+## [1.6.1](https://github.com/justerest/school/compare/v1.6.0...v1.6.1) (2018-02-08)
+
+
+### Bug Fixes
+
+* adaptive on middle devices ([235bc91](https://github.com/justerest/school/commit/235bc91))
+* bugs with types ([3d4d423](https://github.com/justerest/school/commit/3d4d423))
+
+
+### Performance Improvements
+
+* dep updates ([5e3e715](https://github.com/justerest/school/commit/5e3e715))
+
+
+
 <a name="1.6.0"></a>
 # [1.6.0](https://github.com/justerest/school/compare/v1.5.2...v1.6.0) (2018-01-30)
 
