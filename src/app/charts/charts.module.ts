@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../shared/shared.module';
-import { ChartsBackgroundDirective } from './charts-background.directive';
+import { BackgroundGridDirective } from './background-grid.directive';
 import { ChartsComponent } from './charts.component';
-import { ParamComponent } from './param/param.component';
+import { ChartParamComponent } from './chart-param/chart-param.component';
 
 @NgModule({
   imports: [SharedModule],
-  declarations: [ChartsComponent, ChartsBackgroundDirective, ParamComponent],
+  declarations: [ChartsComponent, BackgroundGridDirective, ChartParamComponent],
 })
 export class ChartsModule { }
