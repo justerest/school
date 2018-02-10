@@ -26,24 +26,19 @@ const STARS_LENGTH = 30;
 })
 export class IronManComponent implements AfterViewInit {
 
-  @ViewChild('canvas') canvas: ElementRef;
-  ctx: CanvasRenderingContext2D;
+  @ViewChild('canvas') canvas = <ElementRef>{};
+  ctx = <CanvasRenderingContext2D>{};
 
   /** Герой */
-  hero: HeroModel;
-
+  hero = <HeroModel>{};
   /** Массив с препятствиями */
-  barriers: CicleImage[];
-
+  barriers: CicleImage[] = [];
   /** Массив с бонусами */
-  stars: CicleImage[];
+  stars: CicleImage[] = [];
 
-  gameSpeed: GameSpeed;
-
-  score: number;
-
+  gameSpeed = new GameSpeed;
+  score = 0;
   bestScore = localStorage.getItem('game-1.best-score') || '';
-
   pause = true;
 
   constructor(

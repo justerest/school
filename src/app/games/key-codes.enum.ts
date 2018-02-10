@@ -6,6 +6,8 @@ export enum KeyCodes {
   down,
 }
 
-export function isInKeyCodes(keyCode: string | number) {
+export type AvailableKeyCodes = keyof typeof KeyCodes;
+
+export function isInKeyCodes(keyCode: any) {
   return Boolean(KeyCodes[keyCode]);
 }

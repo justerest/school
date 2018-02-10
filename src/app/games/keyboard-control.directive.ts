@@ -25,7 +25,7 @@ export class KeyboardControlDirective {
 
   @HostListener('touchstart', ['$event'])
   onTouch(event: TouchEvent) {
-    const { clientX } = event.changedTouches.item(0);
+    const { clientX } = <Touch>event.changedTouches.item(0);
 
     if (clientX > window.innerWidth / 2) {
       (<any>event).keyCode = KeyCodes.right;

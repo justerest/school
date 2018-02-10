@@ -9,13 +9,12 @@ export class Figure {
   ];
 
   fillStyle = '#ccedff';
-
   lineWidth = 3;
-
   strokeStyle = '#123';
 
   constructor(params: Pick<Figure, 'ctx'> & Partial<Figure>) {
     Object.assign(this, params);
+    this.ctx = params.ctx;
   }
 
   draw() {

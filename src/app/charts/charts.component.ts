@@ -18,11 +18,11 @@ export class ChartsComponent implements AfterViewInit {
   readonly canvasSize = 600;
 
   /** HTML-элемент холста */
-  @ViewChild('canvas') canvas: ElementRef;
+  @ViewChild('canvas') canvas = <ElementRef>{};
   /** Плавающий HTML-элемент контейнера холста */
-  @ViewChild('stickyContainer') stickyContainer: ElementRef;
+  @ViewChild('stickyContainer') stickyContainer = <ElementRef>{};
   /** Контекст, через который происходит рисование на холсте */
-  ctx: CanvasRenderingContext2D;
+  ctx = <CanvasRenderingContext2D>{};
 
   /** Выбранная функция */
   chartType = ChartTypes.linear;
@@ -57,7 +57,9 @@ export class ChartsComponent implements AfterViewInit {
 
   /** Функция, запускающаяся после отображения HTML-элементов */
   ngAfterViewInit() {
-    this.ctx = (<HTMLCanvasElement>this.canvas.nativeElement).getContext('2d');
+    const canvasContext = (<HTMLCanvasElement>this.canvas.nativeElement).getContext('2d');
+    if (!canvasContext) throw new Error('CanvasRenderingContext2D is not found');
+    this.ctx = canvasContext;
     this.draw();
   }
 
@@ -85,14 +87,16 @@ export class ChartsComponent implements AfterViewInit {
   draw() {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-    if (this.paramsStore.test) {
+    /** @deprecated bug in ts (use `this.paramsStore.test`) */
+    const testParams = this.paramsStore.test;
+    if (testParams) {
       this.paramsStore.tmp = this.allParams;
       const isSuccessTest = this.paramsStore.tmp
-        .every((param, i) => param === this.paramsStore.test[i] || !this.paramsFilter(i));
+        .every((param, i) => param === testParams[i] || !this.paramsFilter(i));
 
       if (isSuccessTest) {
-        this.paramsStore.test = null;
-        clearInterval(this.timerInterval);
+        this.paramsStore.test = undefined;
+        clearInterval(<NodeJS.Timer>this.timerInterval);
         const paramsLength = this.allParams.filter((_, i) => this.paramsFilter(i)).length;
         this.resultMessage = (
           this.timerValue <= 10 * paramsLength ? 'Отлично!' :
@@ -103,7 +107,7 @@ export class ChartsComponent implements AfterViewInit {
       }
       else {
         if (this.timerValue) this.timerInitDateValue -= 2000;
-        this.allParams = this.paramsStore.test;
+        this.allParams = testParams;
         this.drawChart(CanvasColors.orange);
         this.allParams = this.paramsStore.tmp;
       }
@@ -116,7 +120,7 @@ export class ChartsComponent implements AfterViewInit {
   runTest() {
     this.paramsStore.test = this.allParams.map(this.getRandomK);
 
-    this.resultMessage = null;
+    this.resultMessage = undefined;
     this.timerInitDateValue = new Date().valueOf();
     this.timerValue = 0;
     this.timerInterval = setInterval(() => {

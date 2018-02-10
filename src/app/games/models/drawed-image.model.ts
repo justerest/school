@@ -14,14 +14,15 @@ export class DrawedImage extends Figure {
   spritesCount = 1;
 
   private _colorPoints: number[][] = [];
-  private _someColorPointsOffset: number;
-  private _someColorPointsStep: number;
+  private _someColorPointsOffset = 0;
+  private _someColorPointsStep = 0;
   private _spritePos: number;
-  private _spritePosFromEnd: boolean;
+  private _spritePosFromEnd = false;
 
   constructor(params: Pick<DrawedImage, 'ctx' | 'image'> & Partial<DrawedImage>) {
     super(params);
     Object.assign(this, params);
+    this.image = params.image;
 
     const { spritesCount } = this;
     const imageWidth = this.image.naturalWidth;
