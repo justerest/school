@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { KeyCodes, isInKeyCodes } from './key-codes.enum';
+import { AvailableKeyCodes, KeyCodes, isInKeyCodes } from './key-codes.enum';
 
 export * from './key-codes.enum';
 
@@ -8,11 +8,11 @@ export * from './key-codes.enum';
 export class KeyboardControlService {
 
   /** Объект, содержащий состояние клавиш */
-  keys: {[P in keyof typeof KeyCodes]?: 0 | 1} = {};
+  keys: {[P in AvailableKeyCodes]?: BinBool} = {};
 
-  setKey(keyCode: string | number, value: 0 | 1) {
+  setKey(keyCode: string | number, value: BinBool) {
     if (isInKeyCodes(keyCode)) {
-      this.keys[KeyCodes[keyCode]] = value;
+      this.keys[<AvailableKeyCodes>KeyCodes[<any>keyCode]] = value;
     }
     return this;
   }

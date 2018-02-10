@@ -11,6 +11,7 @@ export class CicleImage extends DrawedImage {
   constructor(params: Pick<CicleImage, 'ctx' | 'image' | 'globalSpeed'> & Partial<CicleImage>) {
     super(params);
     Object.assign(this, params);
+    this.globalSpeed = params.globalSpeed;
   }
 
   move(dx = 0, dy = this.speed) {

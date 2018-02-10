@@ -7,16 +7,18 @@ import { CanvasColors } from './canvas-colors.enum';
 })
 export class BackgroundGridDirective implements AfterViewInit {
 
-  @Input() cellSize: number;
+  @Input() cellSize = 30;
 
-  ctx: CanvasRenderingContext2D;
+  ctx = <CanvasRenderingContext2D>{};
 
   constructor(
     private el: ElementRef,
   ) { }
 
   ngAfterViewInit() {
-    this.ctx = this.el.nativeElement.getContext('2d');
+    const canvasContext = (<HTMLCanvasElement>this.el.nativeElement).getContext('2d');
+    if (!canvasContext) throw new Error('CanvasRenderingContext2D is not found');
+    this.ctx = canvasContext;
     this.drawCells();
     this.drawAxis();
   }
