@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ImagesLoaderService {
 
-  private _collection: { [imageName: string]: HTMLImageElement; } = {};
-  private _promises: Promise<any>[] = [];
+  private collection: { [imageName: string]: HTMLImageElement; } = {};
+  private promises: Promise<any>[] = [];
 
   add(imageName: string, src: string) {
     const image = new Image;
@@ -12,26 +12,26 @@ export class ImagesLoaderService {
     const promise = new Promise((resolve, reject) => {
       image.onerror = () => reject();
       image.onload = () => {
-        this._collection[imageName] = image;
+        this.collection[imageName] = image;
         resolve();
       };
       image.src = src;
     });
-    this._promises.push(promise);
+    this.promises.push(promise);
 
     return this;
   }
 
   get(imageName: string) {
-    if (!this._collection[imageName]) {
+    if (!this.collection[imageName]) {
       throw new Error('The image ' + imageName + ' is not found in collection');
     }
-    return this._collection[imageName];
+    return this.collection[imageName];
   }
 
   async ready() {
-    await Promise.all(this._promises);
-    this._promises = [];
+    await Promise.all(this.promises);
+    this.promises = [];
   }
 
 }

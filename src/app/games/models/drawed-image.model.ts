@@ -13,11 +13,11 @@ export class DrawedImage extends Figure {
   intermediate = false;
   spritesCount = 1;
 
-  private _colorPoints: number[][] = [];
-  private _someColorPointsOffset = 0;
-  private _someColorPointsStep = 0;
-  private _spritePos: number;
-  private _spritePosFromEnd = false;
+  private colorPoints: number[][] = [];
+  private someColorPointsOffset = 0;
+  private someColorPointsStep = 0;
+  private spritePos: number;
+  private spritePosFromEnd = false;
 
   constructor(params: Pick<DrawedImage, 'ctx' | 'image'> & Partial<DrawedImage>) {
     super(params);
@@ -31,7 +31,7 @@ export class DrawedImage extends Figure {
       [0, 0],
       [imageWidth, imageHeight],
     ];
-    this._spritePos = getRandomInt(0, spritesCount - 1);
+    this.spritePos = getRandomInt(0, spritesCount - 1);
 
     if (this.destroyable) {
       // REVIEW: auto get all perimeter pixels of the image
@@ -67,24 +67,24 @@ export class DrawedImage extends Figure {
 
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
-      this._someColorPointsStep = Math.floor(this._colorPoints.length / POINTS_FOR_CHECK);
-      this._someColorPointsOffset = 0;
+      this.someColorPointsStep = Math.floor(this.colorPoints.length / POINTS_FOR_CHECK);
+      this.someColorPointsOffset = 0;
     }
 
 
     if (spritesCount > 1) {
       if (this.intermediate) {
         setInterval(() => {
-          this._spritePos += this._spritePosFromEnd ? -1 : 1;
-          if (this._spritePos % spritesCount === 0) {
-            this._spritePosFromEnd = !this._spritePosFromEnd;
-            if (this._spritePosFromEnd) { this._spritePos--; }
+          this.spritePos += this.spritePosFromEnd ? -1 : 1;
+          if (this.spritePos % spritesCount === 0) {
+            this.spritePosFromEnd = !this.spritePosFromEnd;
+            if (this.spritePosFromEnd) { this.spritePos--; }
           }
         }, this.animationFrequency);
       } else {
         setInterval(() => {
-          this._spritePos++;
-          this._spritePos %= spritesCount;
+          this.spritePos++;
+          this.spritePos %= spritesCount;
         }, this.animationFrequency);
       }
     }
@@ -93,7 +93,7 @@ export class DrawedImage extends Figure {
   draw() {
     const size = [this.image.naturalWidth, this.image.naturalHeight / this.spritesCount];
     this.ctx.drawImage(this.image,
-      0, size[1] * this._spritePos,
+      0, size[1] * this.spritePos,
       size[0], size[1],
       this.points[0][0], this.points[0][1],
       size[0], size[1],
@@ -110,13 +110,13 @@ export class DrawedImage extends Figure {
   }
 
   get someColorPoints() {
-    const { _colorPoints } = this;
+    const { colorPoints } = this;
     const someColorPoints = [];
-    for (let i = this._someColorPointsOffset; i < _colorPoints.length; i += this._someColorPointsStep) {
-      someColorPoints.push(_colorPoints[i]);
+    for (let i = this.someColorPointsOffset; i < colorPoints.length; i += this.someColorPointsStep) {
+      someColorPoints.push(colorPoints[i]);
     }
-    this._someColorPointsOffset++;
-    this._someColorPointsOffset %= this._someColorPointsStep;
+    this.someColorPointsOffset++;
+    this.someColorPointsOffset %= this.someColorPointsStep;
     return someColorPoints;
   }
 
@@ -132,8 +132,8 @@ export class DrawedImage extends Figure {
   private _checkColor(x: number, y: number, isNewCicle?: true) {
     const pxColor = this.ctx.getImageData(x, y, 1, 1).data;
     if (WHITE_RGB.some((rgb, i) => rgb !== pxColor[i])) {
-      if (isNewCicle || !this._colorPoints.find(point => point[0] === x && point[1] === y)) {
-        this._colorPoints.push([x, y, pxColor[0], pxColor[1]]);
+      if (isNewCicle || !this.colorPoints.find(point => point[0] === x && point[1] === y)) {
+        this.colorPoints.push([x, y, pxColor[0], pxColor[1]]);
       }
       return true;
     }
