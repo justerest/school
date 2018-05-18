@@ -2,6 +2,14 @@ import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
 
 import { KeyCodes, KeyboardControlService, isInKeyCodes } from './keyboard-control.service';
 
+/**
+ * BUG: Angular don't know TouchEvent class  
+ * FIX: declare TouchEvent interface  
+ */
+interface TouchEvent {
+  changedTouches: TouchList;
+}
+
 @Directive({
   selector: '[appKeyboardControl]',
 })
