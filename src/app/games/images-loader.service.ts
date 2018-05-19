@@ -4,12 +4,12 @@ import { Injectable } from '@angular/core';
 export class ImagesLoaderService {
 
   private collection: { [imageName: string]: HTMLImageElement; } = {};
-  private promises: Promise<any>[] = [];
+  private promises: Promise<void>[] = [];
 
   add(imageName: string, src: string) {
     const image = new Image;
 
-    const promise = new Promise((resolve, reject) => {
+    const promise = new Promise<void>((resolve, reject) => {
       image.onerror = () => reject();
       image.onload = () => {
         this.collection[imageName] = image;

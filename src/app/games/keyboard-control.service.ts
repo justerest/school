@@ -8,12 +8,13 @@ export * from './key-codes.enum';
 export class KeyboardControlService {
 
   /** Объект, содержащий состояние клавиш */
-  keys: {[P in AvailableKeyCodes]?: BinBool} = {};
+  keys: { [P in AvailableKeyCodes]?: 0 | 1 } = {};
 
-  setKey(keyCode: string | number, value: BinBool) {
+  setKey(keyCode: string | number, value: 0 | 1) {
     if (isInKeyCodes(keyCode)) {
       this.keys[<AvailableKeyCodes>KeyCodes[<any>keyCode]] = value;
     }
+
     return this;
   }
 

@@ -37,8 +37,8 @@ export class HeroModel extends DrawedImage {
     const dMinus = toInt(axis === 'x' ? keys.left : keys.up);
     let movement = dPlus - dMinus;
 
-    const sumOfKeyValues = Object.values(keys).filter(Boolean).length;
-    if (sumOfKeyValues !== dPlus + dMinus) {
+    const keyValuesSum = Object.values(keys).filter(Boolean).length;
+    if (keyValuesSum !== dPlus + dMinus) {
       movement /= Math.SQRT2;
     }
 

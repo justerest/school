@@ -7,7 +7,7 @@ const POINTS_FOR_CHECK = 4;
 
 export class DrawedImage extends Figure {
 
-  image: HTMLImageElement;
+  image!: HTMLImageElement;
   animationFrequency = 100;
   destroyable = false;
   intermediate = false;
@@ -22,7 +22,6 @@ export class DrawedImage extends Figure {
   constructor(params: Pick<DrawedImage, 'ctx' | 'image'> & Partial<DrawedImage>) {
     super(params);
     Object.assign(this, params);
-    this.image = params.image;
 
     const { spritesCount } = this;
     const imageWidth = this.image.naturalWidth;

@@ -9,10 +9,10 @@ export class ChartParamComponent {
 
   readonly incrementValue = 1;
 
-  @Input() paramName?: string;
-  @Input() subtitle?: string;
-  @Input() iconLeft?: string;
-  @Input() iconRight?: string;
+  @Input() paramName!: string;
+  @Input() subtitle!: string;
+  @Input() iconLeft!: string;
+  @Input() iconRight!: string;
 
   @Input() param = 0;
   @Output() paramChange = new EventEmitter<number>();

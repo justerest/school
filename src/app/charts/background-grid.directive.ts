@@ -9,7 +9,7 @@ export class BackgroundGridDirective implements AfterViewInit {
 
   @Input() cellSize = 30;
 
-  ctx = <CanvasRenderingContext2D>{};
+  ctx!: CanvasRenderingContext2D;
 
   constructor(
     private el: ElementRef,

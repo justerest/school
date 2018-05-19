@@ -2,14 +2,6 @@ import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
 
 import { KeyCodes, KeyboardControlService, isInKeyCodes } from './keyboard-control.service';
 
-/**
- * BUG: Angular don't know TouchEvent class  
- * FIX: declare TouchEvent interface  
- */
-interface TouchEvent {
-  changedTouches: TouchList;
-}
-
 @Directive({
   selector: '[appKeyboardControl]',
 })
@@ -31,18 +23,18 @@ export class KeyboardControlDirective {
     this.control.setKey(event.keyCode, event.type === 'keyup' ? 0 : 1);
   }
 
+  /**
+   * @param {TouchEvent} event BUG: Angular don't know TouchEvent class 
+   */
   @HostListener('touchstart', ['$event'])
-  onTouch(event: TouchEvent) {
+  onTouch(event: any) {
     const { clientX } = <Touch>event.changedTouches.item(0);
 
-    if (clientX > window.innerWidth / 2) {
-      (<any>event).keyCode = KeyCodes.right;
-    }
-    if (clientX < window.innerWidth / 2) {
-      (<any>event).keyCode = KeyCodes.left;
-    }
+    event.keyCode = clientX > window.innerWidth / 2
+      ? KeyCodes.right
+      : KeyCodes.left;
 
-    this.onKeyboardPress(<KeyboardEvent><any>event);
+    this.onKeyboardPress(event);
   }
 
   @HostListener('touchend')

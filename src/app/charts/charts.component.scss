@@ -15,6 +15,7 @@
   grid-gap: 0 15px;
   grid-template-columns: minmax(auto, 600px) 420px;
   grid-template-rows: min-content;
+
   @include media-breakpoint-down(md) {
     padding-right: 0;
     padding-left: 0;

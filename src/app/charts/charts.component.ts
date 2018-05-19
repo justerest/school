@@ -18,11 +18,11 @@ export class ChartsComponent implements AfterViewInit {
   readonly canvasSize = 600;
 
   /** HTML-элемент холста */
-  @ViewChild('canvas') canvas = <ElementRef>{};
+  @ViewChild('canvas') canvas!: ElementRef;
   /** Плавающий HTML-элемент контейнера холста */
-  @ViewChild('stickyContainer') stickyContainer = <ElementRef>{};
+  @ViewChild('stickyContainer') stickyContainer!: ElementRef;
   /** Контекст, через который происходит рисование на холсте */
-  ctx = <CanvasRenderingContext2D>{};
+  ctx!: CanvasRenderingContext2D;
 
   /** Выбранная функция */
   chartType = ChartTypes.linear;
@@ -58,7 +58,9 @@ export class ChartsComponent implements AfterViewInit {
   /** Функция, запускающаяся после отображения HTML-элементов */
   ngAfterViewInit() {
     const canvasContext = (<HTMLCanvasElement>this.canvas.nativeElement).getContext('2d');
-    if (!canvasContext) throw new Error('CanvasRenderingContext2D is not found');
+    if (!canvasContext) {
+      throw new Error('CanvasRenderingContext2D is not found');
+    }
     this.ctx = canvasContext;
     this.draw();
   }
@@ -99,10 +101,13 @@ export class ChartsComponent implements AfterViewInit {
         clearInterval(<NodeJS.Timer>this.timerInterval);
         const paramsLength = this.allParams.filter((_, i) => this.paramsFilter(i)).length;
         this.resultMessage = (
-          this.timerValue <= 10 * paramsLength ? 'Отлично!' :
-            this.timerValue <= 15 * paramsLength ? 'Хорошо!' :
-              this.timerValue <= 20 * paramsLength ? 'Удовлетворительно!' :
-                'Не сдал'
+          this.timerValue <= 10 * paramsLength
+            ? 'Отлично!'
+            : this.timerValue <= 15 * paramsLength
+              ? 'Хорошо!'
+              : this.timerValue <= 20 * paramsLength
+                ? 'Удовлетворительно!'
+                : 'Не сдал'
         );
       }
       else {

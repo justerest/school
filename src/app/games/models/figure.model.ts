@@ -1,6 +1,6 @@
 export class Figure {
 
-  ctx: CanvasRenderingContext2D;
+  ctx!: CanvasRenderingContext2D;
   points: number[][] = [
     [0, 0],
     [0, 150],
@@ -14,7 +14,6 @@ export class Figure {
 
   constructor(params: Pick<Figure, 'ctx'> & Partial<Figure>) {
     Object.assign(this, params);
-    this.ctx = params.ctx;
   }
 
   draw() {
@@ -36,6 +35,7 @@ export class Figure {
 
   move(dx: number, dy: number) {
     const overflow = this.isOverflow(dx, dy);
+
     if (overflow) {
       this.move(overflow[0], overflow[1]);
     }
@@ -45,6 +45,7 @@ export class Figure {
         axis[1] += Math.floor(dy);
       });
     }
+
     return this;
   }
 
