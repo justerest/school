@@ -45,19 +45,18 @@ export class IronManComponent implements AfterViewInit {
     private control: KeyboardControlService,
     private images: ImagesLoaderService,
   ) {
-    this.images
-      .add('ice', ROOT_PATH + 'assets/ice.png')
-      .add('ironMan', ROOT_PATH + 'assets/iron-man.png')
-      .add('star', ROOT_PATH + 'assets/star.png');
   }
 
-  async ngAfterViewInit() {
+  ngAfterViewInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
     this.ctx.imageSmoothingEnabled = true;
 
-    await this.images.ready();
+    this.images
+      .add('ice', ROOT_PATH + 'assets/ic2e.png')
+      .add('ironMan', ROOT_PATH + 'assets/iron-man.png')
+      .add('star', ROOT_PATH + 'assets/star.png');
 
-    this.initGame();
+    this.images.ready().subscribe(() => this.initGame());
   }
 
   onPressEnter() {

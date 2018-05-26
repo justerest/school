@@ -1,37 +1,53 @@
+import { environment } from 'environments/environment';
+import { Subject, fromEvent, merge } from 'rxjs';
+import { skip, tap } from 'rxjs/operators';
+
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ImagesLoaderService {
 
   private collection: { [imageName: string]: HTMLImageElement; } = {};
-  private promises: Promise<void>[] = [];
+  private promisesCount = 0;
+  private subject = new Subject<void>();
 
   add(imageName: string, src: string) {
-    const image = new Image;
+    if (!this.collection[imageName] || this.collection[imageName].src !== src) {
+      const image = new Image;
 
-    const promise = new Promise<void>((resolve, reject) => {
-      image.onerror = () => reject();
-      image.onload = () => {
-        this.collection[imageName] = image;
-        resolve();
-      };
+      const loadEvent$ = fromEvent(image, 'load');
+      const errorEvent$ = fromEvent(image, 'error').pipe(
+        tap(_ => {
+          if (!environment.production) {
+            throw new Error(`Image ${imageName} not found 404`);
+          }
+        }),
+      );
+      merge(loadEvent$, errorEvent$)
+        .subscribe(() => {
+          this.collection[imageName] = image;
+          this.promisesCount--;
+          this.subject.next();
+        });
+
+      // Start loading image
+      this.promisesCount++;
       image.src = src;
-    });
-    this.promises.push(promise);
+    }
 
     return this;
   }
 
   get(imageName: string) {
-    if (!this.collection[imageName]) {
-      throw new Error('The image ' + imageName + ' is not found in collection');
+    if (!environment.production && !this.collection[imageName]) {
+      throw new Error(`Image ${imageName} not found in collection`);
     }
     return this.collection[imageName];
   }
 
-  async ready() {
-    await Promise.all(this.promises);
-    this.promises = [];
+  ready() {
+    setTimeout(() => this.subject.next());
+    return this.subject.pipe(skip(this.promisesCount));
   }
 
 }
