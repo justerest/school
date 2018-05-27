@@ -80,7 +80,7 @@ export class IronManComponent implements AfterViewInit {
 
   start() {
     this.gameProcess = interval(INTERVAL, animationFrameScheduler)
-      .subscribe(_ => this.game());
+      .subscribe(() => this.game());
   }
 
   private initGame() {
@@ -149,7 +149,7 @@ export class IronManComponent implements AfterViewInit {
         this.score += 200;
         star
           .move(0, canvas.height - star.points[0][1])
-          .move(0, - getRandomInt(120, canvas.height));
+          .move(0, -getRandomInt(120, canvas.height));
       }
       else star.move().draw();
     });

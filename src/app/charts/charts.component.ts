@@ -89,12 +89,13 @@ export class ChartsComponent implements AfterViewInit {
   draw() {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-    /** @deprecated bug in ts (use `this.paramsStore.test`) */
-    const testParams = this.paramsStore.test;
-    if (testParams) {
+    if (this.paramsStore.test) {
       this.paramsStore.tmp = this.allParams;
       const isSuccessTest = this.paramsStore.tmp
-        .every((param, i) => param === testParams[i] || !this.paramsFilter(i));
+        .every((param, i) => (
+          this.paramsStore.test && this.paramsStore.test[i] === param
+          || !this.paramsFilter(i)
+        ));
 
       if (isSuccessTest) {
         this.paramsStore.test = undefined;
@@ -112,7 +113,7 @@ export class ChartsComponent implements AfterViewInit {
       }
       else {
         if (this.timerValue) this.timerInitDateValue -= 2000;
-        this.allParams = testParams;
+        this.allParams = this.paramsStore.test;
         this.drawChart(CanvasColors.orange);
         this.allParams = this.paramsStore.tmp;
       }
@@ -142,9 +143,9 @@ export class ChartsComponent implements AfterViewInit {
    */
   private paramsFilter(i: number) {
     return (
-      this.chartType === ChartTypes.linear ? i === 0 || i === 1 :
-        this.chartType === ChartTypes.parabole ? i !== 3 :
-          this.chartType === ChartTypes.hyperbole && i === 3
+      this.chartType === ChartTypes.linear ? i === 0 || i === 1
+        : this.chartType === ChartTypes.parabole ? i !== 3
+          : this.chartType === ChartTypes.hyperbole && i === 3
     );
   }
 

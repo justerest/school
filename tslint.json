@@ -4,6 +4,10 @@
   ],
   "rules": {
     "arrow-return-shorthand": true,
+    "arrow-parens": [
+      true,
+      "ban-single-arg-parens"
+    ],
     "callable-types": true,
     "class-name": true,
     "comment-format": [

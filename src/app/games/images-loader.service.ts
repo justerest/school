@@ -17,7 +17,7 @@ export class ImagesLoaderService {
 
       const loadEvent$ = fromEvent(image, 'load');
       const errorEvent$ = fromEvent(image, 'error').pipe(
-        tap(_ => {
+        tap(() => {
           if (!environment.production) {
             throw new Error(`Image ${imageName} not found 404`);
           }
