@@ -1,6 +1,6 @@
 export class GameSpeed {
 
-  value = 1;
+  value = 0;
 
   up(dv = 0.001) {
     this.value += dv;

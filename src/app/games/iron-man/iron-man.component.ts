@@ -1,4 +1,5 @@
 import { environment } from 'environments/environment';
+import { Subscription, animationFrameScheduler, interval } from 'rxjs';
 import { getRandomInt } from 'utils/get-random-int';
 import { toInt } from 'utils/to-int';
 
@@ -12,11 +13,16 @@ import { HeroModel } from '../models/hero.model';
 
 const ROOT_PATH = environment.production ? '/school/' : '/';
 
+const LS_GAME1 = 'game-1.best-score';
+
 /** Количество препятствий */
 const BARRIERS_LENGTH = 11;
 
 /** Количество бонусов */
 const STARS_LENGTH = 30;
+
+/** Период обновления изображения на холсте */
+const INTERVAL = 20;
 
 /** Железный человек против мороженого */
 @Component({
@@ -26,33 +32,36 @@ const STARS_LENGTH = 30;
 })
 export class IronManComponent implements AfterViewInit {
 
-  @ViewChild('canvas') canvas = <ElementRef>{};
-  ctx = <CanvasRenderingContext2D>{};
+  @ViewChild('canvas') canvas!: ElementRef;
+  ctx!: CanvasRenderingContext2D;
 
   /** Герой */
-  hero = <HeroModel>{};
+  hero!: HeroModel;
   /** Массив с препятствиями */
-  barriers: CicleImage[] = [];
+  barriers!: CicleImage[];
   /** Массив с бонусами */
-  stars: CicleImage[] = [];
+  stars!: CicleImage[];
+  /** Глобальный объект скорости (уровня) */
+  gameSpeed!: GameSpeed;
 
-  gameSpeed = new GameSpeed;
-  score = 0;
-  bestScore = localStorage.getItem('game-1.best-score') || '';
-  pause = true;
+  score!: number;
+  bestScore = localStorage.getItem(LS_GAME1);
+
+  private gameProcess = new Subscription;
 
   constructor(
     private control: KeyboardControlService,
     private images: ImagesLoaderService,
   ) {
+    this.gameProcess.unsubscribe();
   }
 
   ngAfterViewInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
-    this.ctx.imageSmoothingEnabled = true;
+    this.ctx.imageSmoothingEnabled = false;
 
     this.images
-      .add('ice', ROOT_PATH + 'assets/ic2e.png')
+      .add('ice', ROOT_PATH + 'assets/ice.png')
       .add('ironMan', ROOT_PATH + 'assets/iron-man.png')
       .add('star', ROOT_PATH + 'assets/star.png');
 
@@ -61,19 +70,20 @@ export class IronManComponent implements AfterViewInit {
 
   onPressEnter() {
     if (this.control.keys.enter) {
-      this.pause = !this.pause;
-      if (!this.pause) this.startGame();
+      if (this.gameProcess.closed) this.start();
+      else {
+        this.gameProcess.unsubscribe();
+        this.drawPauseMessage();
+      }
     }
   }
 
-  setPauseFalse() {
-    if (this.pause) {
-      this.pause = false;
-      this.startGame();
-    }
+  start() {
+    this.gameProcess = interval(INTERVAL, animationFrameScheduler)
+      .subscribe(_ => this.game());
   }
 
-  initGame() {
+  private initGame() {
     this.control.reset();
     this.gameSpeed = new GameSpeed;
     this.score = 0;
@@ -122,20 +132,17 @@ export class IronManComponent implements AfterViewInit {
       .draw();
 
     canvas.focus();
-    this.startGame();
+    this.drawPauseMessage();
   }
 
-  async startGame() {
-    if (this.pause) {
-      this.drawPauseMessage();
-      return;
-    }
-
+  private game() {
     const { ctx: { canvas }, control } = this;
 
     this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     this.score++;
+    this.gameSpeed.up();
+    this.hero.accelerate(control.keys, this.gameSpeed);
 
     this.stars.forEach(star => {
       if (this.hero.isCrosses(star)) {
@@ -146,33 +153,22 @@ export class IronManComponent implements AfterViewInit {
       }
       else star.move().draw();
     });
-
     this.hero.moveByControl(control.keys).draw();
-
     this.barriers.forEach(barrier => barrier.move().draw());
 
     if (this.hero.isDestroyed) {
-      this.pause = true;
-
+      this.gameProcess.unsubscribe();
       if (this.score > toInt(this.bestScore)) {
-        localStorage.setItem('game-1.best-score', this.score.toString());
+        localStorage.setItem(LS_GAME1, this.score.toString());
         this.bestScore = this.score.toString();
       }
-
       this.initGame();
-
-      return;
     }
-
-    this.hero.accelerate(control.keys, this.gameSpeed);
-    this.gameSpeed.up();
-
-    requestAnimationFrame(() => this.startGame());
   }
 
-  drawPauseMessage() {
-    const TITLE = 'PAUSE';
-    const TEXT = 'PRESS ENTER TO ' + (this.score ? 'CONTINUE' : 'START');
+  private drawPauseMessage() {
+    const title = 'PAUSE';
+    const text = `PRESS ENTER TO ${this.score ? 'CONTINUE' : 'START'}`;
 
     const { ctx } = this;
     const { canvas } = ctx;
@@ -180,10 +176,10 @@ export class IronManComponent implements AfterViewInit {
     ctx.clearRect(canvas.width - 110, canvas.height - 30, 100, 30);
     ctx.fillStyle = '#fff';
     ctx.font = 'bold 70px sans-serif';
-    ctx.fillText(TITLE, canvas.width / 2 - 125, canvas.height / 2, 250);
+    ctx.fillText(title, canvas.width / 2 - 125, canvas.height / 2, 250);
     ctx.fillStyle = '#ddd';
     ctx.font = 'bold 32px sans-serif';
-    ctx.fillText(TEXT, canvas.width / 2 - 125, canvas.height / 2 + 70, 250);
+    ctx.fillText(text, canvas.width / 2 - 125, canvas.height / 2 + 70, 250);
   }
 
 }

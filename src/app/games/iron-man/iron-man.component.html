@@ -5,6 +5,6 @@
         width="800"
         height="600"
         appKeyboardControl
-        (touchstart)="setPauseFalse()"
+        (touchstart)="start()"
         (kcKeypress)="onPressEnter()"></canvas>
 <span *ngIf="bestScore">The Best Score: {{bestScore}}</span>
