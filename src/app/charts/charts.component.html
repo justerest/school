@@ -30,8 +30,9 @@
       <mat-form-field class="app-charts__select">
         <mat-select class="app-charts__select"
                     tabindex="1"
+                    [disabled]="isTestRunning"
                     [(value)]="chartType"
-                    (change)="draw()">
+                    (selectionChange)="draw()">
           <mat-option value="linear">y = kx + b</mat-option>
           <mat-option value="parabole">y = ax&#178; + bx + c</mat-option>
           <mat-option value="hyperbole">y = k/x</mat-option>
@@ -88,7 +89,7 @@
                      (paramChange)="draw()"></app-chart-param>
   </ng-container>
 
-  <mat-card *ngIf="!paramsStore.test; else stopwatch">
+  <mat-card *ngIf="!isTestRunning; else stopwatch">
     <mat-card-content>
       <strong>Построй предложенную функцию</strong>
       <br><i>За использование клавиш добавляются секунды</i>
@@ -97,7 +98,7 @@
       <button mat-raised-button
               class="app-charts__btn-random-func"
               color="warn"
-              (click)="runTest()">ТЕСТ</button>
+              (click)="test()">ТЕСТ</button>
     </mat-card-actions>
   </mat-card>
   <ng-template #stopwatch>

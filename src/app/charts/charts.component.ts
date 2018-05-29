@@ -4,6 +4,7 @@ import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@
 
 import { CanvasColors } from './canvas-colors.enum';
 import { ChartTypes } from './chart-types.enum';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-charts',
@@ -35,25 +36,21 @@ export class ChartsComponent implements AfterViewInit {
   /** `k`/x */
   power_1 = this.getRandomK();
 
-  /** Хранилище коэффициентов */
-  paramsStore: {
-    /** Временное хранилище текущих коэффициентов */
-    tmp?: number[],
-    /** Временное хранилище коэффициентов тестового графика */
-    test?: number[],
-  } = {};
-
   /** Значение секундомера */
   timerValue = 0;
-  /** Время отсчёта в формате `int` */
-  timerInitDateValue = 0;
-  /** Переменная для автозапускающейся функции обновления секундомера */
-  timerInterval?: NodeJS.Timer;
-
   /** Сообщение с оценкой */
-  resultMessage?: string;
+  resultMessage = '';
 
-  constructor() { }
+  /** Временное хранилище коэффициентов тестового графика */
+  private testParams: number[] = [];
+  /** Время отсчёта в формате `int` */
+  private timerInitDateValue = 0;
+  /** Переменная для автозапускающейся функции обновления секундомера */
+  private testTimer = new Subscription;
+
+  constructor() {
+    this.testTimer.unsubscribe();
+  }
 
   /** Функция, запускающаяся после отображения HTML-элементов */
   ngAfterViewInit() {
@@ -67,7 +64,7 @@ export class ChartsComponent implements AfterViewInit {
 
   /** Отформатированная формула графика */
   get formula() {
-    const [c, b, a, k] = this.allParams.map((power, i) => this.paramsFilter(i) ? power : 0);
+    const [c, b, a, k] = this.params.map((power, i) => this.paramsFilter(i) ? power : 0);
 
     return 'y = ' + `${a}x<sup>2</sup> + ${b}x + ${c} + ${k}x<sup>-1</sup>`
       .replace(/(^|\+\s)-/g, '- ')
@@ -78,44 +75,43 @@ export class ChartsComponent implements AfterViewInit {
   }
 
   /** Короткое обращение ко всем параметрам */
-  get allParams() {
+  get params() {
     return [this.power0, this.power1, this.power2, this.power_1];
   }
-  set allParams(arr: number[]) {
+  set params(arr: number[]) {
     [this.power0, this.power1, this.power2, this.power_1] = arr;
+  }
+
+  get isTestRunning() {
+    return !this.testTimer.closed;
   }
 
   /** Главная функция отрисовки графиков */
   draw() {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-    if (this.paramsStore.test) {
-      this.paramsStore.tmp = this.allParams;
-      const isSuccessTest = this.paramsStore.tmp
-        .every((param, i) => (
-          this.paramsStore.test && this.paramsStore.test[i] === param
-          || !this.paramsFilter(i)
-        ));
-
+    if (this.isTestRunning) {
+      const isSuccessTest = this.params
+        .every((param, i) => this.testParams[i] === param || !this.paramsFilter(i));
       if (isSuccessTest) {
-        this.paramsStore.test = undefined;
-        clearInterval(<NodeJS.Timer>this.timerInterval);
-        const paramsLength = this.allParams.filter((_, i) => this.paramsFilter(i)).length;
-        this.resultMessage = (
-          this.timerValue <= 10 * paramsLength
-            ? 'Отлично!'
-            : this.timerValue <= 15 * paramsLength
-              ? 'Хорошо!'
-              : this.timerValue <= 20 * paramsLength
-                ? 'Удовлетворительно!'
-                : 'Не сдал'
-        );
+        this.testTimer.unsubscribe();
+
+        const paramsLength = this.params.filter((_, i) => this.paramsFilter(i)).length;
+        const points = this.timerValue / paramsLength;
+        this.resultMessage =
+          points <= 10 ? 'Отлично!'
+            : points <= 15 ? 'Хорошо!'
+              : points <= 20 ? 'Удовлетворительно!'
+                : 'Не сдал';
       }
       else {
-        if (this.timerValue) this.timerInitDateValue -= 2000;
-        this.allParams = this.paramsStore.test;
+        const tmpParams = this.params;
+
+        this.timerInitDateValue -= 2000;
+        this.params = this.testParams;
         this.drawChart(CanvasColors.orange);
-        this.allParams = this.paramsStore.tmp;
+
+        this.params = tmpParams;
       }
     }
 
@@ -123,16 +119,16 @@ export class ChartsComponent implements AfterViewInit {
   }
 
   /** Новое тестовое задание со случайными коэффициентами */
-  runTest() {
-    this.paramsStore.test = this.allParams.map(this.getRandomK);
+  test() {
+    this.testParams = this.params.map(this.getRandomK);
+    this.resultMessage = '';
 
-    this.resultMessage = undefined;
-    this.timerInitDateValue = new Date().valueOf();
     this.timerValue = 0;
-    this.timerInterval = setInterval(() => {
+    this.timerInitDateValue = new Date().valueOf();
+    this.testTimer = interval(500).subscribe(() => {
       const dms = (new Date().valueOf() - this.timerInitDateValue) / 1000;
       this.timerValue = Math.floor(dms);
-    }, 500);
+    });
 
     this.draw();
   }
