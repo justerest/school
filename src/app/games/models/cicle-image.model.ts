@@ -6,7 +6,7 @@ import { GameSpeed } from './game-speed.model';
 export class CicleImage extends DrawedImage {
 
   globalSpeed!: GameSpeed;
-  speed = getRandomInt(3, 6);
+  speed = getRandomInt(1, 3);
 
   constructor(params: Pick<CicleImage, 'ctx' | 'image' | 'globalSpeed'> & Partial<CicleImage>) {
     super(params);
@@ -18,7 +18,7 @@ export class CicleImage extends DrawedImage {
 
     if (this.points[0][1] >= windowHeight) {
       dy = -1.5 * windowHeight;
-      this.speed = getRandomInt(3, 6) + this.globalSpeed.value;
+      this.speed = getRandomInt(1, 3) + this.globalSpeed.value;
     }
 
     this.points.forEach(axis => {

@@ -21,9 +21,6 @@ const BARRIERS_LENGTH = 11;
 /** Количество бонусов */
 const STARS_LENGTH = 30;
 
-/** Период обновления изображения на холсте */
-const INTERVAL = 20;
-
 /** Железный человек против мороженого */
 @Component({
   selector: 'app-iron-man',
@@ -58,7 +55,6 @@ export class IronManComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.ctx = this.canvas.nativeElement.getContext('2d');
-    this.ctx.imageSmoothingEnabled = false;
 
     this.images
       .add('ice', ROOT_PATH + 'assets/ice.png')
@@ -79,7 +75,7 @@ export class IronManComponent implements AfterViewInit {
   }
 
   start() {
-    this.gameProcess = interval(INTERVAL, animationFrameScheduler)
+    this.gameProcess = interval(0, animationFrameScheduler)
       .subscribe(() => this.game());
   }
 

@@ -7,7 +7,7 @@ import { GameSpeed } from './game-speed.model';
 export class HeroModel extends DrawedImage {
 
   /** Максимальное ускорение героя. */
-  static ACCELERATION_MAX = 8;
+  static ACCELERATION_MAX = 4;
 
   /** Ускорение героя за один шаг. */
   static ACCELERATION_STEP = 0.5;
