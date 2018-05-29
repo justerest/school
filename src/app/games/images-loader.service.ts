@@ -1,6 +1,6 @@
 import { environment } from 'environments/environment';
 import { Subject, fromEvent, merge } from 'rxjs';
-import { skip, tap } from 'rxjs/operators';
+import { skip, tap, first } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 
@@ -12,7 +12,7 @@ export class ImagesLoaderService {
   private subject = new Subject<void>();
 
   add(imageName: string, src: string) {
-    if (!this.collection[imageName] || this.collection[imageName].src !== src) {
+    if (!this.collection[imageName]) {
       const image = new Image;
 
       const loadEvent$ = fromEvent(image, 'load');
@@ -24,6 +24,7 @@ export class ImagesLoaderService {
         }),
       );
       merge(loadEvent$, errorEvent$)
+        .pipe(first())
         .subscribe(() => {
           this.collection[imageName] = image;
           this.promisesCount--;
