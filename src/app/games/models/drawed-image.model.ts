@@ -45,9 +45,9 @@ export class DrawedImage extends Figure {
 
       for (let x = 0; x < imageWidth; x++) {
         for (let y = 0; y < imageHeight; y++) {
-          if (this._checkColor(x, y, true)) {
+          if (this.checkColor(x, y, true)) {
             for (y = imageHeight - 1; y >= 0; y--) {
-              if (this._checkColor(x, y)) { break; }
+              if (this.checkColor(x, y)) { break; }
             }
             break;
           }
@@ -55,9 +55,9 @@ export class DrawedImage extends Figure {
       }
       for (let y = 0; y < imageHeight; y++) {
         for (let x = 0; x < imageWidth; x++) {
-          if (this._checkColor(x, y)) {
+          if (this.checkColor(x, y)) {
             for (x = imageWidth - 1; x >= 0; x--) {
-              if (this._checkColor(x, y)) { break; }
+              if (this.checkColor(x, y)) { break; }
             }
             break;
           }
@@ -67,7 +67,6 @@ export class DrawedImage extends Figure {
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
       this.someColorPointsStep = Math.floor(this.colorPoints.length / POINTS_FOR_CHECK);
-      this.someColorPointsOffset = 0;
     }
 
 
@@ -128,7 +127,7 @@ export class DrawedImage extends Figure {
     );
   }
 
-  private _checkColor(x: number, y: number, isNewCicle?: true) {
+  private checkColor(x: number, y: number, isNewCicle?: true) {
     const pxColor = this.ctx.getImageData(x, y, 1, 1).data;
     if (WHITE_RGB.some((rgb, i) => rgb !== pxColor[i])) {
       if (isNewCicle || !this.colorPoints.find(point => point[0] === x && point[1] === y)) {
