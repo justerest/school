@@ -1,11 +1,27 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../shared/shared.module';
+import { FormsModule } from '@angular/forms';
+import {
+  MatButtonModule,
+  MatCardModule,
+  MatIconModule,
+  MatInputModule,
+  MatSelectModule
+} from '@angular/material';
 import { BackgroundGridDirective } from './background-grid.directive';
-import { ChartParamComponent } from './chart-param/chart-param.component';
+import { ChartParamComponent } from './chart-param.component';
 import { ChartsComponent } from './charts.component';
 
 @NgModule({
-  imports: [SharedModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatInputModule,
+    MatSelectModule,
+  ],
   declarations: [ChartsComponent, BackgroundGridDirective, ChartParamComponent],
 })
 export class ChartsModule { }
