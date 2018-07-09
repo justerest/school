@@ -54,15 +54,15 @@ export class DrawedImage extends Figure {
     return this;
   }
 
-  get isDestroyed() {
-    return this.someColorPoints.some(([x0, y0, ...color]) => {
+  isDestroyed() {
+    return this.someColorPoints().some(([x0, y0, ...color]) => {
       const [x, y] = this.points[0];
       const pxColor = this.ctx.getImageData(x0 + x, y0 + y, 1, 1).data;
       return color.some((rgb, i) => pxColor[i] !== rgb);
     });
   }
 
-  get someColorPoints() {
+  someColorPoints() {
     const { colorPoints } = this;
     const someColorPoints = [];
     for (let i = this.someColorPointsOffset; i < colorPoints.length; i += this.someColorPointsStep) {
@@ -74,7 +74,7 @@ export class DrawedImage extends Figure {
   }
 
   isCrosses(figure: Figure) {
-    return this.someColorPoints.some(axis =>
+    return this.someColorPoints().some(axis =>
       figure.points[0][0] < axis[0] + this.points[0][0] &&
       figure.points[0][1] < axis[1] + this.points[0][1] &&
       figure.points[1][0] > axis[0] + this.points[0][0] &&

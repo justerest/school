@@ -156,7 +156,7 @@ export class IronManComponent implements AfterViewInit, OnDestroy {
     this.hero.moveByControl(control.keys).draw();
     this.barriers.forEach(barrier => barrier.move().draw());
 
-    if (this.hero.isDestroyed) {
+    if (this.hero.isDestroyed()) {
       this.gameProcess.unsubscribe();
       if (this.score > toInt(this.bestScore)) {
         localStorage.setItem(LS_GAME1, this.score.toString());

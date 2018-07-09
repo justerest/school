@@ -34,10 +34,10 @@ export class Figure {
   }
 
   move(dx: number, dy: number) {
-    const overflow = this.isOverflow(dx, dy);
+    const correction = this.getOverflowCorrection(dx, dy);
 
-    if (overflow) {
-      this.move(overflow[0], overflow[1]);
+    if (correction) {
+      this.move(correction[0], correction[1]);
     }
     else {
       this.points.forEach(axis => {
@@ -49,7 +49,7 @@ export class Figure {
     return this;
   }
 
-  isOverflow(dx: number, dy: number): number[] | false {
+  getOverflowCorrection(dx: number, dy: number): number[] | false {
     const { ctx: { canvas } } = this;
     for (const [x, y] of this.points) {
       const isOverflow = (

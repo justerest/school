@@ -31,7 +31,7 @@ export class HeroModel extends DrawedImage {
     return this;
   }
 
-  private getAxisSum(keys: KeyboardControlService['keys'], axis: 'x' | 'y' | 'z') {
+  private getAxisSum(keys: KeyboardControlService['keys'], axis: 'x' | 'y') {
     const dPlus = toInt(axis === 'x' ? keys.right : keys.down);
     const dMinus = toInt(axis === 'x' ? keys.left : keys.up);
     let movement = dPlus - dMinus;
