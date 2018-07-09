@@ -1,0 +1,83 @@
+{
+  "configVersion": 1,
+  "index": "/school/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "/school/0.85844c491eabe421b16a.js",
+        "/school/404.html",
+        "/school/assets/icons/ic_arrow_downward_48px.svg",
+        "/school/assets/icons/ic_arrow_upward_48px.svg",
+        "/school/assets/icons/ic_games_48px.svg",
+        "/school/assets/icons/ic_menu_48px.svg",
+        "/school/assets/icons/ic_more_horiz_48px.svg",
+        "/school/assets/icons/ic_more_vert_48px.svg",
+        "/school/assets/icons/ic_play_arrow_48px.svg",
+        "/school/assets/icons/ic_rotate_left_48px.svg",
+        "/school/assets/icons/ic_rotate_right_48px.svg",
+        "/school/assets/logo.png",
+        "/school/index.html",
+        "/school/main.02ab3d9e5fe84badbefa.js",
+        "/school/polyfills.810d61d27e6e0aa3764e.js",
+        "/school/runtime.8cb5984abe9c36fc8e06.js",
+        "/school/styles.c941c422347f5708d8ae.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "games",
+      "installMode": "lazy",
+      "updateMode": "lazy",
+      "urls": [
+        "/school/assets/ice.png",
+        "/school/assets/iron-man.png",
+        "/school/assets/star.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/school/0.85844c491eabe421b16a.js": "2532ed2eff74e08db6e0b693ae9a28f62bfc9d3e",
+    "/school/404.html": "75bdafaca4fc8ec58bd6f05320ceb2437ec1e2a4",
+    "/school/assets/ice.png": "dd58aa2532a78dbfcf041067d7cb78dac876395e",
+    "/school/assets/icons/ic_arrow_downward_48px.svg": "0e7b3fee6a5574c1a3b68b88c9cd8167d7d7567f",
+    "/school/assets/icons/ic_arrow_upward_48px.svg": "e20325d1b87e6bb170874b480b20bb1f6781f96d",
+    "/school/assets/icons/ic_games_48px.svg": "3c49cc6a09cf8c4f28b0538a15c34058387a7c40",
+    "/school/assets/icons/ic_menu_48px.svg": "ec211d19539a818a0abffd46fff824d752d2adeb",
+    "/school/assets/icons/ic_more_horiz_48px.svg": "772382ef77ec8c34b77650a59a7a5dca6123a21d",
+    "/school/assets/icons/ic_more_vert_48px.svg": "4cff896d5f3b6584fddf6c4c37988118a005f86b",
+    "/school/assets/icons/ic_play_arrow_48px.svg": "43792a781fd45f2be52d19fd72083bb1252c5408",
+    "/school/assets/icons/ic_rotate_left_48px.svg": "32ce81e99c9bb66ba74b2867e8f3e6b1d7ca44bc",
+    "/school/assets/icons/ic_rotate_right_48px.svg": "79b28e4a195b9216dcc42e7afc479500ddc9ee91",
+    "/school/assets/iron-man.png": "e00b28400573c3abec3b5a0597b86a58373ac42f",
+    "/school/assets/logo.png": "83da25bee336911329e598a7a405aab607a924ff",
+    "/school/assets/star.png": "0284f01dc225542f5d93b5b0de26b9564997632a",
+    "/school/index.html": "7fff806507891ff2a9c8e177a9fad65aff4db547",
+    "/school/main.02ab3d9e5fe84badbefa.js": "823ab525e65ab43cec29b9070c105f59d430fec8",
+    "/school/polyfills.810d61d27e6e0aa3764e.js": "2eae7edf54a88cf84ef080d0abee952969311584",
+    "/school/runtime.8cb5984abe9c36fc8e06.js": "a82a75b7950c5c0692effec66083c2b4f59b71ba",
+    "/school/styles.c941c422347f5708d8ae.css": "190fe8045b45538e3409978c0beb193bb9116b03"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^\\/]*\\.[^\\/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^\\/]*__[^\\/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^\\/]*__[^\\/]*\\/.*$"
+    }
+  ]
+}
