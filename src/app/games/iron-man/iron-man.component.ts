@@ -1,10 +1,8 @@
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { environment } from 'environments/environment';
-import { Subscription, animationFrameScheduler, interval } from 'rxjs';
+import { animationFrameScheduler, asyncScheduler, interval, Subscription } from 'rxjs';
 import { getRandomInt } from 'utils/get-random-int';
 import { toInt } from 'utils/to-int';
-
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-
 import { ImagesLoaderService } from '../images-loader.service';
 import { KeyboardControlService } from '../keyboard-control.service';
 import { CicleImage } from '../models/cicle-image.model';
@@ -27,7 +25,7 @@ const STARS_LENGTH = 30;
   templateUrl: './iron-man.component.html',
   styleUrls: ['./iron-man.component.scss'],
 })
-export class IronManComponent implements AfterViewInit {
+export class IronManComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('canvas') canvas!: ElementRef;
   ctx!: CanvasRenderingContext2D;
@@ -44,7 +42,7 @@ export class IronManComponent implements AfterViewInit {
   score!: number;
   bestScore = localStorage.getItem(LS_GAME1);
 
-  private gameProcess = new Subscription;
+  private gameProcess = new Subscription();
 
   constructor(
     private control: KeyboardControlService,
@@ -64,6 +62,10 @@ export class IronManComponent implements AfterViewInit {
     this.images.ready().subscribe(() => this.initGame());
   }
 
+  ngOnDestroy() {
+    this.gameProcess.unsubscribe();
+  }
+
   onPressEnter() {
     if (this.control.keys.enter) {
       if (this.gameProcess.closed) this.start();
@@ -75,13 +77,15 @@ export class IronManComponent implements AfterViewInit {
   }
 
   start() {
-    this.gameProcess = interval(0, animationFrameScheduler)
-      .subscribe(() => this.game());
+    this.gameProcess = interval(0, animationFrameScheduler).subscribe(() => this.game());
+    this.gameProcess.add(
+      interval(100, asyncScheduler).subscribe(() => this.stars.forEach(star => star.updateSprite())),
+    );
   }
 
   private initGame() {
     this.control.reset();
-    this.gameSpeed = new GameSpeed;
+    this.gameSpeed = new GameSpeed();
     this.score = 0;
     this.barriers = [];
     this.stars = [];

@@ -3,7 +3,6 @@ import { getRandomInt } from 'utils/get-random-int';
 import { Figure } from './figure.model';
 
 const WHITE_RGB = [255, 255, 255]; // IDEA: also check pixels on an another color background
-const POINTS_FOR_CHECK = 4;
 
 export class DrawedImage extends Figure {
 
@@ -23,68 +22,25 @@ export class DrawedImage extends Figure {
     super(params);
     Object.assign(this, params);
 
-    const { spritesCount } = this;
     const imageWidth = this.image.naturalWidth;
-    const imageHeight = this.image.naturalHeight / spritesCount;
+    const imageHeight = this.image.naturalHeight / this.spritesCount;
+
     this.points = [
       [0, 0],
       [imageWidth, imageHeight],
     ];
-    this.spritePos = getRandomInt(0, spritesCount - 1);
+    this.spritePos = getRandomInt(0, this.spritesCount - 1);
 
     if (this.destroyable) {
       // REVIEW: auto get all perimeter pixels of the image
       // FIXME: don't work for pixels with an alpha channel
       // FIXME: don't work for sprites
 
-      const { ctx } = this;
-
-      ctx.fillStyle = '#fff';
-      ctx.fillRect(0, 0, imageWidth, imageHeight);
+      this.ctx.fillStyle = '#fff';
+      this.ctx.fillRect(0, 0, imageWidth, imageHeight);
       this.draw();
-
-      for (let x = 0; x < imageWidth; x++) {
-        for (let y = 0; y < imageHeight; y++) {
-          if (this.checkColor(x, y, true)) {
-            for (y = imageHeight - 1; y >= 0; y--) {
-              if (this.checkColor(x, y)) { break; }
-            }
-            break;
-          }
-        }
-      }
-      for (let y = 0; y < imageHeight; y++) {
-        for (let x = 0; x < imageWidth; x++) {
-          if (this.checkColor(x, y)) {
-            for (x = imageWidth - 1; x >= 0; x--) {
-              if (this.checkColor(x, y)) { break; }
-            }
-            break;
-          }
-        }
-      }
-
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-      this.someColorPointsStep = Math.floor(this.colorPoints.length / POINTS_FOR_CHECK);
-    }
-
-
-    if (spritesCount > 1) {
-      if (this.intermediate) {
-        setInterval(() => {
-          this.spritePos += this.spritePosFromEnd ? -1 : 1;
-          if (this.spritePos % spritesCount === 0) {
-            this.spritePosFromEnd = !this.spritePosFromEnd;
-            if (this.spritePosFromEnd) { this.spritePos--; }
-          }
-        }, this.animationFrequency);
-      } else {
-        setInterval(() => {
-          this.spritePos++;
-          this.spritePos %= spritesCount;
-        }, this.animationFrequency);
-      }
+      this.fillColorPoints();
+      this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     }
   }
 
@@ -127,7 +83,51 @@ export class DrawedImage extends Figure {
     );
   }
 
-  private checkColor(x: number, y: number, isNewCicle?: true) {
+  updateSprite() {
+    if (this.intermediate) {
+      this.spritePos += this.spritePosFromEnd ? -1 : 1;
+      if (this.spritePos % this.spritesCount === 0) {
+        this.spritePosFromEnd = !this.spritePosFromEnd;
+        if (this.spritePosFromEnd) this.spritePos--;
+      }
+    }
+    else {
+      this.spritePos++;
+      this.spritePos %= this.spritesCount;
+    }
+  }
+
+  private fillColorPoints() {
+    const POINTS_FOR_CHECK = 4;
+
+    const imageWidth = this.image.naturalWidth;
+    const imageHeight = this.image.naturalHeight / this.spritesCount;
+
+    for (let x = 0; x < imageWidth; x++) {
+      for (let y = 0; y < imageHeight; y++) {
+        if (this.checkColor(x, y, true)) {
+          for (y = imageHeight - 1; y >= 0; y--) {
+            if (this.checkColor(x, y)) break;
+          }
+          break;
+        }
+      }
+    }
+    for (let y = 0; y < imageHeight; y++) {
+      for (let x = 0; x < imageWidth; x++) {
+        if (this.checkColor(x, y)) {
+          for (x = imageWidth - 1; x >= 0; x--) {
+            if (this.checkColor(x, y)) break;
+          }
+          break;
+        }
+      }
+    }
+
+    this.someColorPointsStep = Math.floor(this.colorPoints.length / POINTS_FOR_CHECK);
+  }
+
+  private checkColor(x: number, y: number, isNewCicle = false) {
     const pxColor = this.ctx.getImageData(x, y, 1, 1).data;
     if (WHITE_RGB.some((rgb, i) => rgb !== pxColor[i])) {
       if (isNewCicle || !this.colorPoints.find(point => point[0] === x && point[1] === y)) {
