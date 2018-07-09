@@ -1,3 +1,18 @@
+<a name="1.6.3"></a>
+## [1.6.3](https://github.com/justerest/school/compare/v1.6.2...v1.6.3) (2018-07-09)
+
+
+### Performance Improvements
+
+* game into observables ([c2dd6e7](https://github.com/justerest/school/commit/c2dd6e7))
+* image loader into observable ([6a84b0c](https://github.com/justerest/school/commit/6a84b0c))
+* **game:** change rxjs animationFrame ([7e526f2](https://github.com/justerest/school/commit/7e526f2))
+* unsibscribe on destroy component ([648081b](https://github.com/justerest/school/commit/648081b))
+* unsubscribe in image loader once ([d65af6f](https://github.com/justerest/school/commit/d65af6f))
+* **game:** get to method + common ([c1bce2e](https://github.com/justerest/school/commit/c1bce2e))
+
+
+
 <a name="1.6.2"></a>
 ## [1.6.2](https://github.com/justerest/school/compare/v1.6.1...v1.6.2) (2018-05-18)
 
