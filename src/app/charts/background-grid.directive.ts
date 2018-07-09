@@ -1,5 +1,4 @@
 import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
-
 import { CanvasColors } from './canvas-colors.enum';
 
 @Directive({
@@ -16,7 +15,7 @@ export class BackgroundGridDirective implements AfterViewInit {
   ) { }
 
   ngAfterViewInit() {
-    const canvasContext = (<HTMLCanvasElement>this.el.nativeElement).getContext('2d');
+    const canvasContext = (this.el.nativeElement as HTMLCanvasElement).getContext('2d');
     if (!canvasContext) throw new Error('CanvasRenderingContext2D is not found');
     this.ctx = canvasContext;
     this.drawCells();

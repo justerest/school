@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { IronManComponent } from './iron-man/iron-man.component';
 
 const gamesRoutes: Routes = [

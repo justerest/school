@@ -1,6 +1,5 @@
 import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
-
-import { KeyCodes, KeyboardControlService, isInKeyCodes } from './keyboard-control.service';
+import { isInKeyCodes, KeyboardControlService, KeyCodes } from './keyboard-control.service';
 
 @Directive({
   selector: '[appKeyboardControl]',
@@ -28,7 +27,7 @@ export class KeyboardControlDirective {
    */
   @HostListener('touchstart', ['$event'])
   onTouch(event: any) {
-    const { clientX } = <Touch>event.changedTouches.item(0);
+    const { clientX } = event.changedTouches.item(0) as Touch;
 
     event.keyCode = clientX > window.innerWidth / 2
       ? KeyCodes.right

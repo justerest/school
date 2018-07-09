@@ -1,8 +1,7 @@
-import { environment } from 'environments/environment';
-import { Subject, fromEvent, merge } from 'rxjs';
-import { skip, tap, first } from 'rxjs/operators';
-
 import { Injectable } from '@angular/core';
+import { environment } from 'environments/environment';
+import { fromEvent, merge, Subject } from 'rxjs';
+import { first, skip, tap } from 'rxjs/operators';
 
 @Injectable()
 export class ImagesLoaderService {
@@ -13,7 +12,7 @@ export class ImagesLoaderService {
 
   add(imageName: string, src: string) {
     if (!this.collection[imageName]) {
-      const image = new Image;
+      const image = new Image();
 
       const loadEvent$ = fromEvent(image, 'load');
       const errorEvent$ = fromEvent(image, 'error').pipe(

@@ -1,5 +1,4 @@
 import { getRandomInt } from 'utils/get-random-int';
-
 import { DrawedImage } from './drawed-image.model';
 import { GameSpeed } from './game-speed.model';
 

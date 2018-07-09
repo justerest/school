@@ -49,10 +49,9 @@ export class Figure {
     return this;
   }
 
-  isOverflow(dx: number, dy: number): number[] | void {
+  isOverflow(dx: number, dy: number): number[] | false {
     const { ctx: { canvas } } = this;
-    for (let i = 0; i < this.points.length; i++) {
-      const [x, y] = this.points[i];
+    for (const [x, y] of this.points) {
       const isOverflow = (
         x + dx < 0 ? [-x, dy] :
           x + dx > canvas.width ? [canvas.width - x, dy] :
@@ -60,10 +59,9 @@ export class Figure {
               y + dy > canvas.height ? [dx, canvas.height - y] :
                 false
       );
-      if (isOverflow) {
-        return isOverflow;
-      }
+      if (isOverflow) return isOverflow;
     }
+    return false;
   }
 
 }

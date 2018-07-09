@@ -1,10 +1,8 @@
-import { getRandomInt } from 'utils/get-random-int';
-
 import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-
+import { interval, Subscription } from 'rxjs';
+import { getRandomInt } from 'utils/get-random-int';
 import { CanvasColors } from './canvas-colors.enum';
 import { ChartTypes } from './chart-types.enum';
-import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-charts',
@@ -46,7 +44,7 @@ export class ChartsComponent implements AfterViewInit {
   /** Время отсчёта в формате `int` */
   private timerInitDateValue = 0;
   /** Переменная для автозапускающейся функции обновления секундомера */
-  private testTimer = new Subscription;
+  private testTimer = new Subscription();
 
   constructor() {
     this.testTimer.unsubscribe();
@@ -54,7 +52,7 @@ export class ChartsComponent implements AfterViewInit {
 
   /** Функция, запускающаяся после отображения HTML-элементов */
   ngAfterViewInit() {
-    const canvasContext = (<HTMLCanvasElement>this.canvas.nativeElement).getContext('2d');
+    const canvasContext = (this.canvas.nativeElement as HTMLCanvasElement).getContext('2d');
     if (!canvasContext) {
       throw new Error('CanvasRenderingContext2D is not found');
     }
@@ -216,4 +214,3 @@ export class ChartsComponent implements AfterViewInit {
   }
 
 }
-

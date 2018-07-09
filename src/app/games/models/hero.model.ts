@@ -1,5 +1,4 @@
 import { toInt } from 'utils/to-int';
-
 import { KeyboardControlService } from '../keyboard-control.service';
 import { DrawedImage } from './drawed-image.model';
 import { GameSpeed } from './game-speed.model';

@@ -1,5 +1,4 @@
 import { getRandomInt } from 'utils/get-random-int';
-
 import { Figure } from './figure.model';
 
 const WHITE_RGB = [255, 255, 255]; // IDEA: also check pixels on an another color background
