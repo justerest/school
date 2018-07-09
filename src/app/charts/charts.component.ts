@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@
 import { interval, Subscription } from 'rxjs';
 import { getRandomInt } from 'utils/get-random-int';
 import { CanvasColors } from './canvas-colors.enum';
-import { ChartTypes } from './chart-types.enum';
+import { MathFunctions } from './math-functions.enum';
 
 @Component({
   selector: 'app-charts',
@@ -24,7 +24,7 @@ export class ChartsComponent implements AfterViewInit {
   ctx!: CanvasRenderingContext2D;
 
   /** Выбранная функция */
-  chartType = ChartTypes.linear;
+  chartType = MathFunctions.linear;
   /** `k`x^2 */
   power2 = this.getRandomK();
   /** `k`x */
@@ -137,9 +137,9 @@ export class ChartsComponent implements AfterViewInit {
    */
   private paramsFilter(i: number) {
     return (
-      this.chartType === ChartTypes.linear ? i === 0 || i === 1
-        : this.chartType === ChartTypes.parabole ? i !== 3
-          : this.chartType === ChartTypes.hyperbole && i === 3
+      this.chartType === MathFunctions.linear ? i === 0 || i === 1
+        : this.chartType === MathFunctions.parabole ? i !== 3
+          : this.chartType === MathFunctions.hyperbole && i === 3
     );
   }
 
@@ -149,9 +149,9 @@ export class ChartsComponent implements AfterViewInit {
     const { width, height } = ctx.canvas;
 
     const mathFunc = (
-      this.chartType === ChartTypes.hyperbole ? this[ChartTypes.hyperbole] :
-        this.chartType === ChartTypes.parabole ? this[ChartTypes.parabole] :
-          this[ChartTypes.linear]
+      this.chartType === MathFunctions.hyperbole ? this[MathFunctions.hyperbole] :
+        this.chartType === MathFunctions.parabole ? this[MathFunctions.parabole] :
+          this[MathFunctions.linear]
     ).bind(this);
 
     ctx.save();
@@ -164,7 +164,7 @@ export class ChartsComponent implements AfterViewInit {
     for (let x = - width / 2; x < 0; x++) {
       ctx.lineTo(x, height - mathFunc(x));
     }
-    if (this.chartType === ChartTypes.hyperbole) {
+    if (this.chartType === MathFunctions.hyperbole) {
       ctx.stroke();
       ctx.beginPath();
     }
@@ -181,15 +181,15 @@ export class ChartsComponent implements AfterViewInit {
     return getRandomInt(-5, 5);
   }
 
-  private [ChartTypes.linear](x: number) {
+  private [MathFunctions.linear](x: number) {
     return x * this.power1 + this.power0 * this.cellSize;
   }
 
-  private [ChartTypes.parabole](x: number) {
-    return Math.pow(x, 2) * this.power2 / this.cellSize + this[ChartTypes.linear](x);
+  private [MathFunctions.parabole](x: number) {
+    return Math.pow(x, 2) * this.power2 / this.cellSize + this[MathFunctions.linear](x);
   }
 
-  private [ChartTypes.hyperbole](x: number) {
+  private [MathFunctions.hyperbole](x: number) {
     return this.power_1 / x * Math.pow(this.cellSize, 2);
   }
 
