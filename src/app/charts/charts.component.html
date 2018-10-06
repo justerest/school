@@ -15,7 +15,7 @@
         class="app-charts__background-canvas"
         [width]="canvasSize"
         [height]="canvasSize"
-        [cellSize]="cellSize"
+        [cellSize]="drawService.cellSize"
       ></canvas>
       <canvas
         #canvas
@@ -37,8 +37,8 @@
         <mat-select
           class="app-charts__select"
           tabindex="1"
-          [disabled]="isTestRunning"
-          [(value)]="chartType"
+          [value]="drawService.chartType"
+          (selectionChange)="drawService.changeChartType($event.value)"
           (selectionChange)="draw()"
         >
           <mat-option value="linear">y = kx + b</mat-option>
@@ -49,13 +49,13 @@
     </mat-card-title>
   </mat-card>
 
-  <ng-container *ngIf="chartType === 'linear'">
+  <ng-container *ngIf="drawService.chartType === 'linear'">
     <app-chart-param
       paramName="k"
       subtitle="Коэффициент наклона"
       iconLeft="rotate-left"
       iconRight="rotate-right"
-      [(param)]="power1"
+      [(param)]="drawService.params[1]"
       (paramChange)="draw()"
     ></app-chart-param>
     <div class="space"></div>
@@ -64,18 +64,18 @@
       subtitle="Вертикальное cмещение"
       iconLeft="up"
       iconRight="down"
-      [(param)]="power0"
+      [(param)]="drawService.params[0]"
       (paramChange)="draw()"
     ></app-chart-param>
   </ng-container>
 
-  <ng-container *ngIf="chartType === 'parabole'">
+  <ng-container *ngIf="drawService.chartType === 'parabole'">
     <app-chart-param
       paramName="a"
       subtitle="Коэффициент вогнутости/выпуклости"
       iconLeft="more-vert"
       iconRight="more-vert"
-      [(param)]="power2"
+      [(param)]="drawService.params[2]"
       (paramChange)="draw()"
     ></app-chart-param>
     <div class="space"></div>
@@ -84,7 +84,7 @@
       subtitle="Горизонтальное смещение (влияет и на вертикальное)"
       iconLeft="more-horiz"
       iconRight="more-horiz"
-      [(param)]="power1"
+      [(param)]="drawService.params[1]"
       (paramChange)="draw()"
     ></app-chart-param>
     <div class="space"></div>
@@ -93,46 +93,19 @@
       subtitle="Вертикальное смещение"
       iconLeft="up"
       iconRight="down"
-      [(param)]="power0"
+      [(param)]="drawService.params[0]"
       (paramChange)="draw()"
     ></app-chart-param>
   </ng-container>
 
-  <ng-container *ngIf="chartType === 'hyperbole'">
+  <ng-container *ngIf="drawService.chartType === 'hyperbole'">
     <app-chart-param
       paramName="k"
       subtitle="Коэффициент"
       iconLeft="more-horiz"
       iconRight="more-horiz"
-      [(param)]="power_1"
+      [(param)]="drawService.params[-1]"
       (paramChange)="draw()"
     ></app-chart-param>
   </ng-container>
-
-  <mat-card *ngIf="!isTestRunning; else stopwatch">
-    <mat-card-content>
-      <strong>Построй предложенную функцию</strong>
-      <br><i>За использование клавиш добавляются секунды</i>
-    </mat-card-content>
-    <mat-card-actions>
-      <button
-        mat-raised-button
-        class="app-charts__btn-random-func"
-        color="warn"
-        (click)="test()"
-      >ТЕСТ</button>
-    </mat-card-actions>
-  </mat-card>
-  <ng-template #stopwatch>
-    <mat-card>
-      <mat-card-title> {{timerValue}} c </mat-card-title>
-    </mat-card>
-  </ng-template>
 </section>
-
-<mat-card *ngIf="resultMessage">
-  <mat-card-title>{{resultMessage}}</mat-card-title>
-  <mat-card-content>
-    <strong>Время:</strong> {{timerValue}} с
-  </mat-card-content>
-</mat-card>

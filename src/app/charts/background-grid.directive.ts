@@ -1,5 +1,5 @@
 import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
-import { CanvasColors } from './canvas-colors.enum';
+import { CanvasColor } from './canvas-color.enum';
 
 @Directive({
   selector: '[appBackgroundGrid]',
@@ -26,7 +26,7 @@ export class BackgroundGridDirective implements AfterViewInit {
 
   private drawCells() {
     this.ctx.lineWidth = 0.3;
-    this.ctx.strokeStyle = CanvasColors.blue;
+    this.ctx.strokeStyle = CanvasColor.blue;
 
     this.ctx.beginPath();
 
@@ -44,7 +44,7 @@ export class BackgroundGridDirective implements AfterViewInit {
 
   private drawAxis() {
     this.ctx.lineWidth = 0.5;
-    this.ctx.strokeStyle = CanvasColors.boldPencil;
+    this.ctx.strokeStyle = CanvasColor.boldPencil;
 
     this.ctx.beginPath();
     this.ctx.moveTo(this.ctx.canvas.width / 2, 0);
@@ -84,7 +84,7 @@ export class BackgroundGridDirective implements AfterViewInit {
   private drawSigns() {
     const CSZ = this.cellSize / 2;
 
-    this.ctx.fillStyle = CanvasColors.darkBlue;
+    this.ctx.fillStyle = CanvasColor.darkBlue;
     this.ctx.font = 'italic 20px sans-serif';
 
     this.ctx.fillText('x', this.ctx.canvas.width - CSZ, this.ctx.canvas.height / 2 + 1.7 * CSZ, CSZ);

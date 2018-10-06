@@ -1,5 +1,5 @@
 /** Используемые цвета */
-export enum CanvasColors {
+export enum CanvasColor {
   blue = '#009bff',
   boldPencil = '#505050',
   darkBlue = '#000aff',
