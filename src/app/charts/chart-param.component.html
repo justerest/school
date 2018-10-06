@@ -23,16 +23,20 @@
       color="accent"
       (click)="decrementParam()"
     >
-      <mat-icon [svgIcon]="iconRight"></mat-icon>
-      - {{incrementValue}}
+      <span>
+        <mat-icon [svgIcon]="iconRight"></mat-icon>
+        - {{incrementValue}}
+      </span>
     </button>
     <button
       mat-raised-button
       color="accent"
       (click)="incrementParam()"
     >
-      <mat-icon [svgIcon]="iconLeft"></mat-icon>
-      + {{incrementValue}}
+      <span>
+        <mat-icon [svgIcon]="iconLeft"></mat-icon>
+        + {{incrementValue}}
+      </span>
     </button>
   </mat-card-actions>
 
