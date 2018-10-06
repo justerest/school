@@ -16,7 +16,9 @@ export class BackgroundGridDirective implements AfterViewInit {
 
   ngAfterViewInit() {
     const canvasContext = (this.el.nativeElement as HTMLCanvasElement).getContext('2d');
-    if (!canvasContext) throw new Error('CanvasRenderingContext2D is not found');
+    if (!canvasContext) {
+      throw new Error('CanvasRenderingContext2D is not found');
+    }
     this.ctx = canvasContext;
     this.drawCells();
     this.drawAxis();

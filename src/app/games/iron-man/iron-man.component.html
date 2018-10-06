@@ -1,10 +1,12 @@
 <span>Score: {{score || 0}}</span>
-<canvas #canvas
-        class="app-iron-man__canvas"
-        tabindex="0"
-        width="800"
-        height="600"
-        appKeyboardControl
-        (touchstart)="start()"
-        (kcKeypress)="onPressEnter()"></canvas>
+<canvas
+  #canvas
+  class="app-iron-man__canvas"
+  tabindex="0"
+  width="800"
+  height="600"
+  appKeyboardControl
+  (touchstart)="start()"
+  (kcKeypress)="onPressEnter()"
+></canvas>
 <span *ngIf="bestScore">The Best Score: {{bestScore}}</span>
