@@ -11,7 +11,6 @@ import {
 import { BackgroundGridDirective } from './background-grid.directive';
 import { ChartParamComponent } from './chart-param.component';
 import { ChartsComponent } from './charts.component';
-import { DrawService } from './draw.service';
 
 @NgModule({
   imports: [
@@ -24,6 +23,5 @@ import { DrawService } from './draw.service';
     MatSelectModule,
   ],
   declarations: [ChartsComponent, BackgroundGridDirective, ChartParamComponent],
-  providers: [DrawService],
 })
 export class ChartsModule { }

@@ -6,6 +6,7 @@ import { DrawService } from './draw.service';
   selector: 'app-charts',
   templateUrl: './charts.component.html',
   styleUrls: ['./charts.component.scss'],
+  providers: [DrawService],
 })
 export class ChartsComponent implements OnInit, AfterViewInit {
 
@@ -34,8 +35,7 @@ export class ChartsComponent implements OnInit, AfterViewInit {
     if (!canvasContext) {
       throw new Error('CanvasRenderingContext2D is not found');
     }
-    this.drawService.configure({ ctx: canvasContext });
-    this.draw();
+    this.drawService.configure({ ctx: canvasContext }).draw();
   }
 
   draw(): void {

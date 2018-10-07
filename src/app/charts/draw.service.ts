@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { getRandomInt } from 'utils/get-random-int';
 import { MathFunction } from './math-function.enum';
 
@@ -6,6 +7,7 @@ type CoefficientRecord = Record<Coefficient, number>;
 
 type DrawServiceParams = Partial<Pick<DrawService, 'ctx' | 'cellSize' | 'color'>>;
 
+@Injectable()
 export class DrawService {
 
   ctx!: CanvasRenderingContext2D;
@@ -15,15 +17,16 @@ export class DrawService {
   chartType: MathFunction = MathFunction.linear;
   params: CoefficientRecord = this.getRandomParams();
 
-  constructor() {
-    this.getRandomParams();
-  }
-
   configure(params: DrawServiceParams): this {
     return Object.assign(this, params);
   }
 
-  /** Отрисовка конкретного графика */
+  changeChartType(value: MathFunction): this {
+    this.chartType = value;
+    this.params = this.getRandomParams();
+    return this;
+  }
+
   draw(): this {
     const { ctx, chartType } = this;
     const { width, height } = ctx.canvas;
@@ -55,12 +58,6 @@ export class DrawService {
 
   clear(): this {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    return this;
-  }
-
-  changeChartType(value: MathFunction): this {
-    this.chartType = value;
-    this.params = this.getRandomParams();
     return this;
   }
 
